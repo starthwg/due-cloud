@@ -6,20 +6,21 @@
     <parent>
         <groupId>com.due</groupId>
         <artifactId>due-cloud</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
 
-    <groupId>com.auth</groupId>
     <artifactId>due-cloud-basic</artifactId>
     <packaging>pom</packaging>
     <modules>
         <module>due-cloud-basic-library</module>
         <module>due-cloud-basic-toolkit</module>
+        <module>due-cloud-basic-setting</module>
     </modules>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
     </properties>
 </project>
