@@ -1,11 +1,13 @@
 package com.due.basic.tookit.start;
 
+import com.due.basic.tookit.spi.SPI;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  *  自定义程序启动监听器
  */
+@SPI("dueApplicationListener")
 public interface ApplicationListener {
 
     /**

@@ -5,20 +5,21 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.due</groupId>
-        <artifactId>due-cloud</artifactId>
+        <artifactId>due-cloud-module</artifactId>
         <version>1.0</version>
     </parent>
 
-    <artifactId>due-cloud-module</artifactId>
+    <artifactId>due-cloud-module-customer</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>due-cloud-module-customer</module>
+        <module>due-cloud-module-customer-api</module>
+        <module>due-cloud-module-customer-run</module>
     </modules>
 
     <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
 </project>

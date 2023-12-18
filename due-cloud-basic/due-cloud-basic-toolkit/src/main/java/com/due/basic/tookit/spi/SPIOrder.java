@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Target(value = ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Order {
+public @interface SPIOrder {
 
     /**
      * 加载的顺序

@@ -19,7 +19,7 @@ public class PageSet<T> implements Serializable {
     /**
      * 总页数
      */
-    private Integer total;
+    private Long total;
 
     /**
      * 当前页
@@ -36,6 +36,13 @@ public class PageSet<T> implements Serializable {
      */
     private List<T> records;
 
+    public PageSet(Long start, Long limit) {
+        this.start = start;
+        this.limit = limit;
+    }
+
+    public PageSet() {
+    }
 
     public static PageSet<?> createPageSet(HttpServletRequest request) {
         String startString = request.getParameter(GlobalConstant.PAGE_PARAMS_START);

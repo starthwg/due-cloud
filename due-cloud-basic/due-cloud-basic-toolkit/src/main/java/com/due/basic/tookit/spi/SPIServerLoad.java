@@ -102,7 +102,9 @@ public class SPIServerLoad<T> {
                 } else {
                     urls = classLoader.getResources(path);
                 }
-                if (null == urls) return;
+                if (null == urls) {
+                    return;
+                }
                 while (urls.hasMoreElements()) {
                     // 获取一个资源
                     URL url = urls.nextElement();
@@ -130,10 +132,12 @@ public class SPIServerLoad<T> {
     }
 
     public List<T> getExtensionList() {
-        if (LogicUtil.isEmpty(TYPE_MAPPING)) return Collections.emptyList();
+        if (LogicUtil.isEmpty(TYPE_MAPPING)) {
+            return Collections.emptyList();
+        }
         return this.TYPE_MAPPING.keySet().stream().map(this::getExtension).filter(LogicUtil::isAllNotNull).sorted(((o1, o2) -> {
-            Integer order1 = Optional.ofNullable(o1).flatMap(e -> Optional.of(e.getClass())).map(e -> e.getAnnotation(Order.class)).map(Order::value).orElse(DEFAULT_ORDER);
-            Integer order2 = Optional.ofNullable(o2).flatMap(e -> Optional.of(e.getClass())).map(e -> e.getAnnotation(Order.class)).map(Order::value).orElse(DEFAULT_ORDER);
+            Integer order1 = Optional.ofNullable(o1).flatMap(e -> Optional.of(e.getClass())).map(e -> e.getAnnotation(SPIOrder.class)).map(SPIOrder::value).orElse(DEFAULT_ORDER);
+            Integer order2 = Optional.ofNullable(o2).flatMap(e -> Optional.of(e.getClass())).map(e -> e.getAnnotation(SPIOrder.class)).map(SPIOrder::value).orElse(DEFAULT_ORDER);
             return order1 - order2;
         })).collect(Collectors.toList());
     }
@@ -144,7 +148,9 @@ public class SPIServerLoad<T> {
                 name = this.name;
             }
             Class<T> aClass = TYPE_MAPPING.get(name);
-            if (null == aClass) return null;
+            if (null == aClass) {
+                return null;
+            }
             // 多利模式直接构建一个对象返回
             if (SPIScope.Prototype.equals(this.scope)) {
                 return aClass.newInstance();
@@ -166,8 +172,8 @@ public class SPIServerLoad<T> {
     }
 
 
-    public static SPIServerLoad<?> getServerLoad(Class<?> classType) {
-        SPIServerLoad<?> spiServerLoad = SPI_SERVERLOAD_MAP.get(classType);
+    public static <T> SPIServerLoad<T> getServerLoad(Class<T> classType) {
+        SPIServerLoad<T> spiServerLoad = parse(SPI_SERVERLOAD_MAP.get(classType));
         if (null == spiServerLoad) {
             // 如果不存在就构建一个
             spiServerLoad = new SPIServerLoad<>(classType);

@@ -1,6 +1,6 @@
 package com.due.basic.tookit.utils;
 
-import com.due.basic.toolkit.domain.PageSet;
+import com.due.basic.tookit.doamin.PageSet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;

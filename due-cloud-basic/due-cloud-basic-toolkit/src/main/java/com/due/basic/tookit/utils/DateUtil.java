@@ -1,6 +1,5 @@
 package com.due.basic.tookit.utils;
 
-import com.due.basic.toolkit.enums.YesOrNoEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -354,22 +353,6 @@ public class DateUtil extends DateUtils {
         }
     }
 
-    /**
-     * 判断指定时间是否在当前时间之后
-     *
-     * @param date
-     * @return
-     */
-    public static YesOrNoEnum checkDateAfter(Date date) {
-        if (date == null) {
-            return null;
-        }
-        if (date.after(new Date())) {
-            return YesOrNoEnum.YES;
-        } else {
-            return YesOrNoEnum.NO;
-        }
-    }
 
     /**
      * 获取两个日期之间的所有日期(字符串格式, 按天计算)
