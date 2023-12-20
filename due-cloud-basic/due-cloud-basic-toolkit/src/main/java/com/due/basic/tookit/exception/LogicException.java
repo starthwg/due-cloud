@@ -1,6 +1,6 @@
 package com.due.basic.tookit.exception;
 
-import com.due.basic.tookit.doamin.ErrorEnum;
+import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.utils.LogicUtil;
 import lombok.Getter;
 
@@ -48,7 +48,7 @@ public class LogicException extends RuntimeException {
 
     public LogicException(Exception e) {
         super(e.getMessage());
-        this.code = ErrorEnum.OTHER_ERROR.getCode();
-        this.desc = ErrorEnum.OTHER_ERROR.getMessage();
+        this.code = ErrorEnum.other_ERROR.getCode();
+        this.desc = ErrorEnum.other_ERROR.getMessage();
     }
 }

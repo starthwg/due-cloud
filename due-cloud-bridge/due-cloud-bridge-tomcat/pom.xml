@@ -5,23 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.due</groupId>
-        <artifactId>due-cloud</artifactId>
+        <artifactId>due-cloud-bridge</artifactId>
         <version>1.0</version>
     </parent>
 
-    <artifactId>due-cloud-bridge</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>due-cloud-bridge-mysql</module>
-        <module>due-cloud-bridge-module</module>
-        <module>due-cloud-bridge-tomcat</module>
-        <module>due-cloud-bridge-openfeign</module>
-    </modules>
+    <artifactId>due-cloud-bridge-tomcat</artifactId>
 
     <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.due</groupId>
+            <artifactId>due-cloud-basic-toolkit</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 </project>

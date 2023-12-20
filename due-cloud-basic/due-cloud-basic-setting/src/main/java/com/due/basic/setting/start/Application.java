@@ -1,5 +1,6 @@
 package com.due.basic.setting.start;
 
+import com.due.basic.tookit.constant.GlobalConstant;
 import com.due.basic.tookit.spi.SPIServerLoad;
 import com.due.basic.tookit.start.ApplicationListener;
 import com.due.basic.tookit.utils.LogicUtil;
@@ -23,7 +24,6 @@ import java.util.Properties;
 @Slf4j
 public abstract class Application {
 
-    private static final String MODULE_NAME = "spring.application.name";
 
     private Class<?> aClass;
 
@@ -78,7 +78,7 @@ public abstract class Application {
         propertySources.addLast(new SystemEnvironmentPropertySource(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, environment.getSystemEnvironment()));
 
         Properties properties = System.getProperties();
-        properties.put(MODULE_NAME, moduleName);
+        properties.put(GlobalConstant.MODULE_NAME, moduleName);
 
         return springApplicationBuilder;
     }

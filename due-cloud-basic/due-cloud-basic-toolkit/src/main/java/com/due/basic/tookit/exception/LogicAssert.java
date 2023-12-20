@@ -1,7 +1,7 @@
 package com.due.basic.tookit.exception;
 
 
-import com.due.basic.tookit.doamin.ErrorEnum;
+import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.utils.LogicUtil;
 import org.apache.commons.lang3.StringUtils;
 
