@@ -1,4 +1,4 @@
-package com.due.bridge.tomcat.validtor;
+package com.due.bridge.tomcat.aspect;
 
 import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.exception.LogicException;

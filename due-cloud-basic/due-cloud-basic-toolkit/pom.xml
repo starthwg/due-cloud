@@ -24,12 +24,6 @@
             <groupId>com.due</groupId>
             <artifactId>due-cloud-basic-library</artifactId>
             <version>1.0</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jackson-databind</artifactId>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 </project>

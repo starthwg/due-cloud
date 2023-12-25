@@ -8,5 +8,5 @@ public enum ModuleServiceScene {
     /**
      * 增删改查
      */
-    SELECT, INSERT, UPDATE, DELETE
+    SELECT, INSERT, UPDATE, DELETE, UNKNOWN
 }

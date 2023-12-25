@@ -12,7 +12,7 @@
     <artifactId>due-cloud-module-customer</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>due-cloud-module-customer-api</module>
+        <module>due-cloud-module-customer-domain</module>
         <module>due-cloud-module-customer-run</module>
     </modules>
 

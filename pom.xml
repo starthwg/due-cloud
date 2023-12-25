@@ -15,6 +15,7 @@
         <module>due-cloud-module</module>
         <module>due-cloud-service</module>
         <module>due-cloud-web</module>
+        <module>due-cloud-rpc</module>
     </modules>
 
     <properties>
@@ -137,7 +138,6 @@
                 <artifactId>orika-core</artifactId>
                 <version>${orika-core.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 </project>

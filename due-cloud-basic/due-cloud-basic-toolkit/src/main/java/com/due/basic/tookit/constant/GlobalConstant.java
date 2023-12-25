@@ -2,7 +2,7 @@ package com.due.basic.tookit.constant;
 
 
 /**
- *  全局常量
+ * 全局常量
  */
 public final class GlobalConstant {
 
@@ -15,24 +15,35 @@ public final class GlobalConstant {
 
 
     /**
-     *  项目基础路径
+     * 项目基础路径
      */
     public final static String PROJECT_BASE_PATH = "/due";
 
+    /**
+     * app基础路径
+     */
+    public final static String PROJECT_APP_PATH = "/due/mobile";
 
     /**
-     *  调用module模块的透彻参数的key
+     * back基础路径
+     */
+    public final static String PROJECT_BACK_PATH = "/due/back";
+
+    /**
+     * 调用module模块的透彻参数的key
      */
     public final static String DUE_RPC_MODULE_REQUEST = "due_rpc_request";
 
 
     /**
-     *  项目的生产环境表示
+     * 项目的生产环境表示
      */
-    public final static String PROJECT_ACTIVE_PROD = "prod";
+    public final static String PROJECT_ACTIVE_PROD = "dev";
 
     /**
-     *  服务名称
+     * 服务名称
      */
     public static final String MODULE_NAME = "spring.application.name";
+
+
 }

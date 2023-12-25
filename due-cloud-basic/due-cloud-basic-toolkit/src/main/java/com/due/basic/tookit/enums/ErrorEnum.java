@@ -2,18 +2,24 @@ package com.due.basic.tookit.enums;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 @Getter
 public enum ErrorEnum {
 
     /**
-     *  成功
+     * 成功
      */
-    SUCCESS(200, "成功"),
+    SUCCESS(200, "OK"),
 
     // 服务类
     SERVICE_INVALID(1001, "服务调用无效"),
     SERVICE_ERROR(1002, "服务调用异常"),
     SERVICE_ABSENT(1003, "服务不存在"),
+    SERVICE_REQUEST_UNKNOWN(1004, "未知服务调用"),
+    SERVICE_RESPONSE_UNKNOWN(1005, "未知服务响应"),
+    SERVICE_SCENE_UNKNOWN(1006, "未知服务场景"),
 
     // 参数类
     PARAMETER_INVALID(2001, "参数传入无效"),
@@ -42,10 +48,7 @@ public enum ErrorEnum {
     // 续令牌失败
     AUTHORIZE_REFRESH_ERROR(4306, "续令牌失败"),
 
-    other_ERROR(9999999, "其他异常")
-    ;
-
-
+    other_ERROR(9999999, "其他异常");
 
 
     private final Integer code;
@@ -55,5 +58,12 @@ public enum ErrorEnum {
     ErrorEnum(Integer code, String message) {
         this.code = code;
         this.message = message;
+    }
+
+    public static ErrorEnum parseByCode(Integer code) {
+        if (null == code) {
+            return null;
+        }
+        return Arrays.stream(values()).filter(e -> e.code.equals(code)).findFirst().orElse(null);
     }
 }

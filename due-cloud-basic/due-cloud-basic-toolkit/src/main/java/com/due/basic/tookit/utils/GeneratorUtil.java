@@ -2,13 +2,8 @@ package com.due.basic.tookit.utils;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.redis.support.atomic.RedisAtomicInteger;
-import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 
-import java.util.Date;
-import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 
 public class GeneratorUtil {
 
@@ -111,10 +106,7 @@ public class GeneratorUtil {
 
     public static Long nexLong() { return RandomUtils.nextLong(); }
 
-    public static String getSheetCode(String prefix, RedisAtomicLong redisAtomicLong) {
-        redisAtomicLong.expire(1, TimeUnit.DAYS);
-        return StringUtils.join(prefix, "-", DateUtil.getYMDString(DateUtil.getDate()), "-", redisAtomicLong.incrementAndGet());
-    }
+
 
     public static String leftPad(String source, int size, String padding) {
         if (source == null) source = "";
@@ -184,12 +176,6 @@ public class GeneratorUtil {
         return StringUtils.join(gender, mainCode, subCode, sequenceNo < 10 ? "0"+sequenceNo : sequenceNo, factoryCode, factoryNo < 10 ? "0"+factoryNo : factoryNo);
     }
 
-    public static String getCardCode(Integer type, RedisAtomicInteger redisAtomicInteger, int size) {
-        type = Optional.ofNullable(type).orElse(0);
-        Date date = DateUtil.lastDayOfMonth();
-        redisAtomicInteger.expireAt(date);
-        return StringUtils.join(type, DateUtil.formatYMD(date), leftPad(String.valueOf(redisAtomicInteger.incrementAndGet()), size, APPENDIX_0));
-    }
 
     public static String getCardCode(String cardCode, int size) {
         return StringUtils.join(cardCode, getRandomNumber(size));

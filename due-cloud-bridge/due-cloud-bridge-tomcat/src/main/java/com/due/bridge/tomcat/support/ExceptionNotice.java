@@ -17,7 +17,7 @@ public interface ExceptionNotice {
     /**
      * 执行通过
      *
-     * @param e 异常类型
+     * @param notice 异常类型
      */
     void notice(UnknownExecoptionNotice notice);
 }

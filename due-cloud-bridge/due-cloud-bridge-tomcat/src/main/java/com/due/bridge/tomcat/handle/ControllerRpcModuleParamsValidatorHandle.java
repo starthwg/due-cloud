@@ -22,7 +22,6 @@ import java.util.Set;
 @Order(value = Integer.MIN_VALUE + 999)
 public class ControllerRpcModuleParamsValidatorHandle implements HandlerInterceptor {
 
-    @Autowired
     private Validator validator;
 
     public ControllerRpcModuleParamsValidatorHandle() {
@@ -34,7 +33,6 @@ public class ControllerRpcModuleParamsValidatorHandle implements HandlerIntercep
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("");
         String url = request.getRequestURI();
         // 说明是最外层服务执行，直接放行
         if (LogicUtil.isAllNotBlank(url) && url.startsWith(GlobalConstant.PROJECT_BASE_PATH)) {
@@ -43,6 +41,7 @@ public class ControllerRpcModuleParamsValidatorHandle implements HandlerIntercep
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
+        log.info("ControllerRpcModuleParamsValidatorHandle --> 准备检验threadLocal中是否存在dueRequest对象");
         Object object = ThreadContextStoreUtil.getInstance().get(GlobalConstant.DUE_RPC_MODULE_REQUEST);
         if (object instanceof DueRequest) {
             DueRequest dueRequest = (DueRequest) object;
@@ -55,6 +54,8 @@ public class ControllerRpcModuleParamsValidatorHandle implements HandlerIntercep
                 String message = builder.substring(0, builder.length() - 1);
                 throw new LogicException(ErrorEnum.PARAMETER_ERROR, message);
             }
+        }else {
+            throw new LogicException(ErrorEnum.SERVICE_REQUEST_UNKNOWN);
         }
         return true;
     }

@@ -11,6 +11,10 @@
 
     <groupId>com.auth</groupId>
     <artifactId>due-cloud-service</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>due.cloud.service.mobile</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
