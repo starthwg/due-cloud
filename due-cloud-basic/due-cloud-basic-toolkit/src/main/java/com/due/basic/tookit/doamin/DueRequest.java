@@ -3,6 +3,7 @@ package com.due.basic.tookit.doamin;
 import com.due.basic.tookit.enums.ChannelEnum;
 import com.due.basic.tookit.enums.ModuleCodeEnum;
 import com.due.basic.tookit.enums.ModuleServiceScene;
+import com.due.basic.tookit.enums.ServiceCodeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -23,7 +24,7 @@ public class DueRequest implements Domain {
      * 服务模块
      */
     @NotNull(message = "服务请求模块不能为空")
-    private ModuleCodeEnum moduleRequestCode;
+    private ServiceCodeEnum serviceRequestCode;
 
 
     /**

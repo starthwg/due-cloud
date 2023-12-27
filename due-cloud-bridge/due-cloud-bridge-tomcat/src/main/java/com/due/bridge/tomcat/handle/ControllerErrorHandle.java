@@ -36,7 +36,7 @@ import java.util.Set;
  */
 @Slf4j
 @RestControllerAdvice
-public class ControllerErrorHandle implements ResponseBodyAdvice<Object> {
+public class ControllerErrorHandle /*implements ResponseBodyAdvice<Object>*/ {
 
 
     @Autowired
@@ -89,12 +89,12 @@ public class ControllerErrorHandle implements ResponseBodyAdvice<Object> {
         return Result.failure(ErrorEnum.other_ERROR);
     }
 
-    @Override
+//    @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
         return true;
     }
 
-    @Override
+//    @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         log.info("准备包装返回结果");
         if (this.isMatch(request) || body instanceof Result) {

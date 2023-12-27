@@ -7,18 +7,30 @@ import com.due.basic.tookit.utils.ThreadContextStoreUtil;
 import com.due.basic.tookit.utils.ThreadLocalUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 
 /**
  *
  */
+@Slf4j
 public class FeignHeaderMoudleInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate requestTemplate) {
         DueRequest dueRequest = ThreadLocalUtil.getDueRequest();
-        if (null != dueRequest) {
-            String dueRequestData = JSONObject.toJSONString(dueRequest);
-            requestTemplate.header(GlobalConstant.DUE_RPC_MODULE_REQUEST, dueRequestData);
+        try {
+            if (null != dueRequest) {
+                String dueRequestData = JSONObject.toJSONString(dueRequest);
+                String encode = URLEncoder.encode(dueRequestData, "UTF-8");
+                // 设置把上游的thread传递给下游的
+                requestTemplate.header(GlobalConstant.DUE_RPC_MODULE_REQUEST, encode);
+            }
+        } catch (UnsupportedEncodingException e) {
+            log.info(ExceptionUtils.getStackTrace(e));
         }
 
     }

@@ -97,6 +97,7 @@ public class BridgeTomcatConfig implements WebMvcConfigurer {
     public RpcInterceptorAspect rpcInterceptorAspect() {
         return new RpcInterceptorAspect();
     }
+
     @Primary
     @Bean
     public Executor executor() {
@@ -118,8 +119,6 @@ public class BridgeTomcatConfig implements WebMvcConfigurer {
             Map<String, Object> map = ThreadContextStoreUtil.getInstance().getThreadContext().get();
             return () -> {
                 try {
-                    // 设置线程的值
-                    log.info("准备把父线程的threadLocal的值设置给子线程");
                     ThreadContextStoreUtil.getInstance().getThreadContext().set(map);
                     runnable.run();
                 } finally {

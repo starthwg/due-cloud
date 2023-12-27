@@ -1,9 +1,7 @@
 package com.due.bridge.tomcat.handle;
 
-import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -12,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
 import java.lang.reflect.Method;
 
 /**
@@ -33,7 +30,7 @@ public class ControllerLoggerHandle implements HandlerInterceptor {
             this.startTime = System.currentTimeMillis();
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();
-            log.info("{} - ==========================================服务开始执行==============================================", this.getThreadId());
+            log.info("{} - +++++++++++++++++++++++++++++++++++++++++++++服务开始执行+++++++++++++++++++++++++++++++++++++++++++++", this.getThreadId());
             log.info("{} - controller : {}.{} start Execution", this.getThreadId(), method.getDeclaringClass(), method.getName());
         }
         return true;
@@ -41,7 +38,6 @@ public class ControllerLoggerHandle implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        log.info("结果：{}", JSONObject.toJSONString(modelAndView));
     }
 
     @Override
@@ -57,7 +53,7 @@ public class ControllerLoggerHandle implements HandlerInterceptor {
                 log.info("{} - controller : {}.{} end Execution Exception", this.getThreadId(), method.getDeclaringClass(), method.getName());
             }
             ServletOutputStream outputStream = response.getOutputStream();
-            log.info("{} - ==========================================服务结束执行==============================================", this.getThreadId());
+            log.info("{} - +++++++++++++++++++++++++++++++++++++++++++++服务结束执行+++++++++++++++++++++++++++++++++++++++++++++", this.getThreadId());
         }
     }
 

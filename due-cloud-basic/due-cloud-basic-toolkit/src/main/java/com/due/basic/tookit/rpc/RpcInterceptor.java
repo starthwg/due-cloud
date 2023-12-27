@@ -2,6 +2,7 @@ package com.due.basic.tookit.rpc;
 
 import com.due.basic.tookit.enums.ModuleCodeEnum;
 import com.due.basic.tookit.enums.ModuleServiceScene;
+import com.due.basic.tookit.enums.ServiceCodeEnum;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -22,7 +23,7 @@ public @interface RpcInterceptor {
     /**
      * 服务调用方
      */
-    ModuleCodeEnum request() default ModuleCodeEnum.unknown;
+    ServiceCodeEnum request() default ServiceCodeEnum.UNKNOWN;
 
 
     /**

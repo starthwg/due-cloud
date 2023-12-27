@@ -29,7 +29,7 @@ public class LoggingAspect {
     /**
      *
      */
-    @Pointcut("execution(* com.due..service..*.*(..))")
+    @Pointcut("execution(* com.due.cloud..service..*.*(..))")
     public void pointCut() {
     }
 

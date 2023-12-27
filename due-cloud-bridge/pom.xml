@@ -16,6 +16,8 @@
         <module>due-cloud-bridge-module</module>
         <module>due-cloud-bridge-tomcat</module>
         <module>due-cloud-bridge-openfeign</module>
+        <module>due-cloud-bridge-auth</module>
+        <module>due-cloud-bridge-resources</module>
     </modules>
 
     <properties>

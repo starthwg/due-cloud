@@ -13,7 +13,8 @@
     <artifactId>due-cloud-service</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>due.cloud.service.mobile</module>
+        <module>due-cloud-service-mobile</module>
+        <module>due-cloud-service-auth</module>
     </modules>
 
     <properties>

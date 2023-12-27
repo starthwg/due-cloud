@@ -8,7 +8,7 @@ public class GlobalThreadLocalConstant {
     /**
      * 调用模块
      */
-    public static final String MODULE_REQUEST_CODE = "moduleRequestCode";
+    public static final String SERVICE_REQUEST_CODE = "serviceRequestCode";
 
     /**
      *  响应模块

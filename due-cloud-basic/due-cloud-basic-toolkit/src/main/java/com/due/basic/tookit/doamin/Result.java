@@ -3,6 +3,7 @@ package com.due.basic.tookit.doamin;
 import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.exception.LogicAssert;
 import com.due.basic.tookit.exception.LogicException;
+import com.due.basic.tookit.function.DueProducer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,12 +28,12 @@ public class Result<T> implements Serializable {
     /**
      * 编码
      */
-    private Integer code;
+    private Integer code = ErrorEnum.SUCCESS.getCode();
 
     /**
      * 消息
      */
-    private String message;
+    private String message = ErrorEnum.SUCCESS.getMessage();
 
 
     /**
@@ -50,6 +51,7 @@ public class Result<T> implements Serializable {
         }
     }
 
+    @JsonIgnore
     public boolean isSuccess() {
         return ErrorEnum.SUCCESS.getCode().equals(this.code);
     }
@@ -66,6 +68,7 @@ public class Result<T> implements Serializable {
     public void whenFailureThenThrowException(String desc) {
         LogicAssert.isTrue(this.isFailure(), ErrorEnum.parseByCode(this.code), desc);
     }
+
     public static Result<?> failure(LogicException e) {
         Result<?> result = new Result<>();
         result.setCode(e.getCode());
@@ -80,18 +83,26 @@ public class Result<T> implements Serializable {
         return result;
     }
 
-    public static Result<?> success(Object object) {
-        Result<Object> objectResult = new Result<>();
+    public static <E> Result<E> success(E object) {
+        Result<E> objectResult = new Result<>();
         objectResult.setMessage(ErrorEnum.SUCCESS.getMessage());
         objectResult.setCode(ErrorEnum.SUCCESS.getCode());
         objectResult.setData(object);
         return objectResult;
     }
 
-    public static Result<?> success() {
-        Result<Object> objectResult = new Result<>();
+    public static <E> Result<E> success() {
+        Result<E> objectResult = new Result<>();
         objectResult.setMessage(ErrorEnum.SUCCESS.getMessage());
         objectResult.setCode(ErrorEnum.SUCCESS.getCode());
         return objectResult;
+    }
+
+    public static <E> Result<E> exec(DueProducer<E> dueProducer) {
+        if (null == dueProducer) {
+            return Result.success();
+        }
+        E apply = dueProducer.apply();
+        return success(apply);
     }
 }

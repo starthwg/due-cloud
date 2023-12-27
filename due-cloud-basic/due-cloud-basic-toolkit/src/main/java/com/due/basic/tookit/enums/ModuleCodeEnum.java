@@ -8,7 +8,7 @@ public enum ModuleCodeEnum {
     CUSTOMER(10, "用户服务"),
 
     
-    unknown(9999, "未知服务"),
+    UNKNOWN(9999, "未知服务"),
 
     MOBILE(1, "移动端服务");
 

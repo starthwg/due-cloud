@@ -41,7 +41,6 @@ public class ControllerRpcModuleParamsValidatorHandle implements HandlerIntercep
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-        log.info("ControllerRpcModuleParamsValidatorHandle --> 准备检验threadLocal中是否存在dueRequest对象");
         Object object = ThreadContextStoreUtil.getInstance().get(GlobalConstant.DUE_RPC_MODULE_REQUEST);
         if (object instanceof DueRequest) {
             DueRequest dueRequest = (DueRequest) object;
@@ -54,7 +53,7 @@ public class ControllerRpcModuleParamsValidatorHandle implements HandlerIntercep
                 String message = builder.substring(0, builder.length() - 1);
                 throw new LogicException(ErrorEnum.PARAMETER_ERROR, message);
             }
-        }else {
+        } else {
             throw new LogicException(ErrorEnum.SERVICE_REQUEST_UNKNOWN);
         }
         return true;

@@ -23,9 +23,9 @@
 	</appender>
 
 	<logger name="com.alibaba.nacos.client.naming" level="off" />
-	<logger name="com.alibaba.cloud.nacos.client.NacosPropertySourceBuilder" level="off" />
-
+	<logger name="com.alibaba.cloud.nacos.registry.NacosServiceRegistry" level="debug" />
 	<logger name="com.due.basic.setting.logger.LoggingAspect" level="debug"/>
+	<logger name="com.due.bridge.tomcat.aspect.RpcInterceptorAspect" level="debug"/>
 
 	<root level="info">
 		<appender-ref ref="console" />

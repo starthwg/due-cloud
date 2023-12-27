@@ -2,7 +2,6 @@ package com.due.bridge.tomcat.handle;
 
 
 import com.due.basic.tookit.constant.GlobalConstant;
-import com.due.basic.tookit.constant.GlobalThreadLocalConstant;
 import com.due.basic.tookit.utils.LogicUtil;
 import com.due.basic.tookit.utils.ThreadLocalUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.UUID;
+import java.net.URLDecoder;
 
 /**
  * 将请求头头中的dueRequest转化成threadLocal
@@ -27,17 +26,19 @@ public class ControllerRpcHeaderConvertLocalHandle implements HandlerInterceptor
         }
         String header = request.getHeader(GlobalConstant.DUE_RPC_MODULE_REQUEST);
         if (LogicUtil.isAllNotBlank(header)) {
-            log.info(" ControllerRpcHeaderConvertLocalHandle -> 将请求头中的数据设置在threadLocal中：{}", header);
+            String decode = URLDecoder.decode(header, "UTF-8");
             // 将请求头中的数据set到threadLocal中
-            ThreadLocalUtil.setDueRequest(header);
+            ThreadLocalUtil.setDueRequest(decode);
+            log.info("{} - 服务调调用方：{} - 使用场景：{} - 用户Id：{} - 统一流水号：{}", this.getThreadId(), ThreadLocalUtil.getRequestService(), ThreadLocalUtil.getServiceCode(), ThreadLocalUtil.getMemberId(), ThreadLocalUtil.getSerialNo() );
         }
         return true;
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        // 删除
-        log.info("ControllerRpcHeaderConvertLocalHandle -> 清楚threadLocal中的dueRequestData数据");
         ThreadLocalUtil.removeDueRequest();
+    }
+    private Long getThreadId() {
+        return Thread.currentThread().getId();
     }
 }

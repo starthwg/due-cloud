@@ -1,9 +1,11 @@
 package com.due.bridge.tomcat.aspect;
 
+import com.alibaba.fastjson.JSONObject;
 import com.due.basic.tookit.doamin.DueRequest;
 import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.enums.ModuleCodeEnum;
 import com.due.basic.tookit.enums.ModuleServiceScene;
+import com.due.basic.tookit.enums.ServiceCodeEnum;
 import com.due.basic.tookit.exception.LogicException;
 import com.due.basic.tookit.rpc.RpcInterceptor;
 import com.due.basic.tookit.utils.DateUtil;
@@ -36,12 +38,14 @@ public class RpcInterceptorAspect {
     public Object execBefore(ProceedingJoinPoint joinPoint) throws Throwable {
         addDueRequestData(joinPoint);
         Object proceed;
+        Long start = System.currentTimeMillis();
         try {
             proceed = joinPoint.proceed(joinPoint.getArgs());
+            log.debug("{} - end rpc [success] ages: {} ,  result : {} , time :{} millisecond", this.getTreadId(), JSONObject.toJSONString(joinPoint.getArgs()), JSONObject.toJSONString(proceed), System.currentTimeMillis() - start);
         } finally {
             removeRequestData();
         }
-
+        log.debug("{} - ********************************************[rpc]********************************************", this.getTreadId());
         return proceed;
     }
 
@@ -52,12 +56,14 @@ public class RpcInterceptorAspect {
         Method method = methodSignature.getMethod();
         DueRequest dueRequest = DueRequest.of()
                 .setRpcTime(DateUtil.getDate())
-                .setModuleRequestCode(this.getModuleRequestCode(method))
+                .setServiceRequestCode(this.getServiceRequestCode(method))
                 .setModuleResponseCode(this.getModuleResponseCode(method))
                 .setServiceScene(this.getServiceScene(method));
         // 本来就有的
         dueRequest.setChannelEnum(ThreadLocalUtil.getChannel()).setMemberId(ThreadLocalUtil.getMemberId()).setSerialNo(ThreadLocalUtil.getSerialNo());
         ThreadLocalUtil.setDueRequest(dueRequest);
+        log.debug("{} - ********************************************[rpc]**********************************************", this.getTreadId());
+        log.debug("{} - rpc module : {}  serialNo: {}", this.getTreadId(), this.getModuleResponseCode(method), ThreadLocalUtil.getSerialNo());
     }
 
     private ModuleServiceScene getServiceScene(Method method) {
@@ -72,7 +78,7 @@ public class RpcInterceptorAspect {
 
     private ModuleCodeEnum getModuleResponseCode(Method method) {
         RpcInterceptor rpcInterceptor = method.getAnnotation(RpcInterceptor.class);
-        if (null == rpcInterceptor || null == rpcInterceptor.response() || ModuleCodeEnum.unknown.equals(rpcInterceptor.response())) {
+        if (null == rpcInterceptor || null == rpcInterceptor.response() || ModuleCodeEnum.UNKNOWN.equals(rpcInterceptor.response())) {
             return Optional.ofNullable(method.getDeclaringClass().getAnnotation(RpcInterceptor.class))
                     .flatMap(e -> Optional.ofNullable(e.response())).orElseThrow(() -> new LogicException(ErrorEnum.SERVICE_RESPONSE_UNKNOWN));
         } else {
@@ -80,9 +86,9 @@ public class RpcInterceptorAspect {
         }
     }
 
-    private ModuleCodeEnum getModuleRequestCode(Method method) {
+    private ServiceCodeEnum getServiceRequestCode(Method method) {
         RpcInterceptor rpcInterceptor = method.getAnnotation(RpcInterceptor.class);
-        if (null == rpcInterceptor || null == rpcInterceptor.request() || ModuleCodeEnum.unknown.equals(rpcInterceptor.request())) {
+        if (null == rpcInterceptor || null == rpcInterceptor.request() || ServiceCodeEnum.UNKNOWN.equals(rpcInterceptor.request())) {
             // 获取类上的注解
             RpcInterceptor classRpcInterceptor = method.getDeclaringClass().getAnnotation(RpcInterceptor.class);
             return Optional.ofNullable(classRpcInterceptor).map(RpcInterceptor::request).orElseThrow(() -> new LogicException(ErrorEnum.SERVICE_REQUEST_UNKNOWN));
@@ -94,5 +100,13 @@ public class RpcInterceptorAspect {
 
     private void removeRequestData() {
         ThreadLocalUtil.removeDueRequestRpc();
+    }
+
+    private Long getTreadId() {
+        return Thread.currentThread().getId();
+    }
+
+    private String getThreadName() {
+        return Thread.currentThread().getName();
     }
 }
