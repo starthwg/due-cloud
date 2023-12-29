@@ -7,16 +7,16 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 移动端转化器
+ *
  * @author hanwengang
  */
-public class MobileRequestTokenConvert implements RequestTokenConvert<MobileUser> {
-    @Override
+public class MobileRequestTokenConvert implements RequestTokenConvert {
     public MobileUser convert(HttpServletRequest request) {
         return null;
     }
 
     @Override
-    public boolean support(int code) {
-        return UserTypeEnum.MOBILE.equals(UserTypeEnum.resolveCode(code));
+    public boolean support(String code) {
+        return false;
     }
 }

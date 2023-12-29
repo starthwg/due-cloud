@@ -1,5 +1,6 @@
 package com.cloud.bridge.auth.user;
 
+import com.due.basic.tookit.oauth.user.DueBasicUser;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;

@@ -1,6 +1,5 @@
 package com.due.cloud.service.mobile;
 
-import com.due.basic.setting.logger.EnableDueLogger;
 import com.due.basic.setting.start.Application;
 import com.due.basic.setting.start.DueStart;
 

@@ -1,5 +1,6 @@
 package com.cloud.bridge.auth.user;
 
+import com.due.basic.tookit.oauth.user.DueBasicUser;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -8,7 +9,7 @@ import java.util.Collections;
 /**
  *  移动端用户信息
  */
-public class MobileUser implements DueBasicUser{
+public class MobileUser implements DueBasicUser {
 
     private Long dataId;
 

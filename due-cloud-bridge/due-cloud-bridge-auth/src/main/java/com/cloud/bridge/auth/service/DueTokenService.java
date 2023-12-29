@@ -1,6 +1,7 @@
 package com.cloud.bridge.auth.service;
 
-import com.cloud.bridge.auth.user.DueBasicUser;
+import com.due.basic.tookit.oauth.Token;
+import com.due.basic.tookit.oauth.user.DueBasicUser;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author hanwengang
  */
-public interface DueTokenService<T extends DueBasicUser> {
+public interface DueTokenService {
 
 
     /**
@@ -18,7 +19,7 @@ public interface DueTokenService<T extends DueBasicUser> {
      * @param user 用户信息
      * @return string类型的token
      */
-    String createToken(T user);
+    Token createToken(DueBasicUser user);
 
 
     /**
@@ -36,5 +37,5 @@ public interface DueTokenService<T extends DueBasicUser> {
      * @param token string类型的token
      * @return DueBasicUser 类型
      */
-    T tokenConvertUserDetail(String token);
+    DueBasicUser tokenConvertUserDetail(String token);
 }

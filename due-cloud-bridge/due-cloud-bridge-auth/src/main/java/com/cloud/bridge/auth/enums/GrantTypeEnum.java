@@ -7,7 +7,7 @@ import java.util.Arrays;
 /**
  * grantType类型
  *
- * @author Administrator
+ * @author hanwengang
  */
 public enum GrantTypeEnum {
     /**
@@ -15,6 +15,9 @@ public enum GrantTypeEnum {
      */
     BACK_PASSWORD("back_password", "后端用户账户密码登录"),
 
+    /**
+     * 后台手机验证码登录
+     */
     BACK_CODE("back_code", "后台手机验证码登录"),
 
     /**

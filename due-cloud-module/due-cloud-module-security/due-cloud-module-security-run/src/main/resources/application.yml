@@ -1,0 +1,14 @@
+server:
+  port: 18002
+  servlet:
+    context-path: /security
+spring:
+  datasource:
+    username: ${due.db.username}
+    password: ${due.db.password}
+    url: jdbc:mysql://${due.db.url}/cloud_security?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true

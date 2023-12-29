@@ -1,4 +1,4 @@
-package com.cloud.bridge.auth.user;
+package com.due.basic.tookit.oauth.user;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

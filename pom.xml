@@ -40,6 +40,7 @@
         <jjwt.version>0.9.1</jjwt.version>
         <orika-core.version>1.5.4</orika-core.version>
         <tomcat.version>2.3.7.RELEASE</tomcat.version>
+        <velocity-engine-core.version>2.2</velocity-engine-core.version>
     </properties>
 
     <dependencyManagement>
@@ -91,7 +92,11 @@
                 <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybaits-plus.verison}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity-engine-core.version}</version>
+            </dependency>
             <!--工具相关-->
             <dependency>
                 <groupId>com.alibaba</groupId>

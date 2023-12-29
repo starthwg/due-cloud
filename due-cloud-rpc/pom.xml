@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>due-cloud-rpc-customer</module>
+        <module>due-cloud-rpc-security</module>
     </modules>
 
     <properties>

@@ -5,12 +5,10 @@ public enum ModuleCodeEnum {
     /**
      * 用户服务
      */
-    CUSTOMER(10, "用户服务"),
+    CUSTOMER(10, "用户模块"),
 
-    
-    UNKNOWN(9999, "未知服务"),
-
-    MOBILE(1, "移动端服务");
+    SECURITY(11, "安全模块"),
+    UNKNOWN(9999, "未知模块");
 
     /**
      * 编码

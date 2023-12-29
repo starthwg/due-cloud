@@ -11,34 +11,35 @@ import lombok.EqualsAndHashCode;
 import java.util.Date;
 
 /**
- *  实体基础类
+ * 实体基础类
+ * @author hanwengang
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TableData extends BasicData {
+public abstract class TableData<T> extends BasicData {
 
     /**
-     *  数据主键
+     * 数据主键
      */
     @TableId
     private Long dataId;
 
 
     /**
-     *  创建时间
+     * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
 
     /**
-     *  修改时间
+     * 修改时间
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
     /**
-     *  数据版本
+     * 数据版本
      */
     @Version
     @TableField(fill = FieldFill.INSERT)

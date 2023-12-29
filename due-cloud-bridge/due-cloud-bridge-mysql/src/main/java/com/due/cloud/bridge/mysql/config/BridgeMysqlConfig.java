@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInt
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.due.basic.tookit.utils.GeneratorUtil;
 import org.apache.ibatis.reflection.MetaObject;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,7 +21,7 @@ import java.util.Date;
 /**
  *  mysql的相关配置
  */
-@ComponentScan(basePackages = {"com.due.cloud.module.**.mapper"}) // 自动扫描mapper文件
+@MapperScan(basePackages = {"com.due.cloud.module.**.mapper"})
 @EnableTransactionManagement // 开启本地事务
 @SpringBootConfiguration
 public class BridgeMysqlConfig {

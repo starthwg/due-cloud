@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
-public class TableDataServiceImpl<T extends TableData, E extends ITableDataMapper<T>> extends BasicDataServiceImpl<T, E> implements ITableDataService<T> {
+public class TableDataServiceImpl<E extends ITableDataMapper<T>, T extends TableData<T>> extends BasicDataServiceImpl<T, E> implements ITableDataService<T> {
     private static final int DEFAULT_BATCH_SIZE = 1000;
 
     protected boolean create(T entity) {

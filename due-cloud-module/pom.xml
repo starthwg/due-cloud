@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>due-cloud-module-customer</module>
+        <module>due-cloud-module-security</module>
     </modules>
 
     <properties>

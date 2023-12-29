@@ -7,7 +7,7 @@ public enum ServiceCodeEnum {
      */
     BACK(2, "后台服务"),
 
-
+    AUTH(3, "认证服务"),
     UNKNOWN(9999, "未知服务"),
 
     MOBILE(1, "移动端服务");
