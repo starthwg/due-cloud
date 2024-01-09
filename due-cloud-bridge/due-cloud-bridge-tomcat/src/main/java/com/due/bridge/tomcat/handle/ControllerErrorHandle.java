@@ -20,9 +20,11 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.PatternMatchUtils;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
@@ -63,6 +65,19 @@ public class ControllerErrorHandle /*implements ResponseBodyAdvice<Object>*/ {
         return Result.failure(exception);
     }
 
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public Object methodNotSupported(HttpRequestMethodNotSupportedException exception) {
+        log.error(exception.getMessage(), exception);
+        return Result.failure(ErrorEnum.SERVICE_ERROR);
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public Object handleNoHandlerFoundException(NoHandlerFoundException exception) {
+        log.warn(exception.getMessage(), exception);
+        return Result.failure(ErrorEnum.SERVICE_ABSENT);
+    }
 
     /**
      * 系统未知异常
@@ -89,12 +104,12 @@ public class ControllerErrorHandle /*implements ResponseBodyAdvice<Object>*/ {
         return Result.failure(ErrorEnum.other_ERROR);
     }
 
-//    @Override
+    //    @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
         return true;
     }
 
-//    @Override
+    //    @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         log.info("准备包装返回结果");
         if (this.isMatch(request) || body instanceof Result) {

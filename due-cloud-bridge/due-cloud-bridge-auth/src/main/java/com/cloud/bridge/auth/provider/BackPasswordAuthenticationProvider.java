@@ -4,10 +4,15 @@ import com.cloud.bridge.auth.BackPasswordAuthentication;
 import com.cloud.bridge.auth.user.BackUser;
 import com.due.basic.tookit.oauth.user.DueBasicUser;
 import com.due.basic.tookit.utils.LogicUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -16,10 +21,14 @@ import java.util.Optional;
  *
  * @author Administrator
  */
-public class BackPasswordAuthenticationProvider extends DueAuthenticationProvider<BackPasswordAuthentication> {
+@Slf4j
+@Component
+public class BackPasswordAuthenticationProvider extends DueAuthenticationProvider{
 
 
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    @Lazy
+    private  PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -51,5 +60,9 @@ public class BackPasswordAuthenticationProvider extends DueAuthenticationProvide
 
     public BackPasswordAuthenticationProvider(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
+    }
+
+    public BackPasswordAuthenticationProvider() {
+        log.info("BackPasswordAuthenticationProvider");
     }
 }

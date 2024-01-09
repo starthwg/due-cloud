@@ -4,7 +4,11 @@ import com.due.basic.tookit.oauth.user.DueBasicUser;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
+import java.util.Collections;
 
+/**
+ * @author hanwengang
+ */
 public class BackUser implements DueBasicUser {
 
     /**
@@ -23,53 +27,80 @@ public class BackUser implements DueBasicUser {
     private boolean enabled;
 
     /**
-     *  权限信息
+     * 权限信息
      */
     private Collection<? extends GrantedAuthority> authorities;
 
     /**
-     *  密码
+     * 密码
      */
     private String password;
 
 
+    /**
+     * 手机号码
+     */
+    private String mobile;
+
+
+
     @Override
     public Long getMemberId() {
-        return null;
+        return this.dataId;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public BackUser() {
+    }
+
+    public BackUser(Long dataId, String username, boolean enabled, Collection<? extends GrantedAuthority> authorities, String password, String mobile) {
+        this.dataId = dataId;
+        this.username = username;
+        this.enabled = enabled;
+        this.authorities = authorities;
+        this.password = password;
+        this.mobile = mobile;
     }
 }

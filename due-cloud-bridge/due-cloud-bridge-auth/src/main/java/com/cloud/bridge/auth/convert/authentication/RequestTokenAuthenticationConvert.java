@@ -7,10 +7,10 @@ import org.springframework.security.core.Authentication;
 /**
  * 将请求转化成认证对象
  *
- * @param <T>
+ *
  * @author hanwengang
  */
-public interface RequestTokenAuthenticationConvert<T extends Authentication> extends RequestTokenConvert {
+public interface RequestTokenAuthenticationConvert extends RequestTokenConvert {
 
     /**
      * 转化
@@ -18,6 +18,6 @@ public interface RequestTokenAuthenticationConvert<T extends Authentication> ext
      * @param request token请求对象
      * @return Authentication 类型的认证对象
      */
-    T convert(TokenRequest request);
+    Authentication convert(TokenRequest request);
 
 }

@@ -15,10 +15,15 @@ public class DueTokenServiceImpl implements DueTokenService {
 
     private static final Map<String, DueBasicUser> CACHE_TOKEN_DUE_BASIC_USER = new ConcurrentHashMap<>();
 
+    private static final Map<Long, String> MEMBER_ID_TOKEN_MAP = new ConcurrentHashMap<>();
 
     @Override
     public Token createToken(DueBasicUser user) {
-        String accessToken = UUID.randomUUID().toString();
+        String accessToken = MEMBER_ID_TOKEN_MAP.get(user.getMemberId());
+        if (LogicUtil.isAllBlank(accessToken)) {
+            accessToken = UUID.randomUUID().toString();
+            MEMBER_ID_TOKEN_MAP.put(user.getMemberId(), accessToken);
+        }
         CACHE_TOKEN_DUE_BASIC_USER.put(accessToken, user);
         Token token = new Token();
         token.setAccessToken(accessToken);

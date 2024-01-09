@@ -8,7 +8,7 @@ public final class GlobalAuthConstant {
     /**
      * 认证类型
      */
-    public static final String GRANT_TYPE = "grantType";
+    public static final String GRANT_TYPE = "grant_type";
 
 
     /**

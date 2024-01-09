@@ -1,6 +1,7 @@
 package com.cloud.bridge.auth.enums;
 
 import com.due.basic.tookit.utils.LogicUtil;
+import lombok.Getter;
 
 import java.util.Arrays;
 
@@ -9,6 +10,7 @@ import java.util.Arrays;
  *
  * @author hanwengang
  */
+@Getter
 public enum GrantTypeEnum {
     /**
      * 后台用户账号密码登录
@@ -33,7 +35,7 @@ public enum GrantTypeEnum {
     /**
      * 移动端手机验证码登录
      */
-    MOBILE_CODE("mobile_code", "移动端手机严重码登录");
+    MOBILE_CODE("mobile_code", "移动端手机验证码登录");
 
 
     /**
@@ -58,11 +60,4 @@ public enum GrantTypeEnum {
         return Arrays.stream(values()).filter(e -> e.code.equals(code)).findFirst().orElse(null);
     }
 
-    public String getDesc() {
-        return desc;
-    }
-
-    public String getCode() {
-        return code;
-    }
 }

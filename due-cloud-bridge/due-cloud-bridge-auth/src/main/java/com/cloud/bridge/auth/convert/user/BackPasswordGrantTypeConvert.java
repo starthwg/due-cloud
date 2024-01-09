@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 
 /**
- *  后台用户登录将用户名转化成用户信息
+ * 后台用户登录将用户名转化成用户信息
+ *
  * @author hanwengang
  */
 @Component

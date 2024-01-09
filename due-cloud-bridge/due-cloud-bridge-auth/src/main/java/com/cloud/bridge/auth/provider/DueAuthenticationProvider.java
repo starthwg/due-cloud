@@ -1,5 +1,6 @@
 package com.cloud.bridge.auth.provider;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cloud.bridge.auth.DueAuthentication;
 import com.cloud.bridge.auth.UserDetailPreChecks;
 import com.cloud.bridge.auth.convert.user.GrantTypeUsernameCovert;
@@ -17,6 +18,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ import java.util.List;
  * @author hanwengang
  */
 @Slf4j
-public abstract class DueAuthenticationProvider<T extends DueAuthentication> implements AuthenticationProvider, ApplicationContextAware, InitializingBean {
+public abstract class DueAuthenticationProvider implements AuthenticationProvider, ApplicationContextAware, InitializingBean {
 
 
     /**
@@ -56,6 +58,7 @@ public abstract class DueAuthenticationProvider<T extends DueAuthentication> imp
         UserDetails user = null;
         try {
             user = this.retrieveUser(username, authentication);
+            log.info("结果;{}", JSONObject.toJSONString(user));
         } catch (UsernameNotFoundException exception) {
             log.error("User name that does not exist {}", username);
             if (!this.hideUserNotFoundExceptions) {
@@ -103,7 +106,7 @@ public abstract class DueAuthenticationProvider<T extends DueAuthentication> imp
      * @param authentication 请求的认证对象
      * @return 返回认证对象
      */
-    protected abstract T createSuccessAuthentication(UserDetails userDetails, Authentication authentication);
+    protected abstract Authentication createSuccessAuthentication(UserDetails userDetails, Authentication authentication);
 
 
     /**
@@ -116,12 +119,15 @@ public abstract class DueAuthenticationProvider<T extends DueAuthentication> imp
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        log.info("afterPropertiesSet");
         this.grantTypeUsernameCovertList = new ArrayList<>(applicationContext.getBeansOfType(GrantTypeUsernameCovert.class)
                 .values());
+        Assert.notNull(this.grantTypeUsernameCovertList, "grantTypeUsernameCovertList required");
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        log.info("setApplicationContext");
         this.applicationContext = applicationContext;
     }
 }

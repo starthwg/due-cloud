@@ -3,38 +3,44 @@ package com.cloud.bridge.auth.filter;
 import com.cloud.bridge.auth.convert.authentication.RequestTokenAuthenticationConvert;
 import com.cloud.bridge.auth.grant.TokenRequest;
 import com.due.basic.tookit.constant.GlobalAuthConstant;
+import com.due.basic.tookit.constant.GlobalThreadLocalConstant;
 import com.due.basic.tookit.utils.LogicUtil;
+import com.due.basic.tookit.utils.ThreadLocalUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 认证拦截器
  *
  * @author hanwengang
  */
+@Slf4j
 public class DueAuthenticationProcessFilter extends AbstractAuthenticationProcessingFilter {
 
     private static final String AUTH_URL = "/auth/token";
 
 
-    private List<RequestTokenAuthenticationConvert<? extends Authentication>> requestTokenAuthenticationConvertList;
+    private List<RequestTokenAuthenticationConvert> requestTokenAuthenticationConvertList;
 
 
     /**
      * token转化器
      */
-    private final RequestTokenAuthenticationConvert<Authentication> tokenAuthenticationConvert = new DelegateRequestTokenAuthenticationConvert();
+    private final RequestTokenAuthenticationConvert tokenAuthenticationConvert = new DelegateRequestTokenAuthenticationConvert();
 
 
     @Override
@@ -51,16 +57,17 @@ public class DueAuthenticationProcessFilter extends AbstractAuthenticationProces
         TokenRequest tokenRequest = this.getTokenRequest(grantType, params, request);
         // 将token转化成认证对象
         Authentication authentication = tokenAuthenticationConvert.convert(tokenRequest);
-
+        ThreadLocalUtil.set(GlobalThreadLocalConstant.SERIAL_NO, UUID.randomUUID().toString());
         return super.getAuthenticationManager().authenticate(authentication);
     }
 
     public DueAuthenticationProcessFilter() {
-        super("/auth/token");
+        super(new AntPathRequestMatcher(AUTH_URL, HttpMethod.POST.name()));
+//        log.info("授权地址：{}， 请求方式：{}", AUTH_URL, HttpMethod.POST.name());
     }
 
-    public DueAuthenticationProcessFilter(List<RequestTokenAuthenticationConvert<? extends Authentication>> requestTokenAuthenticationConvertList) {
-        super("/auth/token");
+    public DueAuthenticationProcessFilter(List<RequestTokenAuthenticationConvert> requestTokenAuthenticationConvertList) {
+        this();
         this.requestTokenAuthenticationConvertList = requestTokenAuthenticationConvertList;
     }
 
@@ -72,7 +79,7 @@ public class DueAuthenticationProcessFilter extends AbstractAuthenticationProces
     /**
      * 处理每个请求的token转化器
      */
-    private class DelegateRequestTokenAuthenticationConvert implements RequestTokenAuthenticationConvert<Authentication> {
+    private class DelegateRequestTokenAuthenticationConvert implements RequestTokenAuthenticationConvert {
         @Override
         public boolean support(String code) {
             return false;

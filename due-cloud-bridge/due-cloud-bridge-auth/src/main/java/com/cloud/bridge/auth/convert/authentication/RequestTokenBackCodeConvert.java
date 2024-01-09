@@ -4,6 +4,7 @@ import com.cloud.bridge.auth.BackCodeAuthentication;
 import com.cloud.bridge.auth.enums.GrantTypeEnum;
 import com.cloud.bridge.auth.grant.TokenRequest;
 import com.due.basic.tookit.constant.GlobalAuthConstant;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,8 @@ import java.util.Optional;
  *
  * @author hanwengang
  */
-public class RequestTokenBackCodeConvert implements RequestTokenAuthenticationConvert<BackCodeAuthentication> {
+@Component
+public class RequestTokenBackCodeConvert implements RequestTokenAuthenticationConvert {
     @Override
     public BackCodeAuthentication convert(TokenRequest request) {
         if (null == request) {

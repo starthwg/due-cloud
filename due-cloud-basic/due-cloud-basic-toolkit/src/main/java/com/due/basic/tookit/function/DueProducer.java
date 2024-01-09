@@ -11,7 +11,6 @@ public interface DueProducer<T> {
     /**
      * 返回一个结果
      *
-     * @return
      */
     T apply();
 }

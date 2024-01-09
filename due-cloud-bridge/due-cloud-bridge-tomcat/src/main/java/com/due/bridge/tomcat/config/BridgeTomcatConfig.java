@@ -3,6 +3,7 @@ package com.due.bridge.tomcat.config;
 import com.due.basic.tookit.doamin.Result;
 import com.due.basic.tookit.utils.LogicUtil;
 import com.due.basic.tookit.utils.ThreadContextStoreUtil;
+import com.due.basic.tookit.yml.YamlPropertySource;
 import com.due.bridge.tomcat.aspect.ControllerParamsValidatorAspect;
 import com.due.bridge.tomcat.aspect.RpcInterceptorAspect;
 import com.due.bridge.tomcat.handle.ControllerDueHandle;
@@ -50,6 +51,7 @@ import java.util.concurrent.Executor;
 @SpringBootConfiguration
 @EnableConfigurationProperties(value = {BridgeTomcatProperties.class})
 @EnableAsync
+@YamlPropertySource(value = "classpath:customize.yml")
 public class BridgeTomcatConfig implements WebMvcConfigurer {
 
 

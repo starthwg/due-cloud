@@ -8,12 +8,15 @@ import com.cloud.bridge.auth.handler.CustomizeAuthenticationFailed;
 import com.cloud.bridge.auth.handler.CustomizeAuthenticationSuccessHandler;
 import com.cloud.bridge.auth.provider.BackPasswordAuthenticationProvider;
 import com.cloud.bridge.auth.provider.DelegateDeuAuthenticationProvider;
+import com.cloud.bridge.auth.provider.DueAuthenticationProvider;
 import com.cloud.bridge.auth.service.DueUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -32,19 +35,24 @@ import java.util.List;
 
 @EnableWebSecurity
 @Configuration
+@ComponentScan("com.cloud.bridge.auth")
 public class AuthBridgeConfig {
 
 
     @Autowired
-    private DueUserDetailService dueUserDetailService;
+    private List<RequestTokenAuthenticationConvert> requestTokenAuthenticationConvertList;
+
+    @Autowired
+    private List<AuthenticationProvider> authenticationProviderList;
 
     @Order(1)
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        return httpSecurity.cors(AbstractHttpConfigurer::disable)
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(customer -> customer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .headers(customize -> customize.cacheControl().disable())
-                .addFilterBefore(this.authenticationProcessFilter(authenticationManagerBuilder), UsernamePasswordAuthenticationFilter.class).build();
+                .authorizeRequests().anyRequest().permitAll().and()
+                .addFilterBefore(this.authenticationProcessFilter(), UsernamePasswordAuthenticationFilter.class).build();
     }
 
     /**
@@ -53,9 +61,7 @@ public class AuthBridgeConfig {
     private AuthenticationManager authenticationManager() {
         DelegateDeuAuthenticationProvider delegateDeuAuthenticationProvider = new DelegateDeuAuthenticationProvider();
         ProviderManager providerManager = new ProviderManager(delegateDeuAuthenticationProvider);
-        // 构建后台认证密码模式的认证
-        BackPasswordAuthenticationProvider backPasswordAuthenticationProvider = new BackPasswordAuthenticationProvider(this.passwordEncoder());
-        delegateDeuAuthenticationProvider.addProvider(backPasswordAuthenticationProvider);
+        delegateDeuAuthenticationProvider.addProvider(authenticationProviderList);
         try {
             return providerManager;
         } catch (Exception e) {
@@ -68,16 +74,9 @@ public class AuthBridgeConfig {
         return new BCryptPasswordEncoder();
     }
 
-    public DueAuthenticationProcessFilter authenticationProcessFilter(AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public DueAuthenticationProcessFilter authenticationProcessFilter() {
 
-        // 加载转化器
-        List<RequestTokenAuthenticationConvert<? extends Authentication>> converts = new ArrayList<>();
-        RequestTokenBackCodeConvert requestTokenBackCodeConvert = new RequestTokenBackCodeConvert();
-        RequestTokenBackPasswordConvert requestTokenBackPasswordConvert = new RequestTokenBackPasswordConvert();
-        converts.add(requestTokenBackPasswordConvert);
-        converts.add(requestTokenBackCodeConvert);
-
-        DueAuthenticationProcessFilter dueAuthenticationProcessFilter = new DueAuthenticationProcessFilter(converts);
+        DueAuthenticationProcessFilter dueAuthenticationProcessFilter = new DueAuthenticationProcessFilter(this.requestTokenAuthenticationConvertList);
         dueAuthenticationProcessFilter.setAuthenticationManager(this.authenticationManager());
 
         dueAuthenticationProcessFilter.setAuthenticationSuccessHandler(new CustomizeAuthenticationSuccessHandler());

@@ -1,0 +1,13 @@
+# grantTypeConvert
+com.cloud.bridge.auth.convert.user.GrantTypeUsernameCovert=\
+com.cloud.bridge.auth.convert.user.BackPasswordGrantTypeConvert,\
+com.cloud.bridge.auth.convert.user.BackCodeGrantTypeConvert
+# requestConvertAuthentication
+com.cloud.bridge.auth.convert.authentication.RequestTokenAuthenticationConvert=\
+com.cloud.bridge.auth.convert.authentication.RequestTokenBackCodeConvert,\
+com.cloud.bridge.auth.convert.authentication.RequestTokenBackPasswordConvert
+
+# AuthenticationProvider
+com.cloud.bridge.auth.provider.DueAuthenticationProvider=\
+com.cloud.bridge.auth.provider.BackPasswordAuthenticationProvider
+

@@ -1,6 +1,7 @@
 package com.due.basic.tookit.yml;
 
 import com.due.basic.tookit.utils.LogicUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.core.env.PropertySource;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class YamlPropertySourceFactory implements PropertySourceFactory {
 
     private static final String YAML_FILE = "yaml";
@@ -22,6 +24,7 @@ public class YamlPropertySourceFactory implements PropertySourceFactory {
     public PropertySource<?> createPropertySource(String name, EncodedResource resource) throws IOException {
         // 获取文件名称
         String fileName = Optional.ofNullable(name).filter(e -> LogicUtil.isAllNotBlank(name)).orElseGet(() -> resource.getResource().getFilename());
+        log.info("准备加载配置文件：{}", fileName);
         if (StringUtils.endsWith(fileName, YAML_FILE) || StringUtils.endsWith(fileName, YML_FILE)) {
             // yml 文件
             Resource resource1 = resource.getResource();
