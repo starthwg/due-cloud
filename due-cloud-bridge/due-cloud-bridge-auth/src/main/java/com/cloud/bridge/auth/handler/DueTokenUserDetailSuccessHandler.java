@@ -1,5 +1,6 @@
 package com.cloud.bridge.auth.handler;
 
+import com.due.basic.tookit.oauth.user.DueBasicUser;
 import org.springframework.security.core.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +18,8 @@ public interface DueTokenUserDetailSuccessHandler {
      *  认证成功的处理
      * @param request
      * @param response
-     * @param authentication
+     * @param dueBasicUser
      * @throws IOException
      */
-    void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException;
+    void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, DueBasicUser dueBasicUser) throws IOException;
 }

@@ -4,6 +4,7 @@ import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.exception.LogicAssert;
 import com.due.basic.tookit.exception.LogicException;
 import com.due.basic.tookit.function.DueProducer;
+import com.due.basic.tookit.utils.LogicUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -80,6 +81,16 @@ public class Result<T> implements Serializable {
         Result<E> result = new Result<>();
         result.setCode(errorEnum.getCode());
         result.setMessage(errorEnum.getMessage());
+        return result;
+    }
+
+    public static <E> Result<E> failure(ErrorEnum errorEnum,String message) {
+        Result<E> result = new Result<>();
+        result.setCode(errorEnum.getCode());
+        result.setMessage(errorEnum.getMessage());
+        if (LogicUtil.isAllNotBlank(message)) {
+            result.setMessage(result.message + ":" + message);
+        }
         return result;
     }
 

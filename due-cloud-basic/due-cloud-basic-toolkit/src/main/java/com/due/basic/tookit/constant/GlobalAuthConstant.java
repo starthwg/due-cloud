@@ -45,4 +45,10 @@ public final class GlobalAuthConstant {
      *  携带token
      */
     public static final String BEARER = "Bearer ";
+
+
+    /**
+     *  请求头中的tokenKry
+     */
+    public static final String Authorization = "Authorization";
 }

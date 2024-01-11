@@ -23,10 +23,15 @@ import java.io.IOException;
  *
  * @author hanwengang
  */
+
 @Slf4j
 public class CustomizeAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final DueTokenService dueTokenService = new DueTokenServiceImpl();
+    public CustomizeAuthenticationSuccessHandler(DueTokenService dueTokenService) {
+        this.dueTokenService = dueTokenService;
+    }
+
+    private final DueTokenService dueTokenService ;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
