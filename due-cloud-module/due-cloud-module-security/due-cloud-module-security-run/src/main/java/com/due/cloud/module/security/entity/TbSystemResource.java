@@ -47,7 +47,7 @@ public class TbSystemResource extends TableData<TbSystemResource> {
     /**
      * 路径
      */
-    private String patch;
+    private String path;
 
     /**
      * 父级ID
@@ -58,6 +58,7 @@ public class TbSystemResource extends TableData<TbSystemResource> {
      * 状态：0-禁用 1-启用
      */
     private Integer status;
+
 
 
 

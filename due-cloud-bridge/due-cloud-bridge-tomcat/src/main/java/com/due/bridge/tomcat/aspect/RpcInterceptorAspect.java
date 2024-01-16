@@ -7,7 +7,7 @@ import com.due.basic.tookit.enums.ModuleCodeEnum;
 import com.due.basic.tookit.enums.ModuleServiceScene;
 import com.due.basic.tookit.enums.ServiceCodeEnum;
 import com.due.basic.tookit.exception.LogicException;
-import com.due.basic.tookit.rpc.RpcInterceptor;
+import com.due.basic.tookit.rpc.DueRpcInterceptor;
 import com.due.basic.tookit.utils.DateUtil;
 import com.due.basic.tookit.utils.ThreadLocalUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class RpcInterceptorAspect {
      * @ within是匹配类上的注解
      * within 是匹配类
      */
-    @Pointcut("@within(com.due.basic.tookit.rpc.RpcInterceptor)")
+    @Pointcut("@within(com.due.basic.tookit.rpc.DueRpcInterceptor)")
     public void pointCut() {
     }
 
@@ -67,33 +67,33 @@ public class RpcInterceptorAspect {
     }
 
     private ModuleServiceScene getServiceScene(Method method) {
-        RpcInterceptor rpcInterceptor = method.getAnnotation(RpcInterceptor.class);
-        if (null == rpcInterceptor || null == rpcInterceptor.scene() || ModuleServiceScene.UNKNOWN.equals(rpcInterceptor.scene())) {
-            return Optional.ofNullable(method.getDeclaringClass().getAnnotation(RpcInterceptor.class))
+        DueRpcInterceptor dueRpcInterceptor = method.getAnnotation(DueRpcInterceptor.class);
+        if (null == dueRpcInterceptor || null == dueRpcInterceptor.scene() || ModuleServiceScene.UNKNOWN.equals(dueRpcInterceptor.scene())) {
+            return Optional.ofNullable(method.getDeclaringClass().getAnnotation(DueRpcInterceptor.class))
                     .flatMap(e -> Optional.ofNullable(e.scene())).orElseThrow(() -> new LogicException(ErrorEnum.SERVICE_SCENE_UNKNOWN));
         } else {
-            return rpcInterceptor.scene();
+            return dueRpcInterceptor.scene();
         }
     }
 
     private ModuleCodeEnum getModuleResponseCode(Method method) {
-        RpcInterceptor rpcInterceptor = method.getAnnotation(RpcInterceptor.class);
-        if (null == rpcInterceptor || null == rpcInterceptor.response() || ModuleCodeEnum.UNKNOWN.equals(rpcInterceptor.response())) {
-            return Optional.ofNullable(method.getDeclaringClass().getAnnotation(RpcInterceptor.class))
+        DueRpcInterceptor dueRpcInterceptor = method.getAnnotation(DueRpcInterceptor.class);
+        if (null == dueRpcInterceptor || null == dueRpcInterceptor.response() || ModuleCodeEnum.UNKNOWN.equals(dueRpcInterceptor.response())) {
+            return Optional.ofNullable(method.getDeclaringClass().getAnnotation(DueRpcInterceptor.class))
                     .flatMap(e -> Optional.ofNullable(e.response())).orElseThrow(() -> new LogicException(ErrorEnum.SERVICE_RESPONSE_UNKNOWN));
         } else {
-            return rpcInterceptor.response();
+            return dueRpcInterceptor.response();
         }
     }
 
     private ServiceCodeEnum getServiceRequestCode(Method method) {
-        RpcInterceptor rpcInterceptor = method.getAnnotation(RpcInterceptor.class);
-        if (null == rpcInterceptor || null == rpcInterceptor.request() || ServiceCodeEnum.UNKNOWN.equals(rpcInterceptor.request())) {
+        DueRpcInterceptor dueRpcInterceptor = method.getAnnotation(DueRpcInterceptor.class);
+        if (null == dueRpcInterceptor || null == dueRpcInterceptor.request() || ServiceCodeEnum.UNKNOWN.equals(dueRpcInterceptor.request())) {
             // 获取类上的注解
-            RpcInterceptor classRpcInterceptor = method.getDeclaringClass().getAnnotation(RpcInterceptor.class);
-            return Optional.ofNullable(classRpcInterceptor).map(RpcInterceptor::request).orElseThrow(() -> new LogicException(ErrorEnum.SERVICE_REQUEST_UNKNOWN));
+            DueRpcInterceptor classDueRpcInterceptor = method.getDeclaringClass().getAnnotation(DueRpcInterceptor.class);
+            return Optional.ofNullable(classDueRpcInterceptor).map(DueRpcInterceptor::request).orElseThrow(() -> new LogicException(ErrorEnum.SERVICE_REQUEST_UNKNOWN));
         } else {
-            return rpcInterceptor.request();
+            return dueRpcInterceptor.request();
         }
     }
 

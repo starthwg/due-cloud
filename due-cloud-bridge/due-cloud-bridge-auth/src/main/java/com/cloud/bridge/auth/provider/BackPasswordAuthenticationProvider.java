@@ -1,11 +1,10 @@
 package com.cloud.bridge.auth.provider;
 
-import com.cloud.bridge.auth.BackPasswordAuthentication;
+import com.cloud.bridge.auth.BackPasswordAuthenticationAuth;
 import com.cloud.bridge.auth.user.BackUser;
 import com.due.basic.tookit.oauth.user.DueBasicUser;
 import com.due.basic.tookit.utils.LogicUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -32,10 +31,10 @@ public class BackPasswordAuthenticationProvider extends DueAuthenticationProvide
 
 
     @Override
-    protected BackPasswordAuthentication createSuccessAuthentication(UserDetails userDetails, Authentication authentication) {
+    protected BackPasswordAuthenticationAuth createSuccessAuthentication(UserDetails userDetails, Authentication authentication) {
         DueBasicUser dueBasicUser = (DueBasicUser) userDetails;
-        BackPasswordAuthentication backPasswordAuthentication = (BackPasswordAuthentication) authentication;
-        return new BackPasswordAuthentication(backPasswordAuthentication.getGrantType(),
+        BackPasswordAuthenticationAuth backPasswordAuthentication = (BackPasswordAuthenticationAuth) authentication;
+        return new BackPasswordAuthenticationAuth(backPasswordAuthentication.getGrantType(),
                 backPasswordAuthentication.getTokenRequest(),
                 true,
                 userDetails.getAuthorities(), dueBasicUser.getMemberId(), dueBasicUser.getUsername(), null, (BackUser) dueBasicUser);
@@ -55,7 +54,7 @@ public class BackPasswordAuthenticationProvider extends DueAuthenticationProvide
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return BackPasswordAuthentication.class.isAssignableFrom(authentication);
+        return BackPasswordAuthenticationAuth.class.isAssignableFrom(authentication);
     }
 
     public BackPasswordAuthenticationProvider(PasswordEncoder passwordEncoder) {

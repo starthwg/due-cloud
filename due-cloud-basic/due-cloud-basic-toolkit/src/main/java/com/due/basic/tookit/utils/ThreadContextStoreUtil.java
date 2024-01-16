@@ -31,7 +31,10 @@ public class ThreadContextStoreUtil extends AbstractThreadContext {
         }
     }
 
-
+    @Override
+    public void removeKey(String key) {
+        super.removeKey(key);
+    }
 
     @Override
     public ThreadLocal<Map<String, Object>> getThreadContext() {

@@ -12,6 +12,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.io.Serializable;
 
@@ -24,6 +26,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @Builder
+@Slf4j
 public class Result<T> implements Serializable {
 
     /**
@@ -84,7 +87,7 @@ public class Result<T> implements Serializable {
         return result;
     }
 
-    public static <E> Result<E> failure(ErrorEnum errorEnum,String message) {
+    public static <E> Result<E> failure(ErrorEnum errorEnum, String message) {
         Result<E> result = new Result<>();
         result.setCode(errorEnum.getCode());
         result.setMessage(errorEnum.getMessage());
@@ -113,7 +116,13 @@ public class Result<T> implements Serializable {
         if (null == dueProducer) {
             return Result.success();
         }
-        E apply = dueProducer.apply();
+        E apply = null;
+        try {
+            apply = dueProducer.apply();
+        } catch (Exception e) {
+            log.error(ExceptionUtils.getStackTrace(e));
+            throw new LogicException(ErrorEnum.SERVICE_ERROR, e.getMessage());
+        }
         return success(apply);
     }
 }

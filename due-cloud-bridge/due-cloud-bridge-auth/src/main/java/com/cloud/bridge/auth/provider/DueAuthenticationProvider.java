@@ -1,7 +1,7 @@
 package com.cloud.bridge.auth.provider;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cloud.bridge.auth.DueAuthentication;
+import com.cloud.bridge.auth.AuthDueAuthentication;
 import com.cloud.bridge.auth.UserDetailPreChecks;
 import com.cloud.bridge.auth.convert.user.GrantTypeUsernameCovert;
 import com.due.basic.tookit.enums.ErrorEnum;
@@ -89,8 +89,8 @@ public abstract class DueAuthenticationProvider implements AuthenticationProvide
 
     public UserDetails retrieveUser(String username, Authentication authentication) {
         String grantType;
-        if (authentication instanceof DueAuthentication) {
-            DueAuthentication dueAuthentication = (DueAuthentication) authentication;
+        if (authentication instanceof AuthDueAuthentication) {
+            AuthDueAuthentication dueAuthentication = (AuthDueAuthentication) authentication;
             grantType = dueAuthentication.getGrantType();
         } else {
             grantType = null;

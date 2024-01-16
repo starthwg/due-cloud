@@ -2,8 +2,6 @@ package com.cloud.bridge.auth;
 
 import com.cloud.bridge.auth.grant.TokenRequest;
 import com.cloud.bridge.auth.user.BackUser;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -13,23 +11,23 @@ import java.util.Collection;
  *
  * @author hanwengang
  */
-public class BackPasswordAuthentication extends DueAuthentication {
+public class BackPasswordAuthenticationAuth extends AuthDueAuthentication {
 
     private String username;
 
     private String password;
 
 
-    public BackPasswordAuthentication() {
+    public BackPasswordAuthenticationAuth() {
     }
 
-    public BackPasswordAuthentication(String grantType, TokenRequest tokenRequest, String username, String password) {
+    public BackPasswordAuthenticationAuth(String grantType, TokenRequest tokenRequest, String username, String password) {
         super(grantType, tokenRequest);
         this.username = username;
         this.password = password;
     }
 
-    public BackPasswordAuthentication(String grantType, TokenRequest tokenRequest, boolean authenticated, Collection<? extends GrantedAuthority> authorities, Long dataId, String username, String password, BackUser backUser) {
+    public BackPasswordAuthenticationAuth(String grantType, TokenRequest tokenRequest, boolean authenticated, Collection<? extends GrantedAuthority> authorities, Long dataId, String username, String password, BackUser backUser) {
         super(dataId, grantType, tokenRequest, authenticated,backUser, authorities);
         this.username = username;
         this.password = password;

@@ -3,6 +3,7 @@ package com.due.basic.tookit.constant;
 
 /**
  * 全局常量
+ * @author hanwengang
  */
 public final class GlobalConstant {
 
@@ -28,6 +29,11 @@ public final class GlobalConstant {
      * back基础路径
      */
     public final static String PROJECT_BACK_PATH = "/due/back";
+
+    /**
+     *  认证服务基础路径
+     */
+    public final static String PROJECT_AUTH_PATH = "/due/auth";
 
     /**
      * 调用module模块的透彻参数的key

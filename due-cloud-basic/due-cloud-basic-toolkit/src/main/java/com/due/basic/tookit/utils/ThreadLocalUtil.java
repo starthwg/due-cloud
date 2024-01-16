@@ -60,11 +60,16 @@ public class ThreadLocalUtil {
         ThreadContextStoreUtil.getInstance().removeKey(GlobalThreadLocalConstant.MODULE_RESPONSE_CODE);
         ThreadContextStoreUtil.getInstance().removeKey(GlobalThreadLocalConstant.RPC_TIME);
         ThreadContextStoreUtil.getInstance().removeKey(GlobalThreadLocalConstant.SERVICE_SCENE);
-        ThreadContextStoreUtil.getInstance().removeKey(GlobalThreadLocalConstant.CHANNEL_ENUM);
 
         ThreadContextStoreUtil.getInstance().removeKey(GlobalConstant.DUE_RPC_MODULE_REQUEST);
     }
 
+    public static void removeDueRequest(String ... codes) {
+        if (null == codes) return;
+        for (String code : codes) {
+            ThreadContextStoreUtil.getInstance().removeKey(code);
+        }
+    }
     /**
      * 获取用户ID
      *

@@ -6,9 +6,9 @@ import org.springframework.security.core.Authentication;
 
 /**
  * 内存缓存token信息
+ * @author hanwengang
  */
 public class MemoryCacheTokenStore implements TokenStore {
-
 
 
     @Override

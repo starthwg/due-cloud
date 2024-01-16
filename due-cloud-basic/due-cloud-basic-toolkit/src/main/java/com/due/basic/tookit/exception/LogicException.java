@@ -26,16 +26,20 @@ public class LogicException extends RuntimeException {
     }
 
     public LogicException(ErrorEnum errorEnum, String message) {
-        super(errorEnum.getMessage());
-        this.code = errorEnum.getCode();
-        this.desc = errorEnum.getMessage();
+        super(message);
+        String msg = errorEnum.getMessage();
         if (LogicUtil.isAllNotBlank(message)) {
-            this.desc = this.desc + ":" + message;
+            msg = msg + " :" + message;
         }
+        this.code = errorEnum.getCode();
+        this.desc = msg;
+//        if (LogicUtil.isAllNotBlank(message)) {
+//            this.desc = this.desc + ":" + message;
+//        }
     }
 
     public LogicException(ErrorEnum error, String desc, Exception e) {
-        super(error.getMessage());
+        super(desc);
         this.code = error.getCode();
         this.desc = error.getMessage();
         if (e != null) {

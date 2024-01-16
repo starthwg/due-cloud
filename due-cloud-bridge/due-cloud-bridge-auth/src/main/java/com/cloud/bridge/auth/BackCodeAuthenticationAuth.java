@@ -2,8 +2,6 @@ package com.cloud.bridge.auth;
 
 import com.cloud.bridge.auth.grant.TokenRequest;
 import com.cloud.bridge.auth.user.BackUser;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -13,7 +11,7 @@ import java.util.Collection;
  *
  * @author hanwengang
  */
-public class BackCodeAuthentication extends DueAuthentication {
+public class BackCodeAuthenticationAuth extends AuthDueAuthentication {
 
 
     /**
@@ -31,26 +29,26 @@ public class BackCodeAuthentication extends DueAuthentication {
      */
     private BackUser backUser;
 
-    public BackCodeAuthentication(String grantType, String code, String phoneNumber) {
+    public BackCodeAuthenticationAuth(String grantType, String code, String phoneNumber) {
         super(grantType);
         this.code = code;
         this.phoneNumber = phoneNumber;
     }
 
-    public BackCodeAuthentication(String grantType, TokenRequest tokenRequest, String code, String phoneNumber) {
+    public BackCodeAuthenticationAuth(String grantType, TokenRequest tokenRequest, String code, String phoneNumber) {
         super(grantType, tokenRequest);
         this.code = code;
         this.phoneNumber = phoneNumber;
     }
 
-    public BackCodeAuthentication(String grantType, TokenRequest tokenRequest, boolean authenticated, Collection<? extends GrantedAuthority> authorities, Long dataId, String code, String phoneNumber, BackUser backUser) {
+    public BackCodeAuthenticationAuth(String grantType, TokenRequest tokenRequest, boolean authenticated, Collection<? extends GrantedAuthority> authorities, Long dataId, String code, String phoneNumber, BackUser backUser) {
         super(dataId, grantType, tokenRequest, authenticated, backUser, authorities);
         this.code = code;
         this.phoneNumber = phoneNumber;
         this.backUser = backUser;
     }
 
-    public BackCodeAuthentication() {
+    public BackCodeAuthenticationAuth() {
     }
 
     @Override

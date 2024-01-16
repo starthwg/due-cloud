@@ -18,6 +18,7 @@
         <module>due-cloud-bridge-openfeign</module>
         <module>due-cloud-bridge-auth</module>
         <module>due-cloud-bridge-resources</module>
+        <module>due-cloud-bridge-okhttp</module>
     </modules>
 
     <properties>

@@ -1,16 +1,19 @@
 package com.due.cloud.bridge.resource.config;
 
 import com.due.cloud.bridge.resource.filter.DueTokenConvertUserDetailFilter;
+import com.due.cloud.bridge.resource.filter.RemoteTokenConvertFilter;
 import com.due.cloud.bridge.resource.handler.AuthorizeService;
 import com.due.cloud.bridge.resource.handler.DefaultAuthorizeService;
 import com.due.cloud.bridge.resource.parser.DueWebDueSecurityExpressionHandler;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -24,6 +27,7 @@ import java.util.Set;
 @EnableWebSecurity
 @Configuration
 @EnableConfigurationProperties(value = {DueResourcesProperties.class})
+@Import(value = {RemoteTokenConvertFilter.class})
 public class DueBridgeResourcesConfig implements ApplicationContextAware {
 
     @Autowired
@@ -46,6 +50,7 @@ public class DueBridgeResourcesConfig implements ApplicationContextAware {
                 .build();
     }
 
+    @ConditionalOnMissingBean
     @Bean
     public AuthorizeService authorizeService() {
         return new DefaultAuthorizeService();

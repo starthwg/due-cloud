@@ -17,4 +17,6 @@ public interface AuthorizeService {
      * @return true 可以访问 false 无法访问
      */
     boolean access(HttpServletRequest request, Authentication authentication);
+
+
 }

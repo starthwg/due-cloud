@@ -1,4 +1,4 @@
-package com.cloud.bridge.auth.service;
+package com.due.basic.tookit.oauth.service;
 
 import com.due.basic.tookit.oauth.Token;
 import com.due.basic.tookit.oauth.user.DueBasicUser;
@@ -38,4 +38,11 @@ public interface DueTokenService {
      * @return DueBasicUser 类型
      */
     DueBasicUser tokenConvertUserDetail(String token);
+
+    /**
+     *  删除token
+     * @param token String类型token
+     * @return true删除成功 false 删除失败！
+     */
+    boolean removeToken(String token);
 }
