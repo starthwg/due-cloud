@@ -11,13 +11,13 @@ import org.springframework.context.annotation.Configuration;
 public class GlobalConfig {
 
 
-    @Bean
-    @ConditionalOnMissingBean
-    public DueTokenService dueTokenService() {
-        UUIDTokenEnhance uuidTokenEnhance = new UUIDTokenEnhance();
-        DueTokenServiceImpl dueTokenService = new DueTokenServiceImpl();
-        dueTokenService.setUuidTokenEnhance(uuidTokenEnhance);
-        return dueTokenService;
-    }
+//    @Bean
+////    @ConditionalOnMissingBean
+//    public DueTokenService dueTokenService() {
+//        UUIDTokenEnhance uuidTokenEnhance = new UUIDTokenEnhance();
+//        DueTokenServiceImpl dueTokenService = new DueTokenServiceImpl();
+//        dueTokenService.setUuidTokenEnhance(uuidTokenEnhance);
+//        return dueTokenService;
+//    }
 
 }

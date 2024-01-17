@@ -36,9 +36,6 @@ import java.util.List;
 public class AuthBridgeConfig {
 
     @Autowired
-    private DueTokenService dueTokenService;
-
-    @Autowired
     private List<RequestTokenAuthenticationConvert> requestTokenAuthenticationConvertList;
 
     @Autowired
@@ -55,6 +52,15 @@ public class AuthBridgeConfig {
                 .addFilterBefore(this.authenticationProcessFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(this.tokenConvertUserDetailFilter(), DueAuthenticationProcessFilter.class).build();
     }
+
+    @Bean
+    public DueTokenService dueTokenService() {
+        UUIDTokenEnhance uuidTokenEnhance = new UUIDTokenEnhance();
+        DueTokenServiceImpl dueTokenService = new DueTokenServiceImpl();
+        dueTokenService.setUuidTokenEnhance(uuidTokenEnhance);
+        return dueTokenService;
+    }
+
 
     /**
      * 注入认证管理器
@@ -79,7 +85,7 @@ public class AuthBridgeConfig {
 
         DueAuthenticationProcessFilter dueAuthenticationProcessFilter = new DueAuthenticationProcessFilter(this.requestTokenAuthenticationConvertList);
         dueAuthenticationProcessFilter.setAuthenticationManager(this.authenticationManager());
-        CustomizeAuthenticationSuccessHandler customizeAuthenticationSuccessHandler = new CustomizeAuthenticationSuccessHandler(dueTokenService);
+        CustomizeAuthenticationSuccessHandler customizeAuthenticationSuccessHandler = new CustomizeAuthenticationSuccessHandler(this.dueTokenService());
         dueAuthenticationProcessFilter.setAuthenticationSuccessHandler(customizeAuthenticationSuccessHandler);
         dueAuthenticationProcessFilter.setAuthenticationFailureHandler(new CustomizeAuthenticationFailed());
         return dueAuthenticationProcessFilter;
@@ -87,7 +93,7 @@ public class AuthBridgeConfig {
 
 
     public TokenConvertUserDetailFilter tokenConvertUserDetailFilter() {
-        TokenConvertUserDetailFilter filter = new TokenConvertUserDetailFilter(this.dueTokenService);
+        TokenConvertUserDetailFilter filter = new TokenConvertUserDetailFilter(this.dueTokenService());
         filter.setRequestMatcher(new AntPathRequestMatcher("/token/convert", HttpMethod.POST.name()));
         return filter;
     }

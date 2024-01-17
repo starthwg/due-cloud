@@ -45,7 +45,7 @@ public class ControllerParamsValidatorAspect {
         this.applicationContext = applicationContext;
     }
 
-    @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping))")
+    @Pointcut("@within(org.springframework.web.bind.annotation.RequestMapping))")
     public void pointCut() {
 
     }

@@ -6,6 +6,7 @@ import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.exception.LogicException;
 import com.due.basic.tookit.utils.LogicUtil;
 import com.due.basic.tookit.utils.ThreadContextStoreUtil;
+import com.due.basic.tookit.utils.ThreadLocalUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -41,9 +42,8 @@ public class ControllerRpcModuleParamsValidatorHandle implements HandlerIntercep
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-        Object object = ThreadContextStoreUtil.getInstance().get(GlobalConstant.DUE_RPC_MODULE_REQUEST);
-        if (object instanceof DueRequest) {
-            DueRequest dueRequest = (DueRequest) object;
+        DueRequest dueRequest = ThreadLocalUtil.getDueRequest();
+        if (dueRequest != null) {
             Set<ConstraintViolation<DueRequest>> validateSet = validator.validate(dueRequest);
             if (LogicUtil.isNotEmpty(validateSet)) {
                 StringBuilder builder = new StringBuilder();

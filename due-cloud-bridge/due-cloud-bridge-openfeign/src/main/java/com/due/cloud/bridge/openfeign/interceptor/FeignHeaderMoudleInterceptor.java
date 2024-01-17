@@ -32,7 +32,6 @@ public class FeignHeaderMoudleInterceptor implements RequestInterceptor {
         } catch (UnsupportedEncodingException e) {
             log.info(ExceptionUtils.getStackTrace(e));
         }
-
     }
 
 }

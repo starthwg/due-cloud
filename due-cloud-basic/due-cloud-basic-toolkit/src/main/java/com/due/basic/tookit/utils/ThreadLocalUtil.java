@@ -36,7 +36,7 @@ public class ThreadLocalUtil {
             try {
                 DueRequest dueRequest = JSONObject.parseObject(json, DueRequest.class);
                 setDueRequest(dueRequest);
-                set(GlobalConstant.DUE_RPC_MODULE_REQUEST, dueRequest);
+//                set(GlobalConstant.DUE_RPC_MODULE_REQUEST, dueRequest);
             } catch (Exception e) {
                 log.error("解释 dueRequest失败：{}", e.getMessage());
             }
@@ -53,6 +53,12 @@ public class ThreadLocalUtil {
         ThreadContextStoreUtil.getInstance().removeKey(GlobalThreadLocalConstant.CHANNEL_ENUM);
 
         ThreadContextStoreUtil.getInstance().removeKey(GlobalConstant.DUE_RPC_MODULE_REQUEST);
+
+        ThreadContextStoreUtil.getInstance().remove();
+    }
+
+    public static void removeThreadLocal() {
+        ThreadContextStoreUtil.getInstance().remove();
     }
 
     public static void removeDueRequestRpc() {

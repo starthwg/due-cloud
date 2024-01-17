@@ -1,6 +1,7 @@
 package com.due.bridge.tomcat.aspect;
 
 import com.alibaba.fastjson.JSONObject;
+import com.due.basic.tookit.constant.GlobalConstant;
 import com.due.basic.tookit.doamin.DueRequest;
 import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.enums.ModuleCodeEnum;
@@ -61,7 +62,7 @@ public class RpcInterceptorAspect {
                 .setServiceScene(this.getServiceScene(method));
         // 本来就有的
         dueRequest.setChannelEnum(ThreadLocalUtil.getChannel()).setMemberId(ThreadLocalUtil.getMemberId()).setSerialNo(ThreadLocalUtil.getSerialNo());
-        ThreadLocalUtil.setDueRequest(dueRequest);
+        ThreadLocalUtil.set(GlobalConstant.DUE_RPC_MODULE_REQUEST, dueRequest);
         log.debug("{} - ********************************************[rpc]**********************************************", this.getTreadId());
         log.debug("{} - rpc module : {}  serialNo: {}", this.getTreadId(), this.getModuleResponseCode(method), ThreadLocalUtil.getSerialNo());
     }
@@ -99,7 +100,7 @@ public class RpcInterceptorAspect {
 
 
     private void removeRequestData() {
-        ThreadLocalUtil.removeDueRequestRpc();
+        ThreadLocalUtil.removeDueRequest(GlobalConstant.DUE_RPC_MODULE_REQUEST);
     }
 
     private Long getTreadId() {

@@ -4,6 +4,8 @@ import com.due.cloud.bridge.okhttp.OkHttpClientAutoProxyBuilder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import okhttp3.OkHttpClient;
+import org.apache.http.conn.HttpClientConnectionManager;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +27,14 @@ import java.nio.charset.StandardCharsets;
 public class OkHttpBridgeConfig extends HttpClientAutoProxyConfig{
 
     @Bean
+    public HttpClientConnectionManager httpClientConnectionManager() {
+        PoolingHttpClientConnectionManager httpClientConnectionManager = new PoolingHttpClientConnectionManager();
+        httpClientConnectionManager.setMaxTotal(1000);
+        httpClientConnectionManager.setDefaultMaxPerRoute(1000);
+        return httpClientConnectionManager;
+    }
+
+    @Bean
     public RestTemplate okHttpRestTemplate() {
 //		System.setProperty("https.protocols", "TLSv1.2,TLSv1.1,SSLv3");
         OkHttp3ClientHttpRequestFactory requestFactory = new OkHttp3ClientHttpRequestFactory(this.okHttpClient());
@@ -41,8 +51,7 @@ public class OkHttpBridgeConfig extends HttpClientAutoProxyConfig{
     @Bean
     public OkHttpClient okHttpClient() {
         OkHttpClientAutoProxyBuilder okHttpClientAutoProxyBuilder = new OkHttpClientAutoProxyBuilder(this);
-        OkHttpClient build = okHttpClientAutoProxyBuilder.build();
-        return build;
+        return okHttpClientAutoProxyBuilder.build();
     }
 
 }

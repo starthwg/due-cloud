@@ -55,7 +55,7 @@ public abstract class AbstractThreadContext {
         return map;
     }
 
-    public void removeAll() {
+    public void remove() {
         ThreadLocal<Map<String, Object>> threadContext = this.getThreadContext();
         Map<String, Object> map = threadContext.get();
         if (null != map) {
