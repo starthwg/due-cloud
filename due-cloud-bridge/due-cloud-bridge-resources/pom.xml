@@ -26,5 +26,10 @@
             <artifactId>due-cloud-basic-toolkit</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.due</groupId>
+            <artifactId>due-cloud-bridge-okhttp</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>

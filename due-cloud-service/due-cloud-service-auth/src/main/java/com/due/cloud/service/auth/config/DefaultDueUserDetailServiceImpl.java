@@ -4,15 +4,22 @@ import com.cloud.bridge.auth.service.DueUserDetailService;
 import com.cloud.bridge.auth.user.BackUser;
 import com.due.basic.tookit.constant.GlobalThreadLocalConstant;
 import com.due.basic.tookit.enums.ChannelEnum;
+import com.due.basic.tookit.utils.LogicUtil;
 import com.due.basic.tookit.utils.ThreadLocalUtil;
 import com.due.cloud.module.security.domain.response.SystemMember;
+import com.due.cloud.module.security.domain.response.SystemRole;
 import com.due.cloud.service.auth.service.ISystemMemberService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 认证是获取用户信息的service
@@ -20,10 +27,15 @@ import java.util.Collections;
  * @author Administrator
  */
 @Component
+@Slf4j
 public class DefaultDueUserDetailServiceImpl implements DueUserDetailService {
 
     @Autowired
     private ISystemMemberService systemMemberService;
+
+    public DefaultDueUserDetailServiceImpl() {
+        log.info("DefaultDueUserDetailServiceImpl 实例化");
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -32,8 +44,13 @@ public class DefaultDueUserDetailServiceImpl implements DueUserDetailService {
         if (null == systemMemberByUsername) {
             throw new UsernameNotFoundException("用户存在！");
         }
+
+        // 获取用户的权限
+        List<SystemRole> systemRoleList = systemMemberService.getSystemRoleByMemberId(systemMemberByUsername.getDataId());
+        if (null == systemRoleList) systemRoleList = new ArrayList<>();
+        List<SimpleGrantedAuthority> authorityList = systemRoleList.stream().map(SystemRole::getCode).distinct().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
         return new BackUser(systemMemberByUsername.getDataId(), systemMemberByUsername.getUsername(),
-                systemMemberByUsername.getLocked().equals(1), Collections.emptyList(), systemMemberByUsername.getPassword(), systemMemberByUsername.getMobile());
+                systemMemberByUsername.getLocked().equals(1), authorityList, systemMemberByUsername.getPassword(), systemMemberByUsername.getMobile());
     }
 
     @Override

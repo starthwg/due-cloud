@@ -5,9 +5,9 @@ import com.cloud.bridge.auth.handler.CustomizerDueTokenConvertUserDetailFailedHa
 import com.cloud.bridge.auth.handler.CustomsizeDueTokenUserDetailSuccessHandler;
 import com.cloud.bridge.auth.handler.DueTokenConvertUserDetailFailedHandler;
 import com.cloud.bridge.auth.handler.DueTokenUserDetailSuccessHandler;
-import com.cloud.bridge.auth.service.DueTokenService;
-import com.cloud.bridge.auth.service.impl.DueTokenServiceImpl;
 import com.due.basic.tookit.constant.GlobalAuthConstant;
+import com.due.basic.tookit.oauth.service.DueTokenService;
+import com.due.basic.tookit.oauth.service.impl.DueTokenServiceImpl;
 import com.due.basic.tookit.oauth.user.DueBasicUser;
 import com.due.basic.tookit.utils.LogicUtil;
 import lombok.Data;
@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.log.LogMessage;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -53,7 +52,7 @@ public class TokenConvertUserDetailFilter extends OncePerRequestFilter {
     /**
      * 将token转化成用户信息的服务
      */
-    private final DueTokenService dueTokenService = new DueTokenServiceImpl();
+    private final DueTokenService dueTokenService;
 
 
     @Override

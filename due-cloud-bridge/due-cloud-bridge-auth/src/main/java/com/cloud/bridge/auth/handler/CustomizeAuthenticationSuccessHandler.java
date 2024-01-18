@@ -1,11 +1,10 @@
 package com.cloud.bridge.auth.handler;
 
-import com.cloud.bridge.auth.DueAuthentication;
-import com.cloud.bridge.auth.service.DueTokenService;
-import com.cloud.bridge.auth.service.impl.DueTokenServiceImpl;
+import com.cloud.bridge.auth.AuthDueAuthentication;
 import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.exception.LogicAssert;
 import com.due.basic.tookit.oauth.Token;
+import com.due.basic.tookit.oauth.service.DueTokenService;
 import com.due.basic.tookit.oauth.user.DueBasicUser;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,8 +35,8 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("认证成功！");
-        if (authentication instanceof DueAuthentication) {
-            DueAuthentication dueAuthentication = (DueAuthentication) authentication;
+        if (authentication instanceof AuthDueAuthentication) {
+            AuthDueAuthentication dueAuthentication = (AuthDueAuthentication) authentication;
             DueBasicUser dueBasicUser = dueAuthentication.getDueBasicUser();
             log.info("认证成功的用户:{}", dueBasicUser);
             Token token = dueTokenService.createToken(dueBasicUser);

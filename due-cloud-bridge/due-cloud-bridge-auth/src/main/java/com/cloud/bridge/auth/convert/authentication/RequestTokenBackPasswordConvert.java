@@ -1,6 +1,6 @@
 package com.cloud.bridge.auth.convert.authentication;
 
-import com.cloud.bridge.auth.BackPasswordAuthentication;
+import com.cloud.bridge.auth.BackPasswordAuthenticationAuth;
 import com.cloud.bridge.auth.enums.GrantTypeEnum;
 import com.cloud.bridge.auth.grant.TokenRequest;
 import com.due.basic.tookit.constant.GlobalAuthConstant;
@@ -23,7 +23,7 @@ public class RequestTokenBackPasswordConvert implements RequestTokenAuthenticati
     }
 
     @Override
-    public BackPasswordAuthentication convert(TokenRequest request) {
+    public BackPasswordAuthenticationAuth convert(TokenRequest request) {
         if (null == request) {
             throw new IllegalArgumentException("request params Cannot be null");
         }
@@ -34,6 +34,6 @@ public class RequestTokenBackPasswordConvert implements RequestTokenAuthenticati
 
         String username = Optional.ofNullable(params.get(GlobalAuthConstant.USERNAME)).map(Object::toString).orElse(null);
         String password = Optional.ofNullable(params.get(GlobalAuthConstant.PASSWORD)).map(Object::toString).orElse(null);
-        return new BackPasswordAuthentication(request.getGrantType(), request, username, password);
+        return new BackPasswordAuthenticationAuth(request.getGrantType(), request, username, password);
     }
 }

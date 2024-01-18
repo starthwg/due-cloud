@@ -36,7 +36,7 @@ public class ThreadLocalUtil {
             try {
                 DueRequest dueRequest = JSONObject.parseObject(json, DueRequest.class);
                 setDueRequest(dueRequest);
-                set(GlobalConstant.DUE_RPC_MODULE_REQUEST, dueRequest);
+//                set(GlobalConstant.DUE_RPC_MODULE_REQUEST, dueRequest);
             } catch (Exception e) {
                 log.error("解释 dueRequest失败：{}", e.getMessage());
             }
@@ -53,6 +53,12 @@ public class ThreadLocalUtil {
         ThreadContextStoreUtil.getInstance().removeKey(GlobalThreadLocalConstant.CHANNEL_ENUM);
 
         ThreadContextStoreUtil.getInstance().removeKey(GlobalConstant.DUE_RPC_MODULE_REQUEST);
+
+        ThreadContextStoreUtil.getInstance().remove();
+    }
+
+    public static void removeThreadLocal() {
+        ThreadContextStoreUtil.getInstance().remove();
     }
 
     public static void removeDueRequestRpc() {
@@ -60,11 +66,16 @@ public class ThreadLocalUtil {
         ThreadContextStoreUtil.getInstance().removeKey(GlobalThreadLocalConstant.MODULE_RESPONSE_CODE);
         ThreadContextStoreUtil.getInstance().removeKey(GlobalThreadLocalConstant.RPC_TIME);
         ThreadContextStoreUtil.getInstance().removeKey(GlobalThreadLocalConstant.SERVICE_SCENE);
-        ThreadContextStoreUtil.getInstance().removeKey(GlobalThreadLocalConstant.CHANNEL_ENUM);
 
         ThreadContextStoreUtil.getInstance().removeKey(GlobalConstant.DUE_RPC_MODULE_REQUEST);
     }
 
+    public static void removeDueRequest(String ... codes) {
+        if (null == codes) return;
+        for (String code : codes) {
+            ThreadContextStoreUtil.getInstance().removeKey(code);
+        }
+    }
     /**
      * 获取用户ID
      *

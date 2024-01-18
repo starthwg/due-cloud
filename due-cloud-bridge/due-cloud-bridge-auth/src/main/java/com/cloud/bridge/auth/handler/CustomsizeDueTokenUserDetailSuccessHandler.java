@@ -15,13 +15,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-public class CustomsizeDueTokenUserDetailSuccessHandler implements DueTokenUserDetailSuccessHandler{
+public class CustomsizeDueTokenUserDetailSuccessHandler implements DueTokenUserDetailSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, DueBasicUser dueBasicUser) throws IOException {
         log.info("认证成功的用户:{}", dueBasicUser);
         if (null != dueBasicUser) {
             Map<String, Object> data = new HashMap<>();
             data.put("memberId", dueBasicUser.getMemberId());
+            data.put("authorities", dueBasicUser.getAuthorities());
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("application/json;charset=UTF-8");
             response.setHeader("Access-Control-Allow-Origin", "*");

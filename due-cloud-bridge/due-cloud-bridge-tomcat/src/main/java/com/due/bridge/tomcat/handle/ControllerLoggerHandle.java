@@ -52,7 +52,6 @@ public class ControllerLoggerHandle implements HandlerInterceptor {
             }else {
                 log.info("{} - controller : {}.{} end Execution Exception", this.getThreadId(), method.getDeclaringClass(), method.getName());
             }
-            ServletOutputStream outputStream = response.getOutputStream();
             log.info("{} - +++++++++++++++++++++++++++++++++++++++++++++服务结束执行+++++++++++++++++++++++++++++++++++++++++++++", this.getThreadId());
         }
     }

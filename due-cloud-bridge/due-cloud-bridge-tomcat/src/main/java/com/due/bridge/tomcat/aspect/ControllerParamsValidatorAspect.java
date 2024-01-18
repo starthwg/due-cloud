@@ -23,6 +23,7 @@ import java.util.Set;
 
 /**
  * controller层的参数校验
+ * @author hanwengang
  */
 @Aspect
 @Slf4j
@@ -45,7 +46,7 @@ public class ControllerParamsValidatorAspect {
         this.applicationContext = applicationContext;
     }
 
-    @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping))")
+    @Pointcut("@within(org.springframework.web.bind.annotation.RequestMapping))")
     public void pointCut() {
 
     }

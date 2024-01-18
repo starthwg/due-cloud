@@ -1,4 +1,8 @@
 server:
-  port: 8002
+  port: 8003
   servlet:
     context-path: /due/mobile
+due:
+  resource:
+    auth:
+      authAddress: http://localhost:8001/due/auth/token/convert # 认证服务器地址

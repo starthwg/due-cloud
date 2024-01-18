@@ -1,8 +1,13 @@
 package com.due.cloud.bridge.resource.filter;
 
 import com.due.basic.tookit.constant.GlobalAuthConstant;
+import com.due.basic.tookit.constant.GlobalThreadLocalConstant;
+import com.due.basic.tookit.oauth.AbstractDueAuthentication;
 import com.due.basic.tookit.utils.LogicUtil;
+import com.due.basic.tookit.utils.ThreadLocalUtil;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -20,18 +25,26 @@ public abstract class DueTokenConvertUserDetailFilter extends OncePerRequestFilt
             filterChain.doFilter(request, response);
             return;
         }
-
+        Authentication authentication = this.tokenConvertAuthentication(token);
+        if (authentication instanceof AbstractDueAuthentication) {
+            AbstractDueAuthentication abstractDueAuthentication = (AbstractDueAuthentication) authentication;
+            ThreadLocalUtil.set(GlobalThreadLocalConstant.MEMBER_ID, abstractDueAuthentication.getMemberId());
+        }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        filterChain.doFilter(request, response);
     }
 
     /**
-     *  通过token获取认证信息
+     * 通过token获取认证信息
+     *
      * @param token string类型的token
      * @return Authentication 认证信息
      */
     public abstract Authentication tokenConvertAuthentication(String token);
 
     /**
-     *  获取请求token中的token信息
+     * 获取请求token中的token信息
+     *
      * @param request 请求信息
      * @return token信息
      */

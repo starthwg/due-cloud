@@ -40,7 +40,10 @@
         <jjwt.version>0.9.1</jjwt.version>
         <orika-core.version>1.5.4</orika-core.version>
         <tomcat.version>2.3.7.RELEASE</tomcat.version>
+        <okhttp.version>4.9.1</okhttp.version>
         <velocity-engine-core.version>2.2</velocity-engine-core.version>
+        <minIo.version>8.4.3</minIo.version>
+        <aliyun.oss.version>3.10.2</aliyun.oss.version>
     </properties>
 
     <dependencyManagement>
@@ -142,6 +145,24 @@
                 <groupId>ma.glasnost.orika</groupId>
                 <artifactId>orika-core</artifactId>
                 <version>${orika-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minIo.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun.oss.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

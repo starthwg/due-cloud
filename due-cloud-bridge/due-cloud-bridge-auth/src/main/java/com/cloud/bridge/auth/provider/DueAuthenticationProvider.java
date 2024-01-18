@@ -1,11 +1,12 @@
 package com.cloud.bridge.auth.provider;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cloud.bridge.auth.DueAuthentication;
+import com.cloud.bridge.auth.AuthDueAuthentication;
 import com.cloud.bridge.auth.UserDetailPreChecks;
 import com.cloud.bridge.auth.convert.user.GrantTypeUsernameCovert;
 import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.exception.LogicAssert;
+import com.due.basic.tookit.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -13,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -65,6 +67,8 @@ public abstract class DueAuthenticationProvider implements AuthenticationProvide
                 throw exception;
             }
             throw new BadCredentialsException("密码错误！");
+        } catch (LogicException e) {
+            throw new InternalAuthenticationServiceException(e.getMessage());
         }
         LogicAssert.isNull(user, ErrorEnum.DATA_HANDLE_ERROR);
 
@@ -89,8 +93,8 @@ public abstract class DueAuthenticationProvider implements AuthenticationProvide
 
     public UserDetails retrieveUser(String username, Authentication authentication) {
         String grantType;
-        if (authentication instanceof DueAuthentication) {
-            DueAuthentication dueAuthentication = (DueAuthentication) authentication;
+        if (authentication instanceof AuthDueAuthentication) {
+            AuthDueAuthentication dueAuthentication = (AuthDueAuthentication) authentication;
             grantType = dueAuthentication.getGrantType();
         } else {
             grantType = null;

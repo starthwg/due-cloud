@@ -1,13 +1,14 @@
-package com.cloud.bridge.auth;
+package com.due.basic.tookit.oauth;
 
-import com.cloud.bridge.auth.grant.TokenRequest;
 import com.due.basic.tookit.oauth.user.DueBasicUser;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * 项目认证对象
@@ -16,7 +17,7 @@ import java.util.Collection;
  */
 @Setter
 @Getter
-public abstract class DueAuthentication implements Authentication {
+public abstract class AbstractDueAuthentication implements Authentication {
 
 
     /**
@@ -30,10 +31,6 @@ public abstract class DueAuthentication implements Authentication {
      */
     private String grantType;
 
-    /**
-     * 获取token的请求
-     */
-    private TokenRequest tokenRequest;
 
 
     /**
@@ -52,40 +49,50 @@ public abstract class DueAuthentication implements Authentication {
      */
     private Collection<? extends GrantedAuthority> authorities;
 
-    public DueAuthentication(String grantType) {
+    public AbstractDueAuthentication(String grantType) {
         this.grantType = grantType;
     }
 
-    public DueAuthentication(String grantType, TokenRequest tokenRequest) {
-        this.grantType = grantType;
-        this.tokenRequest = tokenRequest;
-    }
 
-    public DueAuthentication(String grantType, TokenRequest tokenRequest, boolean authenticated, Collection<? extends GrantedAuthority> authorities) {
+
+    public AbstractDueAuthentication(String grantType, boolean authenticated, Collection<? extends GrantedAuthority> authorities) {
         this.grantType = grantType;
-        this.tokenRequest = tokenRequest;
         this.authenticated = authenticated;
         this.authorities = authorities;
     }
 
-    public DueAuthentication(Long memberId, String grantType, TokenRequest tokenRequest, boolean authenticated, Collection<? extends GrantedAuthority> authorities) {
+    public AbstractDueAuthentication(Long memberId, String grantType, boolean authenticated, Collection<? extends GrantedAuthority> authorities) {
         this.memberId = memberId;
         this.grantType = grantType;
-        this.tokenRequest = tokenRequest;
+
         this.authenticated = authenticated;
         this.authorities = authorities;
     }
 
-    public DueAuthentication(Long memberId, String grantType, TokenRequest tokenRequest, boolean authenticated, DueBasicUser dueBasicUser, Collection<? extends GrantedAuthority> authorities) {
+    public AbstractDueAuthentication(Long memberId, String grantType, boolean authenticated, DueBasicUser dueBasicUser, Collection<? extends GrantedAuthority> authorities) {
         this.memberId = memberId;
         this.grantType = grantType;
-        this.tokenRequest = tokenRequest;
+
         this.authenticated = authenticated;
         this.dueBasicUser = dueBasicUser;
         this.authorities = authorities;
     }
 
-    public DueAuthentication() {
+    public AbstractDueAuthentication() {
     }
 
+    @Override
+    public Object getCredentials() {
+        return Optional.ofNullable(dueBasicUser).map(UserDetails::getPassword).orElse(null);
+    }
+
+    @Override
+    public Object getDetails() {
+        return dueBasicUser;
+    }
+
+    @Override
+    public Object getPrincipal() {
+        return Optional.ofNullable(dueBasicUser).map(UserDetails::getUsername).orElse(null);
+    }
 }

@@ -10,6 +10,10 @@
     </parent>
 
     <artifactId>due-cloud-web</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>due-cloud-web-gateway</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

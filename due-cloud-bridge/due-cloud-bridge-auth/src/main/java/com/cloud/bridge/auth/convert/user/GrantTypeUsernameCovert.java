@@ -13,7 +13,6 @@ public interface GrantTypeUsernameCovert extends RequestTokenConvert {
     /**
      * 转换成userDetail
      *
-     * @param grantType 认证类型
      * @param username  用户名称
      * @return UserDetails
      */

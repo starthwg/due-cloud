@@ -43,6 +43,7 @@ public class LoggingAspect {
         log.debug("{} - method : {}.{}", threadId, joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
         String string = Arrays.toString(joinPoint.getArgs());
         log.debug("{} - arguments : {}", threadId, string);
+        log.debug("{} - ==============================================================================================", threadId);
     }
 
     @AfterReturning(returning = "result", pointcut = "pointCut()")

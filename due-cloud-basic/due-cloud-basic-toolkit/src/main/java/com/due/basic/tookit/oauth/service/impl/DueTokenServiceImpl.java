@@ -1,9 +1,8 @@
-package com.cloud.bridge.auth.service.impl;
+package com.due.basic.tookit.oauth.service.impl;
 
-import com.cloud.bridge.auth.service.DueTokenService;
 import com.due.basic.tookit.constant.GlobalAuthConstant;
 import com.due.basic.tookit.oauth.Token;
-import com.due.basic.tookit.oauth.service.impl.UUIDTokenEnhance;
+import com.due.basic.tookit.oauth.service.DueTokenService;
 import com.due.basic.tookit.oauth.user.DueBasicUser;
 import com.due.basic.tookit.utils.LogicUtil;
 
@@ -57,5 +56,16 @@ public class DueTokenServiceImpl implements DueTokenService {
     public DueBasicUser tokenConvertUserDetail(String token) {
         if (LogicUtil.isAllBlank(token)) return null;
         return CACHE_TOKEN_DUE_BASIC_USER.get(token);
+    }
+
+    @Override
+    public boolean removeToken(String token) {
+        if (LogicUtil.isAllBlank(token)) return false;
+        DueBasicUser dueBasicUser = CACHE_TOKEN_DUE_BASIC_USER.remove(token);
+        if (null == dueBasicUser) return true;
+        Long memberId = dueBasicUser.getMemberId();
+        if (null == memberId) return true;
+        MEMBER_ID_TOKEN_MAP.remove(memberId);
+        return true;
     }
 }

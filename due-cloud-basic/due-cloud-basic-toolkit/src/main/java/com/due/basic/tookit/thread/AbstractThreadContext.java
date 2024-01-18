@@ -20,7 +20,7 @@ public abstract class AbstractThreadContext {
 
 
     public void set(final String key, final Object value) {
-        Map<String, Object> map = this.getThreadLocal();
+        Map<String, Object> map = this.getThreadLocalMap();
         map.put(key, value);
         if (value instanceof String) {
             map.put((String) value, Thread.currentThread().getName());
@@ -31,20 +31,21 @@ public abstract class AbstractThreadContext {
         if (LogicUtil.isAllBlank(key)) {
             return null;
         }
-        Map<String, Object> map = this.getThreadLocal();
+        Map<String, Object> map = this.getThreadLocalMap();
         return map.get(key);
     }
 
     public void removeKey(String key) {
-        Map<String, Object> map = this.getThreadLocal();
+        Map<String, Object> map = this.getThreadLocalMap();
+        if (null == map) return;
         map.remove(key);
     }
 
     public void clear() {
-        this.getThreadLocal().clear();
+        this.getThreadLocalMap().clear();
     }
 
-    private Map<String, Object> getThreadLocal() {
+    private Map<String, Object> getThreadLocalMap() {
         ThreadLocal<Map<String, Object>> threadContext = this.getThreadContext();
         Map<String, Object> map = threadContext.get();
         if (null == map) {
@@ -52,5 +53,14 @@ public abstract class AbstractThreadContext {
             threadContext.set(map);
         }
         return map;
+    }
+
+    public void remove() {
+        ThreadLocal<Map<String, Object>> threadContext = this.getThreadContext();
+        Map<String, Object> map = threadContext.get();
+        if (null != map) {
+            map.clear();
+        }
+        threadContext.remove();
     }
 }

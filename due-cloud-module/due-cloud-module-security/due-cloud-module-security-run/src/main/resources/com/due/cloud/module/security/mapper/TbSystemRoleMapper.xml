@@ -12,5 +12,16 @@
         <result column="name" property="name" />
         <result column="description" property="description" />
     </resultMap>
+    <select id="selectDataListByPath" resultType="com.due.cloud.module.security.entity.TbSystemRole">
+        SELECT r.data_id, r.`code`,r.create_time,r.`name`,r.description
+        FROM tb_system_resource re INNER JOIN tb_system_role_resource_mapping  rm ON re.data_id = rm.resource_id
+                                   JOIN tb_system_role r ON rm.role_id = r.data_id
+        WHERE 	re.path = #{pathUrl} AND r.data_status = 1 AND rm.data_status = 1 AND r.data_status = 1
+    </select>
+    <select id="selectDataListByMemberId" resultType="com.due.cloud.module.security.entity.TbSystemRole">
+        SELECT r.data_id, r.`code`,r.create_time,r.`name`,r.description
+        FROM tb_system_role_member_mapping rm INNER JOIN tb_system_role r ON rm.role_id = r.data_id
+        WHERE rm.member_id = #{memberId} AND rm.data_status = 1 AND r.data_status = 1
+    </select>
 
 </mapper>

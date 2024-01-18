@@ -18,8 +18,6 @@ public class DueResourcesProperties {
      */
     private Auth auth;
 
-
-
     @Data
     public static class Auth {
 
@@ -27,5 +25,15 @@ public class DueResourcesProperties {
          *  不登录可以访问的url
          */
         private Set<String> urls;
+
+        /**
+         *  认证地址
+         */
+        private String authAddress;
+
+        /**
+         *  请求方式
+         */
+        private String authMethod;
     }
 }

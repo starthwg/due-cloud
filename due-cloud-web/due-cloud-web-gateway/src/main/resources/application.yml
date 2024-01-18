@@ -1,0 +1,34 @@
+server:
+  port: 9000
+spring:
+  cloud:
+    gateway:
+      x-forwarded:
+        enabled: true
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':  #拦截的请求
+            allowedOrigins: '*' #允许跨域的请求
+            allowedMethods: '*'
+            allowedHeaders: "*" #允许请求中携带的头信息
+            maxAge: 36000
+      routes:
+        - id: ServiceBack
+          uri: lb://ServiceBack
+          predicates:
+            - Path=/due/back/**
+        - id: ServiceAuth
+          uri: lb://ServiceAuth
+          predicates:
+            - Path=/due/auth/**
+        - id: ServiceMobile
+          uri: lb://ServiceMobile
+          predicates:
+            - Path=/due/mobile/**
+
+

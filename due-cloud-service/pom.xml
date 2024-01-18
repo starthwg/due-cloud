@@ -15,6 +15,7 @@
     <modules>
         <module>due-cloud-service-mobile</module>
         <module>due-cloud-service-auth</module>
+        <module>due-cloud-service-back</module>
     </modules>
 
     <properties>

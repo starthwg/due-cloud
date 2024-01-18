@@ -19,19 +19,23 @@ import java.util.UUID;
  */
 @Order(Integer.MIN_VALUE + 30)
 @Slf4j
-public class ControllerDueHandle implements HandlerInterceptor {
+public class ControllerThreadLocalDueHandle implements HandlerInterceptor {
+
+    private boolean isDeleteThreadLocal = false;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
         if (requestURI.startsWith(GlobalConstant.PROJECT_BASE_PATH)) {
-            log.info("ControllerDueHandle ---> 设置唯一流水号");
+            log.info("ControllerThreadLocalDueHandle ---> 设置唯一流水号");
+            this.isDeleteThreadLocal = true;
             ThreadLocalUtil.set(GlobalThreadLocalConstant.SERIAL_NO, UUID.randomUUID().toString());
         }
         if (requestURI.startsWith(GlobalConstant.PROJECT_APP_PATH)) {
-            log.info("ControllerDueHandle --> 设置渠道类型：{}", ChannelEnum.APP);
+            log.info("ControllerThreadLocalDueHandle --> 设置渠道类型：{}", ChannelEnum.APP);
             ThreadLocalUtil.set(GlobalThreadLocalConstant.CHANNEL_ENUM, ChannelEnum.APP);
         } else if (requestURI.startsWith(GlobalConstant.PROJECT_BACK_PATH)) {
-            log.info("ControllerDueHandle --> 设置渠道类型：{}", ChannelEnum.BACK);
+            log.info("ControllerThreadLocalDueHandle --> 设置渠道类型：{}", ChannelEnum.BACK);
             ThreadLocalUtil.set(GlobalThreadLocalConstant.CHANNEL_ENUM, ChannelEnum.BACK);
         }
         return true;
@@ -39,6 +43,10 @@ public class ControllerDueHandle implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
+        if (isDeleteThreadLocal) {
+            ThreadLocalUtil.removeThreadLocal();
+            Thread thread = Thread.currentThread();
+            log.info("删除threadLocal的变量值");
+        }
     }
 }

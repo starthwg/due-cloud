@@ -13,7 +13,7 @@
         <result column="icon" property="icon" />
         <result column="code" property="code" />
         <result column="name" property="name" />
-        <result column="patch" property="patch" />
+        <result column="patch" property="path" />
         <result column="parent_id" property="parentId" />
         <result column="status" property="status" />
     </resultMap>

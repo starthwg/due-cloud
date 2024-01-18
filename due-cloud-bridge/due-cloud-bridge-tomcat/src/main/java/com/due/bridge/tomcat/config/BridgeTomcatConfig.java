@@ -1,18 +1,17 @@
 package com.due.bridge.tomcat.config;
 
-import com.due.basic.tookit.doamin.Result;
-import com.due.basic.tookit.utils.LogicUtil;
 import com.due.basic.tookit.utils.ThreadContextStoreUtil;
 import com.due.basic.tookit.yml.YamlPropertySource;
 import com.due.bridge.tomcat.aspect.ControllerParamsValidatorAspect;
 import com.due.bridge.tomcat.aspect.RpcInterceptorAspect;
-import com.due.bridge.tomcat.handle.ControllerDueHandle;
+import com.due.bridge.tomcat.handle.ControllerThreadLocalDueHandle;
 import com.due.bridge.tomcat.handle.ControllerErrorHandle;
 import com.due.bridge.tomcat.handle.ControllerLoggerHandle;
 import com.due.bridge.tomcat.handle.ControllerRpcHeaderConvertLocalHandle;
 import com.due.bridge.tomcat.handle.ControllerRpcModuleParamsValidatorHandle;
 import com.due.bridge.tomcat.support.impl.ExceptionNoticeComposite;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
@@ -20,33 +19,27 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.task.TaskDecorator;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.server.ServerHttpRequest;
-import org.springframework.http.server.ServerHttpResponse;
-import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.util.PatternMatchUtils;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.Executor;
 
 
+/**
+ *
+ * @author Administrator
+ */
 @Slf4j
 @SpringBootConfiguration
 @EnableConfigurationProperties(value = {BridgeTomcatProperties.class})
@@ -116,6 +109,10 @@ public class BridgeTomcatConfig implements WebMvcConfigurer {
     }
 
 
+    /**
+     *  自定义线程装饰器
+     * @return TaskDecorator类型
+     */
     private TaskDecorator taskDecorator() {
         return runnable -> {
             Map<String, Object> map = ThreadContextStoreUtil.getInstance().getThreadContext().get();
@@ -123,8 +120,11 @@ public class BridgeTomcatConfig implements WebMvcConfigurer {
                 try {
                     ThreadContextStoreUtil.getInstance().getThreadContext().set(map);
                     runnable.run();
+                } catch (Exception e) {
+                    log.error(ExceptionUtils.getStackTrace(e));
+                    throw e;
                 } finally {
-                    ThreadContextStoreUtil.getInstance().clear();
+                    ThreadContextStoreUtil.getInstance().remove();
                 }
             };
         };
@@ -136,7 +136,7 @@ public class BridgeTomcatConfig implements WebMvcConfigurer {
         handlerInterceptorList.add(new ControllerLoggerHandle());
 
         // 设置公共参数
-        handlerInterceptorList.add(new ControllerDueHandle());
+        handlerInterceptorList.add(new ControllerThreadLocalDueHandle());
 
         // openFeign的header转化成threadLocal
         handlerInterceptorList.add(new ControllerRpcHeaderConvertLocalHandle());
