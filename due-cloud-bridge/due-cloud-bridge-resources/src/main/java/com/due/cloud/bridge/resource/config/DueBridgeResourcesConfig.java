@@ -1,10 +1,14 @@
 package com.due.cloud.bridge.resource.config;
 
+import com.alibaba.fastjson.JSONObject;
 import com.due.cloud.bridge.resource.filter.DueTokenConvertUserDetailFilter;
 import com.due.cloud.bridge.resource.filter.RemoteTokenConvertFilter;
 import com.due.cloud.bridge.resource.handler.AuthorizeService;
+import com.due.cloud.bridge.resource.handler.CustomeizeAuthenticationEntryPoint;
+import com.due.cloud.bridge.resource.handler.CustomizeAccessDeniedHandler;
 import com.due.cloud.bridge.resource.handler.DefaultAuthorizeService;
 import com.due.cloud.bridge.resource.parser.DueWebDueSecurityExpressionHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -24,6 +28,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.util.HashSet;
 import java.util.Set;
 
+@Slf4j
 @EnableWebSecurity
 @Configuration
 @EnableConfigurationProperties(value = {DueResourcesProperties.class})
@@ -41,11 +46,13 @@ public class DueBridgeResourcesConfig implements ApplicationContextAware {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling(customize -> customize.accessDeniedHandler(new CustomizeAccessDeniedHandler()).authenticationEntryPoint(new CustomeizeAuthenticationEntryPoint()))
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.NEVER))
                 // 直接放行的请求
                 .authorizeRequests(customizer -> customizer.antMatchers(this.antMatchers()).permitAll())
                 .authorizeRequests(customizer -> customizer.antMatchers("/due/mobile/**").authenticated())
                 .authorizeRequests(customizer -> customizer.expressionHandler(this.dueWebDueSecurityExpressionHandler()).anyRequest().access("@authorizeService.access(request,authentication )"))
+
                 .addFilterBefore(dueTokenConvertUserDetailFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
@@ -57,14 +64,14 @@ public class DueBridgeResourcesConfig implements ApplicationContextAware {
     }
 
 
-
     public String[] antMatchers() {
         DueResourcesProperties.Auth auth = this.dueResourcesProperties.getAuth();
         if (null == auth) return new String[0];
-        Set<String> urls = auth.getUrls();
+        Set<String> urls = auth.getIgnoreUrls();
         if (null == urls) {
             urls = new HashSet<>();
         }
+        log.info("不需要认证可以访问的url:{}", JSONObject.toJSONString(urls));
         return urls.toArray(new String[0]);
     }
 

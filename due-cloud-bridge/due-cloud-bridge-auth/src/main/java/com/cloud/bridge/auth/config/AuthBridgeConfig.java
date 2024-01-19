@@ -97,9 +97,5 @@ public class AuthBridgeConfig {
         filter.setRequestMatcher(new AntPathRequestMatcher("/token/convert", HttpMethod.POST.name()));
         return filter;
     }
-
-
-    public UUIDTokenEnhance uuidTokenEnhance() {
-        return new UUIDTokenEnhance();
-    }
+    
 }

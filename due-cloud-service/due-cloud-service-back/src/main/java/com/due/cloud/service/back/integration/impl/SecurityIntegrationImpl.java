@@ -6,8 +6,11 @@ import com.due.basic.tookit.enums.ModuleServiceScene;
 import com.due.basic.tookit.enums.ServiceCodeEnum;
 import com.due.basic.tookit.rpc.DueRpcInterceptor;
 import com.due.basic.tookit.rpc.DueRpcService;
+import com.due.basic.tookit.utils.BeanUtil;
+import com.due.cloud.module.security.domain.request.SelectSystemRole;
 import com.due.cloud.module.security.domain.response.SystemRole;
 import com.due.cloud.rpc.security.service.ISystemRoleService;
+import com.due.cloud.service.back.domian.reuqest.SystemRoleQuery;
 import com.due.cloud.service.back.integration.ISecurityIntegration;
 
 import javax.annotation.Resource;
@@ -24,5 +27,11 @@ public class SecurityIntegrationImpl implements ISecurityIntegration {
     @Override
     public Result<List<SystemRole>> getSystemRoleByPath(String path) {
         return systemRoleService.selectRoleListByPath(path);
+    }
+
+    @DueRpcInterceptor(scene = ModuleServiceScene.SELECT)
+    @Override
+    public Result<List<SystemRole>> getSystemRoleListCondition(SystemRoleQuery query) {
+        return systemRoleService.selectRoleListCondition(BeanUtil.deepCopy(query, SelectSystemRole.class));
     }
 }

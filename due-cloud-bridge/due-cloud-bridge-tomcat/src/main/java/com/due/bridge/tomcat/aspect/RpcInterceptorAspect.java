@@ -2,6 +2,7 @@ package com.due.bridge.tomcat.aspect;
 
 import com.alibaba.fastjson.JSONObject;
 import com.due.basic.tookit.constant.GlobalConstant;
+import com.due.basic.tookit.constant.GlobalThreadLocalConstant;
 import com.due.basic.tookit.doamin.DueRequest;
 import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.enums.ModuleCodeEnum;
@@ -10,6 +11,7 @@ import com.due.basic.tookit.enums.ServiceCodeEnum;
 import com.due.basic.tookit.exception.LogicException;
 import com.due.basic.tookit.rpc.DueRpcInterceptor;
 import com.due.basic.tookit.utils.DateUtil;
+import com.due.basic.tookit.utils.LogicUtil;
 import com.due.basic.tookit.utils.ThreadLocalUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -20,7 +22,10 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.UUID;
 
 @Aspect
 @Slf4j
@@ -41,8 +46,9 @@ public class RpcInterceptorAspect {
         Object proceed;
         Long start = System.currentTimeMillis();
         try {
+            String string = Arrays.toString(joinPoint.getArgs());
             proceed = joinPoint.proceed(joinPoint.getArgs());
-            log.debug("{} - end rpc [success] ages: {} ,  result : {} , time :{} millisecond", this.getTreadId(), JSONObject.toJSONString(joinPoint.getArgs()), JSONObject.toJSONString(proceed), System.currentTimeMillis() - start);
+            log.debug("{} - end rpc [success] ages: {} ,  result : {} , time :{} millisecond", this.getTreadId(), string, JSONObject.toJSONString(proceed), System.currentTimeMillis() - start);
         } finally {
             removeRequestData();
         }
@@ -61,7 +67,12 @@ public class RpcInterceptorAspect {
                 .setModuleResponseCode(this.getModuleResponseCode(method))
                 .setServiceScene(this.getServiceScene(method));
         // 本来就有的
-        dueRequest.setChannelEnum(ThreadLocalUtil.getChannel()).setMemberId(ThreadLocalUtil.getMemberId()).setSerialNo(ThreadLocalUtil.getSerialNo());
+        String serialNo = ThreadLocalUtil.getSerialNo();
+        if (LogicUtil.isAllBlank(serialNo)) {
+            serialNo = UUID.randomUUID().toString();
+            ThreadLocalUtil.set(GlobalThreadLocalConstant.SERIAL_NO,serialNo);
+        }
+        dueRequest.setChannelEnum(ThreadLocalUtil.getChannel()).setMemberId(ThreadLocalUtil.getMemberId()).setSerialNo(serialNo);
         ThreadLocalUtil.set(GlobalConstant.DUE_RPC_MODULE_REQUEST, dueRequest);
         log.debug("{} - ********************************************[rpc]**********************************************", this.getTreadId());
         log.debug("{} - rpc module : {}  serialNo: {}", this.getTreadId(), this.getModuleResponseCode(method), ThreadLocalUtil.getSerialNo());

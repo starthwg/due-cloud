@@ -116,10 +116,14 @@ public class ThreadLocalUtil {
     }
 
     public static DueRequest getDueRequest() {
-       return   DueRequest.of().setSerialNo(ThreadLocalUtil.getSerialNo()).setChannelEnum(ThreadLocalUtil.getChannel())
+       return  DueRequest.of().setSerialNo(ThreadLocalUtil.getSerialNo()).setChannelEnum(ThreadLocalUtil.getChannel())
                 .setRpcTime(new Date((Long) ThreadContextStoreUtil.getInstance().get(GlobalThreadLocalConstant.RPC_TIME)))
                 .setMemberId(ThreadLocalUtil.getMemberId()).setServiceScene(Optional.ofNullable(ThreadContextStoreUtil.getInstance().get(GlobalThreadLocalConstant.SERVICE_SCENE)).map(e -> (ModuleServiceScene) e).orElse(null))
                 .setServiceRequestCode( (ServiceCodeEnum) ThreadContextStoreUtil.getInstance().get(GlobalThreadLocalConstant.SERVICE_REQUEST_CODE))
                 .setModuleResponseCode((ModuleCodeEnum) ThreadContextStoreUtil.getInstance().get(GlobalThreadLocalConstant.MODULE_RESPONSE_CODE));
+    }
+
+    public static DueRequest getRpcDueRequest() {
+        return  (DueRequest) ThreadContextStoreUtil.getInstance().get(GlobalConstant.DUE_RPC_MODULE_REQUEST);
     }
 }

@@ -21,7 +21,7 @@ import java.net.URLEncoder;
 public class FeignHeaderMoudleInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        DueRequest dueRequest = ThreadLocalUtil.getDueRequest();
+        DueRequest dueRequest = ThreadLocalUtil.getRpcDueRequest();
         try {
             if (null != dueRequest) {
                 String dueRequestData = JSONObject.toJSONString(dueRequest);

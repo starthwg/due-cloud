@@ -9,24 +9,30 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "due.file")
 @EqualsAndHashCode(callSuper = true)
-public class BridgeFileProperties extends BasicDomain<BridgeFileProperties>{
+public class BridgeFileProperties extends BasicDomain<BridgeFileProperties> {
 
 
     /**
-     *  首选文件存储客服端
+     * 首选文件存储客服端
      */
     private FileClientEnum fileClient;
 
     /**
-     *  MinIo的配置
+     * MinIo的配置
      */
     private MinIo minIo;
 
 
     /**
-     *  AiliOss
+     * AiliOss
      */
     private OssAiLi ossAiLi;
+
+
+    /**
+     * 桶
+     */
+    private String bucketName = "due";
 
 
     @Data
@@ -34,7 +40,7 @@ public class BridgeFileProperties extends BasicDomain<BridgeFileProperties>{
     static class MinIo extends BasicDomain<MinIo> {
 
         /**
-         *  是否开启
+         * 是否开启
          */
         private boolean enable = false;
 
@@ -52,26 +58,20 @@ public class BridgeFileProperties extends BasicDomain<BridgeFileProperties>{
 
 
         /**
-         *  桶
-         */
-        private String bucketName;
-
-
-        /**
-         *  连接密码
+         * 连接密码
          */
         private String accessKey;
 
 
         /**
-         *  秘钥
+         * 秘钥
          */
         private String secretKey;
     }
 
 
     /**
-     *  oss Aili的配置
+     * oss Aili的配置
      */
     @Data
     @EqualsAndHashCode(callSuper = true)
@@ -79,30 +79,24 @@ public class BridgeFileProperties extends BasicDomain<BridgeFileProperties>{
 
 
         /**
-         *  是否开启
+         * 是否开启
          */
         private boolean enable = false;
 
 
         /**
-         *  桶
-         */
-        private String bucketName;
-
-
-        /**
-         *  连接密码
+         * 连接密码
          */
         private String accessKey;
 
 
         /**
-         *  秘钥
+         * 秘钥
          */
         private String secretKey;
 
         /**
-         *  地址
+         * 地址
          */
         private String endpoint;
     }

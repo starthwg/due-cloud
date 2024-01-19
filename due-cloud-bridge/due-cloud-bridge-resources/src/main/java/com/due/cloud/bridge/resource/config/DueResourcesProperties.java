@@ -24,7 +24,7 @@ public class DueResourcesProperties {
         /**
          *  不登录可以访问的url
          */
-        private Set<String> urls;
+        private Set<String> ignoreUrls;
 
         /**
          *  认证地址

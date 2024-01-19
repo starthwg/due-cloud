@@ -28,4 +28,11 @@ public interface ITbSystemRoleService extends ITableDataService<TbSystemRole> {
      * @return list类型的角色列表
      */
     List<TbSystemRole> selectDataListByMemberId(Long memberId);
+
+    /**
+     *  通过条件查询系统角色信息
+     * @param condition TbSystemRole 类型的条件
+     * @return List类型
+     */
+    List<TbSystemRole> selectDataList(TbSystemRole condition);
 }
