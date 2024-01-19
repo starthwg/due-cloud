@@ -4,15 +4,19 @@ import com.aliyun.oss.ClientConfiguration;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.auth.CredentialsProvider;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
+import com.due.cloud.bridge.file.support.DelegateDueFileTemplate;
+import com.due.cloud.bridge.file.support.impl.MinioFileTemplate;
 import com.due.cloud.bridge.okhttp.config.HttpClientAutoProxyConfig;
 import io.minio.MinioClient;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 
 @Slf4j
@@ -22,7 +26,7 @@ public class BridgeFileConfig {
 
 
     @Configuration
-    public   static class FileClientConfig {
+    public static class FileClientConfig {
         @Autowired
         private BridgeFileProperties bridgeFileProperties;
 
@@ -48,7 +52,8 @@ public class BridgeFileConfig {
         }
 
         /**
-         *  OSS-Aili客户端的配置
+         * OSS-Aili客户端的配置
+         *
          * @return OSSClient
          */
         @ConditionalOnProperty(prefix = "due.file.oss-ai-li.enable", value = "true")
@@ -71,12 +76,19 @@ public class BridgeFileConfig {
     }
 
     /**
-     *  文件模板配置
+     * 文件模板配置
      */
     @Configuration
+    @Import(value = {DelegateDueFileTemplate.class})
     public static class FileTemplateConfig {
 
+        @Bean
+        @ConditionalOnBean(value = {MinioClient.class})
+        public MinioFileTemplate minioFileTemplate(MinioClient minioClient) {
+            MinioFileTemplate minioFileTemplate = new MinioFileTemplate();
+            minioFileTemplate.setClient(minioClient);
+            return minioFileTemplate;
+        }
     }
-
 
 }
