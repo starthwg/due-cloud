@@ -1,7 +1,9 @@
 package com.due.cloud.module.security.service.impl;
 
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.exception.LogicAssert;
+import com.due.basic.tookit.utils.LogicUtil;
 import com.due.cloud.module.security.entity.TbSystemRole;
 import com.due.cloud.module.security.mapper.TbSystemRoleMapper;
 import com.due.cloud.module.security.service.ITbSystemRoleService;
@@ -31,5 +33,22 @@ public class TbSystemRoleImpl extends TableDataServiceImpl<TbSystemRoleMapper, T
     public List<TbSystemRole> selectDataListByMemberId(Long memberId) {
         LogicAssert.isNull(memberId, ErrorEnum.PARAMETER_ERROR);
         return this.baseMapper.selectDataListByMemberId(memberId);
+    }
+
+    @Override
+    public List<TbSystemRole> selectDataList(TbSystemRole condition) {
+        return this.toList(this.getWrapper(condition));
+    }
+
+
+    private LambdaQueryChainWrapper<TbSystemRole> getWrapper(TbSystemRole condition) {
+        LambdaQueryChainWrapper<TbSystemRole> wrapper = this.lambdaQuery();
+        wrapper.orderByDesc(TbSystemRole::getCreateTime);
+        if (null == condition) {
+            return wrapper;
+        }
+        wrapper.like(LogicUtil.isAllNotBlank(condition.getName()), TbSystemRole::getName, condition.getName());
+        wrapper.like(LogicUtil.isAllNotBlank(condition.getCode()), TbSystemRole::getCode, condition.getCode());
+        return wrapper;
     }
 }

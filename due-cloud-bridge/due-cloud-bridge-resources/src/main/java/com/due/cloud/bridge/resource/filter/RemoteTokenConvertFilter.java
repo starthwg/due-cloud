@@ -37,11 +37,9 @@ public class RemoteTokenConvertFilter extends DueTokenConvertUserDetailFilter{
         if (null == auth) return null;
         JSONObject header = new JSONObject();
 
-        String address = "http://" + auth.getAuthAddress();
-
         header.put(GlobalAuthConstant.Authorization, GlobalAuthConstant.BEARER + token);
 //        header.put()
-        Result<String> stringResult = HttpUtil.auth(restTemplate, address, header, null, false);
+        Result<String> stringResult = HttpUtil.auth(restTemplate, auth.getAuthAddress(), header, null, false);
         String data = stringResult.getData();
         JSONObject jsonObject = JSONObject.parseObject(data);
         MobileAuthenticated mobileAuthenticated = new MobileAuthenticated();

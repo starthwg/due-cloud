@@ -3,10 +3,13 @@ package com.due.cloud.module.security.controller;
 
 import com.due.basic.tookit.doamin.Result;
 import com.due.bridge.tomcat.support.BasicController;
+import com.due.cloud.module.security.domain.request.SelectSystemRole;
 import com.due.cloud.module.security.domain.response.SystemRole;
+import com.due.cloud.module.security.entity.TbSystemRole;
 import com.due.cloud.module.security.service.ITbSystemRoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
@@ -38,6 +41,11 @@ public class TbSystemRoleController extends BasicController {
     @GetMapping("/member-id")
     public Result<List<SystemRole>> listByMemberId(@RequestParam("memberId") Long memberId) {
         return Result.exec(() -> this.copyList(this.systemRoleService.selectDataListByMemberId(memberId), SystemRole.class));
+    }
+
+    @GetMapping("/list/condition")
+    public Result<List<SystemRole>> listCondition(  SelectSystemRole role) {
+        return Result.exec(() -> this.copyList(this.systemRoleService.selectDataList(this.copy(role, TbSystemRole.class)), SystemRole.class));
     }
 }
 
