@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CreateFile extends BasicDomain<CreateFile> {
+public class CreateFileRecord extends BasicDomain<CreateFileRecord> {
 
     /**
      * 文件名称

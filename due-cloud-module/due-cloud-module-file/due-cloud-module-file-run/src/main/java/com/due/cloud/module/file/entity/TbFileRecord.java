@@ -2,6 +2,7 @@ package com.due.cloud.module.file.entity;
 
 import java.math.BigDecimal;
 
+import com.due.cloud.bridge.file.support.FileClientEnum;
 import com.due.cloud.bridge.mysql.domian.TableData;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -44,9 +45,9 @@ public class TbFileRecord extends TableData<TbFileRecord> {
     private String filePath;
 
     /**
-     * 服务器类型：1-minIo，2-OOS
+     * 服务器类型：minIo，OOS等
      */
-    private String fileDirect;
+    private FileClientEnum fileDirect;
 
     /**
      * 原始文件名称

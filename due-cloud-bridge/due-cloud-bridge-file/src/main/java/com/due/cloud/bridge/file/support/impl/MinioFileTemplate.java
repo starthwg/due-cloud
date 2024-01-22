@@ -13,6 +13,8 @@ import com.due.cloud.bridge.file.domian.DuePutObjectResult;
 import com.due.cloud.bridge.file.support.AbstractFileTemplate;
 import com.due.cloud.bridge.file.support.FileClientEnum;
 import io.minio.BucketExistsArgs;
+import io.minio.GetObjectArgs;
+import io.minio.GetObjectResponse;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.ObjectWriteResponse;
@@ -26,6 +28,7 @@ import io.minio.errors.XmlParserException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.aspectj.util.FileUtil;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -83,6 +86,14 @@ public class MinioFileTemplate extends AbstractFileTemplate<MinioClient> {
 
     @Override
     public DueGetObjectResult getObject(DueGetObjectCreate getObjectCreate) {
-        return null;
+        try {
+            GetObjectResponse response = this.client.getObject(GetObjectArgs.builder().object(getObjectCreate.getFilePath()).bucket(getObjectCreate.getFileName()).build());
+            LogicAssert.isNull(response, ErrorEnum.DATA_ABSENT);
+            byte[] bytes = FileUtil.readAsByteArray(response);
+            return DueGetObjectResult.builder().fileData(bytes).inputStream(response).build();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new LogicException(ErrorEnum.DATA_HANDLE_ERROR);
+        }
     }
 }

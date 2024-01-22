@@ -9,8 +9,11 @@ due:
       ignoreUrls:                                               # 不需要登录就可以访问的url
         - /system/role/list
         - /file/uploadFile
+        - /file/detail/*
 feign:
   okhttp:
+    enabled: true
+  circuitbreaker:
     enabled: true
 logging:
   level:
