@@ -5,6 +5,7 @@ package com.due.basic.tookit.constant;
  */
 public final class GlobalAuthConstant {
 
+
     /**
      * 认证类型
      */
