@@ -7,6 +7,7 @@ public final class GlobalAuthConstant {
 
 
 
+
     /**
      * 认证类型
      */
