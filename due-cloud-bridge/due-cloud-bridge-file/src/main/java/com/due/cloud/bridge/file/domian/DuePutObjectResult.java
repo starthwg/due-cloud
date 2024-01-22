@@ -25,8 +25,5 @@ public class DuePutObjectResult extends DueFileDomain<DuePutObjectResult> {
     private String fileType;
 
 
-    /**
-     * 文件后缀
-     */
-    private String filePostfix;
+    private String newFileName;
 }

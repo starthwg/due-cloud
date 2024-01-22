@@ -12,7 +12,7 @@
     <artifactId>due-cloud-module-file</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>due-cloud-module-file-doamin</module>
+        <module>due-cloud-module-file-domain</module>
         <module>due-cloud-module-file-run</module>
     </modules>
 

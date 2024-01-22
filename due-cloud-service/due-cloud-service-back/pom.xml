@@ -34,5 +34,11 @@
             <artifactId>due-cloud-bridge-resources</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.due</groupId>
+            <artifactId>due-cloud-rpc-file</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>

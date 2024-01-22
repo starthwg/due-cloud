@@ -14,6 +14,7 @@
     <modules>
         <module>due-cloud-rpc-customer</module>
         <module>due-cloud-rpc-security</module>
+        <module>due-cloud-rpc-file</module>
     </modules>
 
     <properties>

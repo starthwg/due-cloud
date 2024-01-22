@@ -26,7 +26,7 @@
 
         <dependency>
             <groupId>com.due</groupId>
-            <artifactId>due-cloud-module-file-doamin</artifactId>
+            <artifactId>due-cloud-module-file-domain</artifactId>
             <version>1.0</version>
         </dependency>
 

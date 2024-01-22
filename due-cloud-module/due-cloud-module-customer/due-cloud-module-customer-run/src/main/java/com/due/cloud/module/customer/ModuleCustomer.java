@@ -2,6 +2,7 @@ package com.due.cloud.module.customer;
 
 import com.due.basic.setting.start.Application;
 import com.due.basic.setting.start.DueStart;
+import com.due.basic.tookit.enums.ModuleServiceNameEnum;
 
 
 /**
@@ -11,6 +12,6 @@ import com.due.basic.setting.start.DueStart;
 @DueStart
 public class ModuleCustomer extends Application {
     public static void main(String[] args) {
-        new ModuleCustomer().run(args);
+        new ModuleCustomer().run(args, ModuleServiceNameEnum.ModuleCustomer.name());
     }
 }

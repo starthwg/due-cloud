@@ -1,11 +1,18 @@
 package com.due.cloud.bridge.file.domian;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.InputStream;
 
-@Data
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class DueGetObjectResult extends DueFileDomain<DueGetObjectResult> {
 

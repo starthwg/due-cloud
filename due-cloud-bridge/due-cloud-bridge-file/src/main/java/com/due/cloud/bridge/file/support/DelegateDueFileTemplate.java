@@ -8,8 +8,10 @@ import com.due.cloud.bridge.file.domian.DueGetObjectCreate;
 import com.due.cloud.bridge.file.domian.DueGetObjectResult;
 import com.due.cloud.bridge.file.domian.DuePutObjectCreate;
 import com.due.cloud.bridge.file.domian.DuePutObjectResult;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,8 +22,10 @@ import java.util.List;
  * @author hanwengang
  */
 
-@Primary
+@Data
 public class DelegateDueFileTemplate implements FileTemplate {
+
+
 
     /**
      * 文件上传的
@@ -62,14 +66,4 @@ public class DelegateDueFileTemplate implements FileTemplate {
         FileClientEnum finalClientEnum = clientEnum;
         return abstractFileTemplateList.stream().filter(e -> e.support(finalClientEnum)).findFirst().orElseThrow(() -> new LogicException(ErrorEnum.DATA_HANDLE_ERROR, "没有找到相关的文件存在模板类型！"));
     }
-
-//    public void addFileTemplate(AbstractFileTemplate<?> abstractFileTemplate) {
-//        abstractFileTemplateList.add(abstractFileTemplate);
-//    }
-//
-//    public void addBatchFileTemplate(List<AbstractFileTemplate<?>> abstractFileTemplateList) {
-//        if (LogicUtil.isNotEmpty(abstractFileTemplateList)) {
-//            this.abstractFileTemplateList.addAll(abstractFileTemplateList);
-//        }
-//    }
 }
