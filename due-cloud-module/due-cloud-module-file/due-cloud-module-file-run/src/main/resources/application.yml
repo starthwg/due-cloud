@@ -12,3 +12,16 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+due:
+  file:
+    bucket-name: due-cloud
+    file-client: min_io
+    min-io:
+      access-key: 2OyazyFApHzyxSz6p4xw
+      address: 192.168.26.128
+      secret-key: WlsDueO2tt9sP2Jou3NBTosZwhVfB2VWFXJxIDsv
+      enable: true
+      port: 9000
+    oss-ai-li:
+      access-key:
+

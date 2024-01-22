@@ -62,7 +62,7 @@ public class MinioFileTemplate extends AbstractFileTemplate<MinioClient> {
     protected void uploadFile(DuePutObjectCreate putObjectCreate) throws IOException {
         try {
             putObjectCreate.setClientEnum(FileClientEnum.MIN_IO);
-            ObjectWriteResponse objectWriteResponse = this.client.putObject(PutObjectArgs.builder().contentType("application/octet-stream").stream(putObjectCreate.getInputStream(), putObjectCreate.getInputStream().available(), -1).bucket(putObjectCreate.getBucketName()).object(putObjectCreate.getFileName()).build());
+            ObjectWriteResponse objectWriteResponse = this.client.putObject(PutObjectArgs.builder().contentType("application/octet-stream").stream(putObjectCreate.getInputStream(), putObjectCreate.getInputStream().available(), -1).bucket(putObjectCreate.getBucketName()).object(putObjectCreate.getNewFileName()).build());
             log.info("文件上传结果：{}", JSONObject.toJSONString(objectWriteResponse));
         } catch (ErrorResponseException | InsufficientDataException | InternalException | InvalidKeyException |
                  InvalidResponseException | NoSuchAlgorithmException | ServerException | XmlParserException e) {

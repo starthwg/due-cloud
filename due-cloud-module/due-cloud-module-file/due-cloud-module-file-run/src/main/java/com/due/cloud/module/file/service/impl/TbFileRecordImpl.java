@@ -39,7 +39,7 @@ public class TbFileRecordImpl extends TableDataServiceImpl<TbFileRecordMapper, T
         LogicAssert.isNull(createFile, ErrorEnum.PARAMETER_ERROR);
         LogicAssert.isBlank(createFile.getFileName(), ErrorEnum.PARAMETER_ERROR);
         LogicAssert.isNull(createFile.getFileData(), ErrorEnum.PARAMETER_ERROR);
-        DuePutObjectCreate build = DuePutObjectCreate.builder().fileName(createFile.getFileName()).filePostfix(FileUtil.fileType(createFile.getFileName())).inputStream(new ByteArrayInputStream(createFile.getFileData())).newFileName(FileUtil.getFileName() + "." + FileUtil.fileType(createFile.getFileName())).build();
+        DuePutObjectCreate build = DuePutObjectCreate.builder().fileData(createFile.getFileData()).fileName(createFile.getFileName()).filePostfix(FileUtil.fileType(createFile.getFileName())).inputStream(new ByteArrayInputStream(createFile.getFileData())).newFileName(FileUtil.getFileName() + "." + FileUtil.fileType(createFile.getFileName())).build();
         DuePutObjectResult duePutObjectResult = null;
         try {
             duePutObjectResult = fileTemplate.putObject(build);

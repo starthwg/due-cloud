@@ -8,6 +8,7 @@ due:
       authAddress: http://localhost:8001/due/auth/token/convert # 认证服务器地址
       ignoreUrls:                                               # 不需要登录就可以访问的url
         - /system/role/list
+        - /file/uploadFile
 feign:
   okhttp:
     enabled: true

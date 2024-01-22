@@ -1,10 +1,12 @@
 package com.due.cloud.bridge.file.support;
 
 import com.due.basic.tookit.enums.ErrorEnum;
+import com.due.basic.tookit.enums.ServiceCodeEnum;
 import com.due.basic.tookit.exception.LogicAssert;
 import com.due.basic.tookit.utils.DateUtil;
 import com.due.basic.tookit.utils.FileUtil;
 import com.due.basic.tookit.utils.LogicUtil;
+import com.due.basic.tookit.utils.ThreadLocalUtil;
 import com.due.cloud.bridge.file.config.BridgeFileProperties;
 import com.due.cloud.bridge.file.domian.DueBucketCreate;
 import com.due.cloud.bridge.file.domian.DuePutObjectCreate;
@@ -45,31 +47,33 @@ public abstract class AbstractFileTemplate<T> implements FileTemplate, Initializ
     public DuePutObjectResult putObject(DuePutObjectCreate putObjectCreate) throws IOException {
         LogicAssert.isNull(putObjectCreate, ErrorEnum.PARAMETER_ERROR);
         String bucketName = Optional.ofNullable(putObjectCreate.getBucketName()).orElseGet(() -> this.bridgeFileProperties.getBucketName());
-        if (! this.existBucket(bucketName)) {
+        if (!this.existBucket(bucketName)) {
             DueBucketCreate dueBucketCreate = new DueBucketCreate();
             dueBucketCreate.setBucketName(bucketName);
             this.createBucket(dueBucketCreate);
         }
+        ServiceCodeEnum requestService = ThreadLocalUtil.getRequestService();
+        String desc = requestService.getDesc();
         // 处理文件的上传路径
-        String timePath = this.getTimePath(bucketName);
-        String newFileName =  FileUtil.getFileName() + "." + FileUtil.fileType(putObjectCreate.getFileName());
-        String filePath = timePath + newFileName;
-        log.info("上传的文件路径：{}", newFileName);
+        String timePath = this.getTimePath();
+        String newFileName = FileUtil.getFileName() + "." + FileUtil.fileType(putObjectCreate.getFileName());
+        String filePath = desc + timePath + newFileName;
         putObjectCreate.setNewFileName(filePath);
+        putObjectCreate.setBucketName(bucketName);
         putObjectCreate.setInputStream(new ByteArrayInputStream(putObjectCreate.getFileData()));
-
         this.uploadFile(putObjectCreate);
 
         DuePutObjectResult result = new DuePutObjectResult();
-        result.setFilePath(newFileName);
+        result.setFilePath(filePath);
         result.setFileType(FileUtil.fileType(putObjectCreate.getFileName()));
         result.setBucketName(bucketName);
+        result.setNewFileName(newFileName);
         result.setClientEnum(putObjectCreate.getClientEnum());
         return result;
     }
 
     /**
-     *  上传文件
+     * 上传文件
      */
     protected abstract void uploadFile(DuePutObjectCreate putObjectCreate) throws IOException;
 
@@ -82,7 +86,8 @@ public abstract class AbstractFileTemplate<T> implements FileTemplate, Initializ
 
 
     /**
-     *  是否存在当前buket
+     * 是否存在当前buket
+     *
      * @param bucketName String类型
      * @return true 不存在， false存在
      */
@@ -99,22 +104,13 @@ public abstract class AbstractFileTemplate<T> implements FileTemplate, Initializ
     /**
      * 一时间最为文件路径
      *
-     * @param bucketName 需要桶的名称
      * @return string类型的文件路径 不携带文件名称
-     *         例如： /due/2024-01-10/xxxx.jpg
+     * 例如：
      */
-    public  String getTimePath(String bucketName) {
-        if (LogicUtil.isAllBlank(bucketName)) {
-            bucketName = bridgeFileProperties.getBucketName();
-        }
-
+    public String getTimePath() {
         String ymdString = DateUtil.formatDateYMD(DateUtil.getDate());
-        StringBuilder builder = new StringBuilder();
-        builder.append("/");
-        if (LogicUtil.isAllNotNull(bucketName)) {
-            builder.append(bucketName).append("/");
-        }
-        return builder.append(ymdString).append("/").toString();
+        return "/" +
+                ymdString + "/";
     }
 
     @Override

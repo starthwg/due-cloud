@@ -5,6 +5,7 @@ import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.auth.CredentialsProvider;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.due.cloud.bridge.file.support.DelegateDueFileTemplate;
+import com.due.cloud.bridge.file.support.FileTemplate;
 import com.due.cloud.bridge.file.support.impl.MinioFileTemplate;
 import com.due.cloud.bridge.okhttp.config.HttpClientAutoProxyConfig;
 import io.minio.MinioClient;
@@ -17,6 +18,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 
 
 @Slf4j
@@ -43,10 +45,10 @@ public class BridgeFileConfig {
          */
 
         @Bean
-        @ConditionalOnProperty(prefix = "due.file.min-io.enable", value = "true")
+        @ConditionalOnProperty(prefix = "due", name = "file.min-io.enable", matchIfMissing = true)
         public MinioClient minIoClient() {
             BridgeFileProperties.MinIo minIo = bridgeFileProperties.getMinIo();
-
+            log.info("准备加载MinIo客户端");
             return MinioClient.builder().httpClient(okHttpClient).credentials(minIo.getAccessKey(), minIo.getSecretKey())
                     .endpoint(minIo.getAddress(), minIo.getPort(), false).build();
         }
@@ -56,7 +58,7 @@ public class BridgeFileConfig {
          *
          * @return OSSClient
          */
-        @ConditionalOnProperty(prefix = "due.file.oss-ai-li.enable", value = "true")
+        @ConditionalOnProperty(prefix = "due", name = "file.oss-ai-li.enable", havingValue = "true")
         @Bean
         public OSSClient ailiOssClient() {
             BridgeFileProperties.OssAiLi ossAiLi = bridgeFileProperties.getOssAiLi();
@@ -79,15 +81,21 @@ public class BridgeFileConfig {
      * 文件模板配置
      */
     @Configuration
-    @Import(value = {DelegateDueFileTemplate.class})
     public static class FileTemplateConfig {
 
         @Bean
         @ConditionalOnBean(value = {MinioClient.class})
         public MinioFileTemplate minioFileTemplate(MinioClient minioClient) {
+            log.info("准备加载MinioFileTemplate");
             MinioFileTemplate minioFileTemplate = new MinioFileTemplate();
             minioFileTemplate.setClient(minioClient);
             return minioFileTemplate;
+        }
+
+        @Primary
+        @Bean
+        public FileTemplate fileTemplate() {
+            return new DelegateDueFileTemplate();
         }
     }
 
