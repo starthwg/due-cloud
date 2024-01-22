@@ -49,7 +49,14 @@ public class TbFileRecordImpl extends TableDataServiceImpl<TbFileRecordMapper, T
         LogicAssert.isNull(duePutObjectResult, ErrorEnum.DATA_HANDLE_ERROR, "文件上传失败");
 
         TbFileRecord tbFileRecord = new TbFileRecord();
-//        tbFileRecord.setFileDirect()
-        return null;
+        tbFileRecord.setFileDirect(duePutObjectResult.getClientEnum().name());
+        tbFileRecord.setFilePath(duePutObjectResult.getFilePath());
+        tbFileRecord.setFileSize(createFile.getFileSize());
+        tbFileRecord.setFileRawName(createFile.getFileName());
+        tbFileRecord.setFileNewName(duePutObjectResult.getNewFileName());
+        tbFileRecord.setFileType(FileUtil.fileType(createFile.getFileName()));
+        boolean updated = this.create(tbFileRecord);
+        LogicAssert.isFalse(updated, ErrorEnum.DATA_HANDLE_ERROR, "文件上传失败！");
+        return tbFileRecord.getDataId();
     }
 }

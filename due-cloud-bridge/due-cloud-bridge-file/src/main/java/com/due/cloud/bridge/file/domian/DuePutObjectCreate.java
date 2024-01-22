@@ -1,8 +1,11 @@
 package com.due.cloud.bridge.file.domian;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.InputStream;
 
@@ -13,6 +16,8 @@ import java.io.InputStream;
  */
 @Builder
 @Getter
+@Setter
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class DuePutObjectCreate extends DueFileDomain<DuePutObjectCreate> {
 
@@ -38,6 +43,12 @@ public class DuePutObjectCreate extends DueFileDomain<DuePutObjectCreate> {
      *  文件后缀
      */
     private String filePostfix;
+
+
+    /**
+     *  文件内容
+     */
+    private byte[] fileData;
 
     public DuePutObjectCreate() {
     }

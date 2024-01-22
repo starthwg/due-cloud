@@ -8,6 +8,8 @@ public enum ModuleCodeEnum {
     CUSTOMER(10, "用户模块"),
 
     SECURITY(11, "安全模块"),
+
+    FILE(12, "文件模块"),
     UNKNOWN(9999, "未知模块");
 
     /**

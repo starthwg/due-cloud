@@ -49,6 +49,18 @@ public abstract class Application {
     }
 
 
+    protected ConfigurableApplicationContext run(String[] args, String applicationName) {
+        this.aClass = this.getClass();
+        // 处理服务名称
+        this.moduleName = LogicUtil.isAllBlank(applicationName) ? this.aClass.getSimpleName() : applicationName;
+        this.applicationListenerList = this.getExtensionApplicationListener();
+        SpringApplicationBuilder springApplicationBuilder = this.createSpringApplicationBuilder(this.moduleName, this.aClass, args);
+        this.invokeApplicationListenerListBefore(springApplicationBuilder, args);
+        ConfigurableApplicationContext applicationContext = springApplicationBuilder.application().run(args);
+        this.invokeApplicationListenerListAfter(applicationContext, args);
+        return applicationContext;
+    }
+
     protected void invokeApplicationListenerListBefore(SpringApplicationBuilder springApplicationBuilder, String[] ages) {
         if (LogicUtil.isEmpty(this.applicationListenerList)) return;
         this.applicationListenerList.forEach(e -> e.startBefore(this.moduleName, springApplicationBuilder, ages));

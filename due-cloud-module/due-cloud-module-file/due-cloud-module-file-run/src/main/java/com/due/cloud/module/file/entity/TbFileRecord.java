@@ -46,7 +46,7 @@ public class TbFileRecord extends TableData<TbFileRecord> {
     /**
      * 服务器类型：1-minIo，2-OOS
      */
-    private Integer fileDirect;
+    private String fileDirect;
 
     /**
      * 原始文件名称
