@@ -14,9 +14,7 @@ due-cloud是一个基于springboot2.7.0、springcloud、springcloudalibaba的一
 
 #### 系统架构图
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+<img src="D:\桌面\系统架构图.svg"/>
 
 #### 参与贡献
 
