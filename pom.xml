@@ -44,6 +44,7 @@
         <velocity-engine-core.version>2.2</velocity-engine-core.version>
         <minIo.version>8.4.3</minIo.version>
         <aliyun.oss.version>3.10.2</aliyun.oss.version>
+        <redisson.vsrion>3.23.2</redisson.vsrion>
     </properties>
 
     <dependencyManagement>
@@ -163,6 +164,12 @@
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun.oss.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson.vsrion}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -20,6 +20,7 @@
         <module>due-cloud-bridge-resources</module>
         <module>due-cloud-bridge-okhttp</module>
         <module>due-cloud-bridge-file</module>
+        <module>due-cloud-bridge-redis</module>
     </modules>
 
     <properties>
