@@ -32,6 +32,18 @@
             <groupId>com.due</groupId>
             <artifactId>due-cloud-bridge-mysql</artifactId>
             <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-pool2</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.due</groupId>
+            <artifactId>due-cloud-bridge-redis</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 </project>
