@@ -1,13 +1,15 @@
 # grantTypeConvert
 com.cloud.bridge.auth.convert.user.GrantTypeUsernameCovert=\
 com.cloud.bridge.auth.convert.user.BackPasswordGrantTypeConvert,\
-com.cloud.bridge.auth.convert.user.BackCodeGrantTypeConvert
+com.cloud.bridge.auth.convert.user.BackCodeGrantTypeConvert,\
+com.cloud.bridge.auth.convert.user.MobileOpenIdGrantTypeConvert
 # requestConvertAuthentication
 com.cloud.bridge.auth.convert.authentication.RequestTokenAuthenticationConvert=\
 com.cloud.bridge.auth.convert.authentication.RequestTokenBackCodeConvert,\
-com.cloud.bridge.auth.convert.authentication.RequestTokenBackPasswordConvert
-
+com.cloud.bridge.auth.convert.authentication.RequestTokenBackPasswordConvert,\
+com.cloud.bridge.auth.convert.authentication.RequestTokenMobileOpenIdConvert
 # AuthenticationProvider
 com.cloud.bridge.auth.provider.DueAuthenticationProvider=\
-com.cloud.bridge.auth.provider.BackPasswordAuthenticationProvider
+com.cloud.bridge.auth.provider.BackPasswordAuthenticationProvider,\
+com.cloud.bridge.auth.provider.MobileOpenIdAuthenticationProvider  
 

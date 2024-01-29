@@ -15,6 +15,11 @@ public class MobileUser implements DueBasicUser {
     private Long dataId;
 
     /**
+     *  openId
+     */
+    private String openId;
+
+    /**
      *  用户昵称
      */
     private String nickname;
@@ -79,5 +84,26 @@ public class MobileUser implements DueBasicUser {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public MobileUser() {
+    }
+
+    public MobileUser(Long dataId, String openId, String nickname, String phoneNumber, Long imageId, String password, boolean enabled) {
+        this.dataId = dataId;
+        this.openId = openId;
+        this.nickname = nickname;
+        this.phoneNumber = phoneNumber;
+        this.imageId = imageId;
+        this.password = password;
+        this.enabled = enabled;
     }
 }

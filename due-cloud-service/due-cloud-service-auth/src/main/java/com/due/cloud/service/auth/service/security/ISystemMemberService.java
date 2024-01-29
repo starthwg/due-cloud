@@ -1,4 +1,4 @@
-package com.due.cloud.service.auth.service;
+package com.due.cloud.service.auth.service.security;
 
 import com.due.cloud.module.security.domain.response.SystemMember;
 import com.due.cloud.module.security.domain.response.SystemRole;

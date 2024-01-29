@@ -2,23 +2,27 @@ package com.due.cloud.service.auth.config;
 
 import com.cloud.bridge.auth.service.DueUserDetailService;
 import com.cloud.bridge.auth.user.BackUser;
+import com.cloud.bridge.auth.user.MobileUser;
 import com.due.basic.tookit.constant.GlobalThreadLocalConstant;
 import com.due.basic.tookit.enums.ChannelEnum;
-import com.due.basic.tookit.utils.LogicUtil;
 import com.due.basic.tookit.utils.ThreadLocalUtil;
+import com.due.cloud.module.customer.api.domain.enums.CustomerAccountTypeEnum;
+import com.due.cloud.module.customer.api.domain.request.SelectCustomerAccount;
+import com.due.cloud.module.customer.api.domain.response.Customer;
+import com.due.cloud.module.customer.api.domain.response.CustomerAccount;
 import com.due.cloud.module.security.domain.response.SystemMember;
 import com.due.cloud.module.security.domain.response.SystemRole;
-import com.due.cloud.service.auth.service.ISystemMemberService;
+import com.due.cloud.service.auth.service.customer.ICustomerService;
+import com.due.cloud.service.auth.service.security.ISystemMemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +36,9 @@ public class DefaultDueUserDetailServiceImpl implements DueUserDetailService {
 
     @Autowired
     private ISystemMemberService systemMemberService;
+
+    @Autowired
+    private ICustomerService customerService;
 
     public DefaultDueUserDetailServiceImpl() {
         log.info("DefaultDueUserDetailServiceImpl 实例化");
@@ -55,7 +62,17 @@ public class DefaultDueUserDetailServiceImpl implements DueUserDetailService {
 
     @Override
     public UserDetails loadUserByOpenId(String openId) throws UsernameNotFoundException {
-        return DueUserDetailService.super.loadUserByOpenId(openId);
+        CustomerAccount account = customerService.getCustomerAccountCondition(SelectCustomerAccount.of().setOpenId(openId).setType(CustomerAccountTypeEnum.WX_OPENID.getCode()));
+        if (null == account) {
+            throw new UsernameNotFoundException("用户不存在！");
+        }
+        // 获取用户信息
+        Customer customer = customerService.getCustomerByDataId(account.getDataId());
+        if (null == customer) {
+            // 创建用户信息
+            throw new UsernameNotFoundException("用户不存在！");
+        }
+        return new MobileUser(account.getDataId(), openId, customer.getNickName(), customer.getPhoneNumber(), customer.getHeadImage(), null, Optional.of(customer.getLocked()).map(e -> e.equals(1)).orElse(false));
     }
 
     @Override

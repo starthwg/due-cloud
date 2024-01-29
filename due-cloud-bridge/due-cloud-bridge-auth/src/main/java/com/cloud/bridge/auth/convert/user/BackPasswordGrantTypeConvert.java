@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  *
  * @author hanwengang
  */
-@Component
+
 public class BackPasswordGrantTypeConvert extends AbstractGrantTypeUsernameConvert {
     @Override
     public boolean support(String code) {

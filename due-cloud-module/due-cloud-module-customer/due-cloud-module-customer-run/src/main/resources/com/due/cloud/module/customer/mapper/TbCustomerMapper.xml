@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.due.cloud.module.customer.mapper.TbCustomerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.due.cloud.module.customer.entity.TbCustomer">
+        <result column="data_id" property="dataId" />
+        <result column="data_version" property="dataVersion" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="data_status" property="dataStatus" />
+        <result column="nick_name" property="nickName" />
+        <result column="phone_number" property="phoneNumber" />
+        <result column="head_image" property="headImage" />
+        <result column="birthday" property="birthday" />
+        <result column="locked" property="locked" />
+        <result column="username" property="username" />
+    </resultMap>
+
+</mapper>

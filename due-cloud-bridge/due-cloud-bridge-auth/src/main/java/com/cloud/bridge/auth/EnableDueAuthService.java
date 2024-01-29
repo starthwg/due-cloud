@@ -1,6 +1,8 @@
 package com.cloud.bridge.auth;
 
 import com.cloud.bridge.auth.config.AuthBridgeConfig;
+import com.cloud.bridge.auth.selector.DueGrantTypeConvertImportSelector;
+import com.cloud.bridge.auth.selector.DueRequestTokenBackCodeConvertImportselector;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;
@@ -18,6 +20,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(value = {AuthBridgeConfig.class,})
+@Import(value = {AuthBridgeConfig.class, DueGrantTypeConvertImportSelector.class, DueRequestTokenBackCodeConvertImportselector.class})
 public @interface EnableDueAuthService {
 }

@@ -105,8 +105,7 @@ public class AuthBridgeConfig {
 
 
     public DueLogoutProcessFilter dueLogoutProcessFilter() {
-        DueLogoutProcessFilter dueLogoutProcessFilter = new DueLogoutProcessFilter(this.redisTokenService(), (String) null);
-        return dueLogoutProcessFilter;
+        return new DueLogoutProcessFilter(this.redisTokenService(), (String) null);
     }
 
     public TokenConvertUserDetailFilter tokenConvertUserDetailFilter() {

@@ -28,7 +28,13 @@ public class BackPasswordAuthenticationAuth extends AuthDueAuthentication {
     }
 
     public BackPasswordAuthenticationAuth(String grantType, TokenRequest tokenRequest, boolean authenticated, Collection<? extends GrantedAuthority> authorities, Long dataId, String username, String password, BackUser backUser) {
-        super(dataId, grantType, tokenRequest, authenticated,backUser, authorities);
+        super(dataId, grantType, tokenRequest, authenticated, backUser, authorities);
+        this.username = username;
+        this.password = password;
+    }
+
+    public BackPasswordAuthenticationAuth(String grantType, String username, String password) {
+        super(grantType);
         this.username = username;
         this.password = password;
     }

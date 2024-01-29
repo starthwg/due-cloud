@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
  *
  * @author hanwengang
  */
-@Component
 public class BackCodeGrantTypeConvert extends AbstractGrantTypeUsernameConvert {
     @Override
     public boolean support(String code) {

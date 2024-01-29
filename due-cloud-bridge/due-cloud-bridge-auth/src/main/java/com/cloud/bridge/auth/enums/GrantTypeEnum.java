@@ -25,7 +25,7 @@ public enum GrantTypeEnum {
     /**
      * 移动端微信小程序登录
      */
-    MOBIEL_WeChat_OPEN_ID("mobile_wechat_open_id", "移动端微信openId登录"),
+    MOBILE_WECHAT_OPEN_ID("mobile_wechat_open_id", "移动端微信openId登录"),
 
     /**
      * 移动端账户密码登录

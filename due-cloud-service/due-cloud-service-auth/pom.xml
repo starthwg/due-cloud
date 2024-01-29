@@ -22,19 +22,25 @@
         <dependency>
             <groupId>com.due</groupId>
             <artifactId>due-cloud-bridge-tomcat</artifactId>
-            <version>1.0</version>
+            <version>${pom.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.due</groupId>
             <artifactId>due-cloud-bridge-auth</artifactId>
-            <version>1.0</version>
+            <version>${pom.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.due</groupId>
             <artifactId>due-cloud-rpc-security</artifactId>
-            <version>1.0</version>
+            <version>${pom.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.due</groupId>
+            <artifactId>due-cloud-rpc-customer</artifactId>
+            <version>${pom.parent.version}</version>
         </dependency>
     </dependencies>
 </project>
