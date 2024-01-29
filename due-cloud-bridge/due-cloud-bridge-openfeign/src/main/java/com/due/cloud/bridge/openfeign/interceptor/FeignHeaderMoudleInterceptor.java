@@ -1,9 +1,8 @@
 package com.due.cloud.bridge.openfeign.interceptor;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.due.basic.tookit.constant.GlobalConstant;
 import com.due.basic.tookit.doamin.DueRequest;
-import com.due.basic.tookit.utils.ThreadContextStoreUtil;
 import com.due.basic.tookit.utils.ThreadLocalUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

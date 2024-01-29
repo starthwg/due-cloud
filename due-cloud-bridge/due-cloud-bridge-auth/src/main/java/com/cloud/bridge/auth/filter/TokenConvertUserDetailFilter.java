@@ -1,6 +1,6 @@
 package com.cloud.bridge.auth.filter;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.cloud.bridge.auth.handler.CustomizerDueTokenConvertUserDetailFailedHandler;
 import com.cloud.bridge.auth.handler.CustomsizeDueTokenUserDetailSuccessHandler;
 import com.cloud.bridge.auth.handler.DueTokenConvertUserDetailFailedHandler;

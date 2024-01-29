@@ -1,6 +1,6 @@
 package com.due.cloud.bridge.file.support.impl;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.exception.LogicAssert;
 import com.due.basic.tookit.exception.LogicException;

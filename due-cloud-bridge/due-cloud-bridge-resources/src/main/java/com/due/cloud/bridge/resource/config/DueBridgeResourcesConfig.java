@@ -1,6 +1,6 @@
 package com.due.cloud.bridge.resource.config;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.due.cloud.bridge.resource.filter.DueTokenConvertUserDetailFilter;
 import com.due.cloud.bridge.resource.filter.RemoteTokenConvertFilter;
 import com.due.cloud.bridge.resource.handler.AuthorizeService;

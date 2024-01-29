@@ -1,6 +1,6 @@
 package com.due.bridge.tomcat.handle;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.method.HandlerMethod;

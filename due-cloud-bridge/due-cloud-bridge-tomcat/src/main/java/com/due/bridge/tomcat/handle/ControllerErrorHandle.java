@@ -1,6 +1,6 @@
 package com.due.bridge.tomcat.handle;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.due.basic.tookit.constant.GlobalConstant;
 import com.due.basic.tookit.doamin.Result;
 import com.due.basic.tookit.enums.ErrorEnum;

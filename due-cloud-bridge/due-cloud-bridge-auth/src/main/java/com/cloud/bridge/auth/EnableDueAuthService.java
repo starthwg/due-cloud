@@ -1,8 +1,6 @@
 package com.cloud.bridge.auth;
 
 import com.cloud.bridge.auth.config.AuthBridgeConfig;
-import com.cloud.bridge.auth.select.DueGrantTypeConvertImportSelector;
-import com.cloud.bridge.auth.select.DueRequestTokenBackCodeConvertImportselector;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;

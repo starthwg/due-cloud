@@ -1,4 +1,4 @@
-package com.cloud.bridge.auth.select;
+package com.cloud.bridge.auth.selector;
 
 import com.due.basic.tookit.utils.LogicUtil;
 import org.springframework.beans.factory.BeanClassLoaderAware;

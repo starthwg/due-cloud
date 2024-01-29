@@ -3,6 +3,7 @@ package com.dou.cloud.bridge.redis.config;
 import com.dou.cloud.bridge.redis.service.RedisService;
 import com.dou.cloud.bridge.redis.service.RedissonService;
 import com.dou.cloud.bridge.redis.support.DueLoggerCustomRedisCacheWriter;
+import com.dou.cloud.bridge.redis.support.FastJson2JsonRedisSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
@@ -97,9 +98,11 @@ public class BridgeRedisConfig {
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         // key序列化方式
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        // value的方式
+        FastJson2JsonRedisSerializer<Object> fastJson2JsonRedisSerializer = new FastJson2JsonRedisSerializer<Object>(Object.class);
         redisTemplate.setKeySerializer(stringRedisSerializer);
         // 使用json的序列化方式
-        redisTemplate.setValueSerializer(RedisSerializer.json());
+        redisTemplate.setValueSerializer(fastJson2JsonRedisSerializer);
         // 设置hash结构的key也是string类型
         redisTemplate.setHashKeySerializer(stringRedisSerializer);
         return redisTemplate;

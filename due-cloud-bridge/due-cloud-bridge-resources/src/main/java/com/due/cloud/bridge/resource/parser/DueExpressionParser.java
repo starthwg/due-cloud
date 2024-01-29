@@ -1,5 +1,6 @@
 package com.due.cloud.bridge.resource.parser;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.ParseException;
@@ -15,13 +16,15 @@ public class DueExpressionParser implements ExpressionParser {
 
     private final SpelExpressionParser spelExpressionParser = new SpelExpressionParser();
 
+    @NotNull
     @Override
-    public Expression parseExpression(String expressionString) throws ParseException {
+    public Expression parseExpression(@NotNull String expressionString) throws ParseException {
         return spelExpressionParser.parseExpression(expressionString);
     }
 
+    @NotNull
     @Override
-    public Expression parseExpression(String expressionString, ParserContext context) throws ParseException {
+    public Expression parseExpression(@NotNull String expressionString, @NotNull ParserContext context) throws ParseException {
         return spelExpressionParser.parseExpression(expressionString, context);
     }
 }

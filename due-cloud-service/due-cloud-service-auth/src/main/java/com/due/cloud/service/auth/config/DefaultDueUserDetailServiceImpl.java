@@ -48,9 +48,9 @@ public class DefaultDueUserDetailServiceImpl implements DueUserDetailService {
         // 获取用户的权限
         List<SystemRole> systemRoleList = systemMemberService.getSystemRoleByMemberId(systemMemberByUsername.getDataId());
         if (null == systemRoleList) systemRoleList = new ArrayList<>();
-        List<SimpleGrantedAuthority> authorityList = systemRoleList.stream().map(SystemRole::getCode).distinct().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        List<String> roles = systemRoleList.stream().map(SystemRole::getCode).distinct().collect(Collectors.toList());
         return new BackUser(systemMemberByUsername.getDataId(), systemMemberByUsername.getUsername(),
-                systemMemberByUsername.getLocked().equals(1), authorityList, systemMemberByUsername.getPassword(), systemMemberByUsername.getMobile());
+                systemMemberByUsername.getLocked().equals(1), roles, systemMemberByUsername.getPassword(), systemMemberByUsername.getMobile());
     }
 
     @Override

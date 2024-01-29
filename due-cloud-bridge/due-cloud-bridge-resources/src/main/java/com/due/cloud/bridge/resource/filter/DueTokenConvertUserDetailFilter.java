@@ -5,6 +5,7 @@ import com.due.basic.tookit.constant.GlobalThreadLocalConstant;
 import com.due.basic.tookit.oauth.AbstractDueAuthentication;
 import com.due.basic.tookit.utils.LogicUtil;
 import com.due.basic.tookit.utils.ThreadLocalUtil;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,14 +19,16 @@ import java.io.IOException;
 
 public abstract class DueTokenConvertUserDetailFilter extends OncePerRequestFilter {
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         // 判断是否有token
         String token = this.getRequestToken(request);
         if (LogicUtil.isAllBlank(token)) {
             filterChain.doFilter(request, response);
             return;
         }
+
         Authentication authentication = this.tokenConvertAuthentication(token);
+        if (null == authentication) return;
         if (authentication instanceof AbstractDueAuthentication) {
             AbstractDueAuthentication abstractDueAuthentication = (AbstractDueAuthentication) authentication;
             ThreadLocalUtil.set(GlobalThreadLocalConstant.MEMBER_ID, abstractDueAuthentication.getMemberId());

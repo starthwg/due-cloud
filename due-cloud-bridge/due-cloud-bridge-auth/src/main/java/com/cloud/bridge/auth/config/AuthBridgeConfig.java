@@ -2,14 +2,18 @@ package com.cloud.bridge.auth.config;
 
 import com.cloud.bridge.auth.convert.authentication.RequestTokenAuthenticationConvert;
 import com.cloud.bridge.auth.filter.DueAuthenticationProcessFilter;
+import com.cloud.bridge.auth.filter.DueLogoutProcessFilter;
 import com.cloud.bridge.auth.filter.TokenConvertUserDetailFilter;
 import com.cloud.bridge.auth.handler.CustomizeAuthenticationFailed;
 import com.cloud.bridge.auth.handler.CustomizeAuthenticationSuccessHandler;
 import com.cloud.bridge.auth.provider.DelegateDeuAuthenticationProvider;
+import com.cloud.bridge.auth.service.DueRedisServiceImpl;
 import com.due.basic.tookit.oauth.service.DueTokenService;
 import com.due.basic.tookit.oauth.service.impl.DueTokenServiceImpl;
 import com.due.basic.tookit.oauth.service.impl.UUIDTokenEnhance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +37,7 @@ import java.util.List;
 @EnableWebSecurity
 @Configuration
 @ComponentScan("com.cloud.bridge.auth")
+@EnableConfigurationProperties(value = {AuthBridgeProperties.class})
 public class AuthBridgeConfig {
 
     @Autowired
@@ -50,17 +55,24 @@ public class AuthBridgeConfig {
                 .authorizeRequests().anyRequest().permitAll().and()
 //                .logout(customizer -> customizer.logoutSuccessHandler().logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", HttpMethod.POST.name())))
                 .addFilterBefore(this.authenticationProcessFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(this.dueLogoutProcessFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(this.tokenConvertUserDetailFilter(), DueAuthenticationProcessFilter.class).build();
     }
 
-    @Bean
-    public DueTokenService dueTokenService() {
-        UUIDTokenEnhance uuidTokenEnhance = new UUIDTokenEnhance();
-        DueTokenServiceImpl dueTokenService = new DueTokenServiceImpl();
-        dueTokenService.setUuidTokenEnhance(uuidTokenEnhance);
-        return dueTokenService;
-    }
+//    @ConditionalOnMissingBean(value = DueTokenService.class)
+//    @Bean
+//    public DueTokenService dueTokenService() {
+//        UUIDTokenEnhance uuidTokenEnhance = new UUIDTokenEnhance();
+//        DueTokenServiceImpl dueTokenService = new DueTokenServiceImpl();
+//        dueTokenService.setUuidTokenEnhance(uuidTokenEnhance);
+//        return dueTokenService;
+//    }
 
+
+    @Bean
+    public DueTokenService redisTokenService() {
+        return new DueRedisServiceImpl();
+    }
 
     /**
      * 注入认证管理器
@@ -85,17 +97,22 @@ public class AuthBridgeConfig {
 
         DueAuthenticationProcessFilter dueAuthenticationProcessFilter = new DueAuthenticationProcessFilter(this.requestTokenAuthenticationConvertList);
         dueAuthenticationProcessFilter.setAuthenticationManager(this.authenticationManager());
-        CustomizeAuthenticationSuccessHandler customizeAuthenticationSuccessHandler = new CustomizeAuthenticationSuccessHandler(this.dueTokenService());
+        CustomizeAuthenticationSuccessHandler customizeAuthenticationSuccessHandler = new CustomizeAuthenticationSuccessHandler(this.redisTokenService());
         dueAuthenticationProcessFilter.setAuthenticationSuccessHandler(customizeAuthenticationSuccessHandler);
         dueAuthenticationProcessFilter.setAuthenticationFailureHandler(new CustomizeAuthenticationFailed());
         return dueAuthenticationProcessFilter;
     }
 
 
+    public DueLogoutProcessFilter dueLogoutProcessFilter() {
+        DueLogoutProcessFilter dueLogoutProcessFilter = new DueLogoutProcessFilter(this.redisTokenService(), (String) null);
+        return dueLogoutProcessFilter;
+    }
+
     public TokenConvertUserDetailFilter tokenConvertUserDetailFilter() {
-        TokenConvertUserDetailFilter filter = new TokenConvertUserDetailFilter(this.dueTokenService());
+        TokenConvertUserDetailFilter filter = new TokenConvertUserDetailFilter(this.redisTokenService());
         filter.setRequestMatcher(new AntPathRequestMatcher("/token/convert", HttpMethod.POST.name()));
         return filter;
     }
-    
+
 }

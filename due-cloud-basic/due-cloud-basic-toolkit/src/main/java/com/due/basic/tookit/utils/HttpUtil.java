@@ -1,10 +1,10 @@
 package com.due.basic.tookit.utils;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.parser.Feature;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONReader;
 import com.due.basic.tookit.doamin.Result;
 import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.exception.LogicAssert;
@@ -125,7 +125,6 @@ public class HttpUtil {
             } else {
                 headers.setContentType(MediaType.APPLICATION_JSON);
             }
-
             HttpEntity<?> httpEntity;
             MultiValueMap<String, Object> multiValueMap;
             if (entity == null || entity.isEmpty()) {
@@ -222,7 +221,6 @@ public class HttpUtil {
     }
 
 
-
     public static Result<String> get(RestTemplate restTemplate, String url, JSONObject header, String entity) {
         return Result.exec(() -> {
             LogicAssert.isBlank(url, ErrorEnum.PARAMETER_INVALID, "请求地址为空");
@@ -244,7 +242,7 @@ public class HttpUtil {
             log.info("【请求参数】：{}", entity);
             ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class);
             LogicAssert.isTrue(responseEntity.getStatusCode() != HttpStatus.OK, ErrorEnum.SERVICE_ERROR, "请求数据失败：" + url);
-            log.info("【响应数据】：{}", JSONObject.toJSON(responseEntity.getBody()));
+            log.info("【响应数据】：{}", JSONObject.toJSONString(responseEntity.getBody()));
             return responseEntity.getBody();
         });
     }
@@ -270,7 +268,7 @@ public class HttpUtil {
             log.info("【请求参数】：{}", entity);
             ResponseEntity<String> responseEntity = restTemplate.exchange(strUrl, HttpMethod.GET, httpEntity, String.class);
             LogicAssert.isTrue(responseEntity.getStatusCode() != HttpStatus.OK, ErrorEnum.SERVICE_ERROR, "请求数据失败：" + url);
-            log.info("【响应数据】：{}", JSONObject.toJSON(responseEntity.getBody()));
+            log.info("【响应数据】：{}", JSONObject.toJSONString(responseEntity.getBody()));
             return responseEntity.getBody();
         });
     }
@@ -286,14 +284,14 @@ public class HttpUtil {
     public static JSONObject parameter2Object(HttpServletRequest request) {
         Map<String, String[]> parameters = request.getParameterMap();
         if (parameters == null || parameters.isEmpty()) return null;
-        JSONObject result = new JSONObject(true);
+        JSONObject result = new JSONObject();
         for (Entry<String, String[]> entry : parameters.entrySet()) {
             if (entry == null) continue;
             String[] values = entry.getValue();
             if (values == null) {
                 result.put(entry.getKey(), null);
             } else if (values.length > 1) {
-                result.put(entry.getKey(), JSONArray.toJSON(values));
+                result.put(entry.getKey(), JSONArray.toJSONString(values));
             } else {
                 result.put(entry.getKey(), values[0]);
             }
@@ -308,7 +306,7 @@ public class HttpUtil {
             while ((len = in.read(bytes, 0, 1024)) != -1) {
                 bos.write(bytes, 0, len);
             }
-            return JSON.parseObject(bos.toString(), Feature.OrderedField);
+            return JSON.parseObject(bos.toString(), JSONReader.Feature.SupportAutoType);
         } catch (Exception e) {
             log.error("获取请求数据失败", e);
             return null;
@@ -322,7 +320,7 @@ public class HttpUtil {
             while ((len = in.read(bytes, 0, 1024)) != -1) {
                 bos.write(bytes, 0, len);
             }
-            return JSON.parseObject(bos.toString(), clazz, Feature.OrderedField);
+            return JSON.parseObject(bos.toString(), clazz, JSONReader.Feature.FieldBased);
         } catch (Exception e) {
             log.error("获取请求数据失败", e);
             return null;

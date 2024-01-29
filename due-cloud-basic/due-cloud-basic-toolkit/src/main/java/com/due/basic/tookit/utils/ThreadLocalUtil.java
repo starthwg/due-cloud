@@ -1,6 +1,6 @@
 package com.due.basic.tookit.utils;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.due.basic.tookit.constant.GlobalConstant;
 import com.due.basic.tookit.constant.GlobalThreadLocalConstant;
 import com.due.basic.tookit.doamin.DueRequest;

@@ -1,5 +1,6 @@
 package com.cloud.bridge.auth.user;
 
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.due.basic.tookit.oauth.user.DueBasicUser;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -43,6 +44,8 @@ public class MobileUser implements DueBasicUser {
         return dataId;
     }
 
+
+    @JSONField(serialize = false)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();

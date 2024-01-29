@@ -1,4 +1,4 @@
-package com.cloud.bridge.auth.select;
+package com.cloud.bridge.auth.selector;
 
 import com.cloud.bridge.auth.convert.user.GrantTypeUsernameCovert;
 

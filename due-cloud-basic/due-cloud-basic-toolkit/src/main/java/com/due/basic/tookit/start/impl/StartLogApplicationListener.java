@@ -1,6 +1,6 @@
 package com.due.basic.tookit.start.impl;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.due.basic.tookit.spi.SPIName;
 import com.due.basic.tookit.spi.SPIOrder;
 import com.due.basic.tookit.spi.SPIServerLoad;

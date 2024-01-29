@@ -1,6 +1,6 @@
 package com.cloud.bridge.auth.provider;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.cloud.bridge.auth.AuthDueAuthentication;
 import com.cloud.bridge.auth.UserDetailPreChecks;
 import com.cloud.bridge.auth.convert.user.GrantTypeUsernameCovert;
@@ -8,6 +8,7 @@ import com.due.basic.tookit.enums.ErrorEnum;
 import com.due.basic.tookit.exception.LogicAssert;
 import com.due.basic.tookit.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -130,7 +131,7 @@ public abstract class DueAuthenticationProvider implements AuthenticationProvide
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(@NotNull ApplicationContext applicationContext) throws BeansException {
         log.info("setApplicationContext");
         this.applicationContext = applicationContext;
     }
