@@ -14,7 +14,7 @@ public class SelectCustomerAccount extends BasicDomain<SelectCustomerAccount> {
     /**
      * openID
      */
-    private String openId;
+    private String secret;
 
     /**
      * 账户类型

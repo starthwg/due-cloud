@@ -11,12 +11,12 @@ public enum CustomerAccountTypeEnum {
     /**
      * 微信openId
      */
-    WX_OPENID(1, "微信OpenId", ""),
+    WX_OPENID(2, "微信OpenId", ""),
 
     /**
      * 账户密码
      */
-    ACCOUNT_PASSWORD(2, "账户密码", "");
+    ACCOUNT_PASSWORD(1, "账户密码", "");
 
 
     private final int code;

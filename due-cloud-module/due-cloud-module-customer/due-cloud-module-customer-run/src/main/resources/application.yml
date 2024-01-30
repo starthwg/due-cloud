@@ -2,3 +2,13 @@ server:
   port: 18001
   servlet:
     context-path: /customer
+spring:
+  datasource:
+    username: ${due.db.username}
+    password: ${due.db.password}
+    url: jdbc:mysql://${due.db.url}/cloud_customer?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true

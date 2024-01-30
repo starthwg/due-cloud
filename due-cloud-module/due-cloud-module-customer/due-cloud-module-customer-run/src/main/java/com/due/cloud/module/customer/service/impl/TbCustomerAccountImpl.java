@@ -8,6 +8,8 @@ import com.due.cloud.module.customer.service.ITbCustomerAccountService;
 import com.due.cloud.bridge.mysql.service.imple.TableDataServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户账户表 服务实现类
@@ -20,7 +22,12 @@ import org.springframework.stereotype.Service;
 public class TbCustomerAccountImpl extends TableDataServiceImpl<TbCustomerAccountMapper, TbCustomerAccount> implements ITbCustomerAccountService {
     @Override
     public TbCustomerAccount selectData(TbCustomerAccount account) {
-        return this.selectOne(this.getWrapper(account), false);
+        LambdaQueryChainWrapper<TbCustomerAccount> wrapper = this.getWrapper(account);
+        List<TbCustomerAccount> list = wrapper.list();
+        if (LogicUtil.isNotEmpty(list)) {
+            return list.get(0);
+        }
+        return null;
     }
 
 
@@ -31,7 +38,7 @@ public class TbCustomerAccountImpl extends TableDataServiceImpl<TbCustomerAccoun
             return wrapper;
         }
         wrapper.eq(null != condition.getType(), TbCustomerAccount::getType, condition.getType());
-        wrapper.eq(null != condition.getSecret(), TbCustomerAccount::getSecret, condition.getSecret());
+        wrapper.eq(LogicUtil.isAllNotBlank(condition.getSecret()), TbCustomerAccount::getSecret, condition.getSecret());
         return wrapper;
     }
 }

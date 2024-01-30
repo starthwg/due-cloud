@@ -1,5 +1,6 @@
 package com.due.cloud.service.auth.config;
 
+import com.cloud.bridge.auth.OpenIdNotFoundException;
 import com.cloud.bridge.auth.service.DueUserDetailService;
 import com.cloud.bridge.auth.user.BackUser;
 import com.cloud.bridge.auth.user.MobileUser;
@@ -62,17 +63,17 @@ public class DefaultDueUserDetailServiceImpl implements DueUserDetailService {
 
     @Override
     public UserDetails loadUserByOpenId(String openId) throws UsernameNotFoundException {
-        CustomerAccount account = customerService.getCustomerAccountCondition(SelectCustomerAccount.of().setOpenId(openId).setType(CustomerAccountTypeEnum.WX_OPENID.getCode()));
+        CustomerAccount account = customerService.getCustomerAccountCondition(SelectCustomerAccount.of().setSecret(openId).setType(CustomerAccountTypeEnum.WX_OPENID.getCode()));
         if (null == account) {
-            throw new UsernameNotFoundException("用户不存在！");
+            throw new OpenIdNotFoundException("OpenId对应的用户不存在！");
         }
         // 获取用户信息
-        Customer customer = customerService.getCustomerByDataId(account.getDataId());
+        Customer customer = customerService.getCustomerByDataId(account.getCustomerId());
         if (null == customer) {
             // 创建用户信息
-            throw new UsernameNotFoundException("用户不存在！");
+            throw new UsernameNotFoundException("OpenId对应的用户不存在！");
         }
-        return new MobileUser(account.getDataId(), openId, customer.getNickName(), customer.getPhoneNumber(), customer.getHeadImage(), null, Optional.of(customer.getLocked()).map(e -> e.equals(1)).orElse(false));
+        return new MobileUser(account.getDataId(), openId, customer.getNickName(), customer.getPhoneNumber(), customer.getHeadImage(), null, Optional.of(customer.getLocked()).map(e -> e.equals(0)).orElse(false));
     }
 
     @Override

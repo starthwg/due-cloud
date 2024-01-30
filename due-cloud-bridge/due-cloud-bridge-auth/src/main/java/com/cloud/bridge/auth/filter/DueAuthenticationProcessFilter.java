@@ -48,24 +48,27 @@ public class DueAuthenticationProcessFilter extends AbstractAuthenticationProces
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        String grantType = request.getParameter(GlobalAuthConstant.GRANT_TYPE);
-        if (LogicUtil.isAllBlank(grantType)) {
-            throw new AuthenticationCredentialsNotFoundException("The 'GrantType' parameter was not found in the request header");
-        }
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        Map<String, Object> params = new HashMap<>(4);
-        parameterMap.forEach((k, v) -> {
-            params.put(k, v[0]);
-        });
-        TokenRequest tokenRequest = this.getTokenRequest(grantType, params, request);
-        // 将token转化成认证对象
-        Authentication authentication = tokenAuthenticationConvert.convert(tokenRequest);
-        ThreadLocalUtil.set(GlobalThreadLocalConstant.SERIAL_NO, UUID.randomUUID().toString());
         try {
+            String grantType = request.getParameter(GlobalAuthConstant.GRANT_TYPE);
+            if (LogicUtil.isAllBlank(grantType)) {
+                throw new AuthenticationCredentialsNotFoundException("The 'GrantType' parameter was not found in the request header");
+            }
+            Map<String, String[]> parameterMap = request.getParameterMap();
+            Map<String, Object> params = new HashMap<>(4);
+            parameterMap.forEach((k, v) -> {
+                params.put(k, v[0]);
+            });
+            TokenRequest tokenRequest = this.getTokenRequest(grantType, params, request);
+            // 将token转化成认证对象 以及设置渠道类型
+            Authentication authentication = tokenAuthenticationConvert.convert(tokenRequest);
+            // 设置流水号
+            ThreadLocalUtil.set(GlobalThreadLocalConstant.SERIAL_NO, UUID.randomUUID().toString());
+
             return super.getAuthenticationManager().authenticate(authentication);
-        } catch (AuthenticationException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-            throw new InternalAuthenticationServiceException(e.getMessage());
+
+        } finally {
+            // 清楚threadLocal
+            ThreadLocalUtil.removeThreadLocal();
         }
     }
 

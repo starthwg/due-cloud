@@ -21,7 +21,6 @@ import java.util.Optional;
  * @author Administrator
  */
 @Slf4j
-@Component
 public class BackPasswordAuthenticationProvider extends DueAuthenticationProvider{
 
 

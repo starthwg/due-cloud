@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Controller;
  * @author HanWenGang
  * @since 2024-01-29
  */
-@Controller
+@RestController
 @RequestMapping("/account")
 @AllArgsConstructor
 public class TbCustomerAccountController extends BasicController {

@@ -38,7 +38,8 @@ public enum ErrorEnum {
     // 没有权限
     AUTHORIZE_ACCESS_DENIED(4301, "没有权限"),
     // 用户名或密码验证失败
-    AUTHORIZE_INVALID_GRANT(4302, "用户名或密码验证失败"),
+    AUTHORIZE_INVALID_GRANT(4302, "用户名或密码错误"),
+
     // 令牌无效
     AUTHORIZE_TOKEN_INVALID(4303, "令牌无效"),
     // 令牌过期
@@ -47,6 +48,10 @@ public enum ErrorEnum {
     AUTHORIZE_INVALID_PARAMETER(4305, "缺少必要参数"),
     // 续令牌失败
     AUTHORIZE_REFRESH_ERROR(4306, "续令牌失败"),
+    // 账户被锁定
+    AUTHORIZE_LOCK(4307, "账户被锁定"),
+    // openId不存在
+    AUTHORIZE_NOT_OPEN_ID(4307, "openId不存在！"),
 
     other_ERROR(9999999, "其他异常");
 
