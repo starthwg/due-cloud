@@ -10,7 +10,8 @@ due-cloud是一个基于springboot2.7.0、springcloud、springcloudalibaba的一
 
 1.  移动端OpenId方式
     ![输入图片说明](image.png)
-2.  xxxx
+2.  后台账户密码方式
+![输入图片说明](imageimage.png)
 3.  xxxx
 
 #### 系统架构图
