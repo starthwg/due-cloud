@@ -6,9 +6,10 @@ due-cloud是一个基于springboot2.7.0、springcloud、springcloudalibaba的一
 ![输入图片说明](due-cloud-web/%E6%A8%A1%E5%9D%97%E8%AF%A6%E6%83%85.png)
 
 
-#### 安装教程
+#### 认证说明
 
-1.  安装nacos
+1.  移动端OpenId方式
+    ![输入图片说明](image.png)
 2.  xxxx
 3.  xxxx
 
