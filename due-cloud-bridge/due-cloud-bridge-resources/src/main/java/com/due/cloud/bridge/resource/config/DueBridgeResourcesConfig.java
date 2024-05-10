@@ -57,6 +57,9 @@ public class DueBridgeResourcesConfig implements ApplicationContextAware {
                 .build();
     }
 
+    /**
+     * 在没有认证处理的时候 默认加载的
+     */
     @ConditionalOnMissingBean
     @Bean
     public AuthorizeService authorizeService() {

@@ -10,7 +10,6 @@ import com.due.basic.tookit.utils.LogicUtil;
 import com.due.cloud.bridge.resource.MobileAuthenticated;
 import com.due.cloud.bridge.resource.config.DueResourcesProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.language.Nysiis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.core.Authentication;

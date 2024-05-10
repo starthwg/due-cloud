@@ -11,5 +11,5 @@ com.cloud.bridge.auth.convert.authentication.RequestTokenMobileOpenIdConvert
 # AuthenticationProvider
 com.cloud.bridge.auth.provider.DueAuthenticationProvider=\
 com.cloud.bridge.auth.provider.BackPasswordAuthenticationProvider,\
-com.cloud.bridge.auth.provider.MobileOpenIdAuthenticationProvider  
+com.cloud.bridge.auth.provider.MobileOpenIdAuthenticationProvider,
 

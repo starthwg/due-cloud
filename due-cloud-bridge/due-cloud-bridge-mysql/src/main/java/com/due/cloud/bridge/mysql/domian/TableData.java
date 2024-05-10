@@ -47,6 +47,6 @@ public abstract class TableData<T> extends BasicData {
 
 
     @TableField(fill = FieldFill.INSERT)
-    @TableLogic(value = "1", delval = "0")
+    @TableLogic(value = "0", delval = "1")
     private Integer dataStatus;
 }

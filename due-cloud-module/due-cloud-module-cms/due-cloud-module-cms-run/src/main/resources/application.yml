@@ -1,0 +1,4 @@
+server:
+  port: 18004
+  servlet:
+    context-path: /cms
