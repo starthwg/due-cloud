@@ -40,12 +40,7 @@ public abstract class Application {
     protected ConfigurableApplicationContext run(String[] args) {
         this.aClass = this.getClass();
         this.moduleName = this.aClass.getSimpleName();
-        this.applicationListenerList = this.getExtensionApplicationListener();
-        SpringApplicationBuilder springApplicationBuilder = this.createSpringApplicationBuilder(this.moduleName, this.aClass, args);
-        this.invokeApplicationListenerListBefore(springApplicationBuilder, args);
-        ConfigurableApplicationContext applicationContext = springApplicationBuilder.application().run(args);
-        this.invokeApplicationListenerListAfter(applicationContext, args);
-        return applicationContext;
+        return getConfigurableApplicationContext(args);
     }
 
 
@@ -53,6 +48,10 @@ public abstract class Application {
         this.aClass = this.getClass();
         // 处理服务名称
         this.moduleName = LogicUtil.isAllBlank(applicationName) ? this.aClass.getSimpleName() : applicationName;
+        return getConfigurableApplicationContext(args);
+    }
+
+    private ConfigurableApplicationContext getConfigurableApplicationContext(String[] args) {
         this.applicationListenerList = this.getExtensionApplicationListener();
         SpringApplicationBuilder springApplicationBuilder = this.createSpringApplicationBuilder(this.moduleName, this.aClass, args);
         this.invokeApplicationListenerListBefore(springApplicationBuilder, args);

@@ -33,26 +33,32 @@ public class LoggingAspect {
     public void pointCut() {
     }
 
-    /**
-     * service执行之前
-     */
-    @Before(value = "pointCut()")
-    public void execBefore(JoinPoint joinPoint) {
-        long threadId = this.getThreadId();
-        log.debug("{} - ==============================================================================================", threadId);
-        log.debug("{} - method : {}.{}", threadId, joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
-        String string = Arrays.toString(joinPoint.getArgs());
-        log.debug("{} - arguments : {}", threadId, string);
-        log.debug("{} - ==============================================================================================", threadId);
-    }
-
-    @AfterReturning(returning = "result", pointcut = "pointCut()")
-    public void execAfter(Object result) {
-        log.debug("{} - result : {}", this.getThreadId(), JSONObject.toJSONString(result));
-    }
+//    /**
+//     * service执行之前
+//     */
+//    @Before(value = "pointCut()")
+//    public void execBefore(JoinPoint joinPoint) {
+//        long threadId = this.getThreadId();
+//        log.debug("{} - ==============================================================================================", threadId);
+//        log.debug("{} - method : {}.{}", threadId, joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
+//        String string = Arrays.toString(joinPoint.getArgs());
+//        log.debug("{} - arguments : {}", threadId, string);
+//
+//    }
+//
+//    @AfterReturning(returning = "result", pointcut = "pointCut()")
+//    public void execAfter(Object result) {
+//        log.debug("{} - result : {}", this.getThreadId(), JSONObject.toJSONString(result));
+//        log.debug("{} - ==============================================================================================", this.getThreadId());
+//    }
 
     @Around(value = "pointCut()")
     public Object execAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        long threadId = this.getThreadId();
+        log.debug("{} - ==============================================================================================", this.getThreadId());
+        log.debug("{} - method : {}.{}", threadId, joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
+        String string = Arrays.toString(joinPoint.getArgs());
+        log.debug("{} - arguments : {}", threadId, string);
         long start = System.currentTimeMillis();
         Object[] args = joinPoint.getArgs();
         Object proceed = joinPoint.proceed(args);
@@ -62,6 +68,8 @@ public class LoggingAspect {
         } else {
             log.debug("{} - method execute : {} millisecond ", this.getThreadId(), execTime);
         }
+        log.debug("{} - result : {}", this.getThreadId(), JSONObject.toJSONString(proceed));
+        log.debug("{} - ==============================================================================================", this.getThreadId());
         return proceed;
     }
 
